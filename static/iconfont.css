@@ -1,0 +1,101 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 5230289 */
+  src: url('/static/iconfont.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fit-add-jihua:before {
+  content: "\e617";
+}
+
+.icon-fit-alarm-clock:before {
+  content: "\e616";
+}
+
+.icon-fit-sport-log:before {
+  content: "\e614";
+}
+
+.icon-fit-rise:before {
+  content: "\e615";
+}
+
+.icon-fit-star-outline:before {
+  content: "\e607";
+}
+
+.icon-fit-run-line:before {
+  content: "\e608";
+}
+
+.icon-fit-sleep-time:before {
+  content: "\e609";
+}
+
+.icon-fit-jiangpai:before {
+  content: "\e60a";
+}
+
+.icon-fit-log-t:before {
+  content: "\e60b";
+}
+
+.icon-fit-picture:before {
+  content: "\e60c";
+}
+
+.icon-fit-like:before {
+  content: "\e60d";
+}
+
+.icon-fit-food:before {
+  content: "\e60e";
+}
+
+.icon-fit-jihua:before {
+  content: "\e60f";
+}
+
+.icon-fit-help:before {
+  content: "\e610";
+}
+
+.icon-fit-fire:before {
+  content: "\e611";
+}
+
+.icon-fit-dish:before {
+  content: "\e602";
+}
+
+.icon-fit-camera-outline:before {
+  content: "\e612";
+}
+
+.icon-fit-Calendar-Outlined:before {
+  content: "\e613";
+}
+
+.icon-fit-xunzhang:before {
+  content: "\e605";
+}
+
+.icon-fit-yinshi:before {
+  content: "\e606";
+}
+
+.icon-fit-run-man:before {
+  content: "\e604";
+}
+
+.icon-fit-edit-note:before {
+  content: "\e603";
+}
+

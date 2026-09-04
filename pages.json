@@ -1,0 +1,271 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+		{
+			"path": "pages/tabbar/home/home",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tabbar/statistic/statistic",
+			"style": {
+				"navigationBarTitleText": "统计",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tabbar/community/community",
+			"style": {
+				"navigationBarTitleText": "社区",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tabbar/ucenter/ucenter",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "login",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "uni_modules/uni-id-pages/pages",
+			"pages": [
+				{
+					"path": "login/login-withpwd",
+					"style": {
+						"navigationBarTitleText": "账号密码登录"
+					}
+				},
+				{
+					"path": "userinfo/userinfo",
+					"style": {
+						"navigationBarTitleText": "个人资料"
+					}
+				},
+				{
+					"path": "login/login-smscode",
+					"style": {
+						"navigationBarTitleText": "手机验证码登录"
+					}
+				},
+				{
+					"path": "register/register",
+					"style": {
+						"navigationBarTitleText": "注册"
+					}
+				},
+				{
+					"path": "login/login-withoutpwd",
+					"style": {
+						"navigationBarTitleText": "登录"
+					}
+				},
+				{
+					"path": "userinfo/bind-mobile/bind-mobile",
+					"style": {
+						"navigationBarTitleText": "绑定手机号码"
+					}
+				},
+				{
+					"path": "userinfo/cropImage/cropImage",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "register/register-by-email",
+					"style": {
+						"navigationBarTitleText": "邮箱验证码注册"
+					}
+				},
+				{
+					"path": "retrieve/retrieve",
+					"style": {
+						"navigationBarTitleText": "重置密码"
+					}
+				},
+				{
+					"path": "retrieve/retrieve-by-email",
+					"style": {
+						"navigationBarTitleText": "通过邮箱重置密码"
+					}
+				},
+				{
+					"path": "common/webview/webview",
+					"style": {
+						"enablePullDownRefresh": false,
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "userinfo/change_pwd/change_pwd",
+					"style": {
+						"enablePullDownRefresh": false,
+						"navigationBarTitleText": "修改密码"
+					}
+				},
+				{
+					"path": "register/register-admin",
+					"style": {
+						"enablePullDownRefresh": false,
+						"navigationBarTitleText": "注册管理员账号"
+					}
+				},
+				{
+					"path": "userinfo/set-pwd/set-pwd",
+					"style": {
+						"enablePullDownRefresh": false,
+						"navigationBarTitleText": "设置密码"
+					}
+				},
+				{
+					"path": "userinfo/deactivate/deactivate",
+					"style": {
+						"navigationBarTitleText": "注销账号"
+					}
+				},
+				{
+					"path": "userinfo/realname-verify/realname-verify",
+					"style": {
+						"enablePullDownRefresh": false,
+						"navigationBarTitleText": "实名认证"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/plan",
+			"pages": [
+				{
+					"path": "create/create",
+					"style": {
+						"navigationBarTitleText": "创建计划"
+					}
+				},
+				{
+					"path": "detail/detail",
+					"style": {
+						"navigationBarTitleText": "计划详情"
+					}
+				},
+				{
+					"path": "calendar/calendar",
+					"style": {
+						"navigationBarTitleText": "计划周期"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/record",
+			"pages": [
+				{
+					"path": "diet/diet",
+					"style": {
+						"navigationBarTitleText": "饮食"
+					}
+				},
+				{
+					"path": "sleep/sleep",
+					"style": {
+						"navigationBarTitleText": "睡眠"
+					}
+				},
+				{
+					"path": "sport/sport",
+					"style": {
+						"navigationBarTitleText": "sport"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/community",
+			"pages": [
+				{
+					"path": "publish/publish",
+					"style": {
+						"navigationBarTitleText": "分享"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/mine",
+			"pages": [
+				{
+					"path": "myPost/myPost",
+					"style": {
+						"navigationBarTitleText": "我的分享"
+					}
+				},
+				{
+					"path": "settings/settings",
+					"style": {
+						"navigationBarTitleText": "个人设置"
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "薄荷打卡",
+		"navigationBarBackgroundColor": "#F7FBF9",
+		"backgroundColor": "#F7FBF9"
+	},
+	"tabBar": {
+		"color": "#888888",
+		"selectedColor": "#72D1A8",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/tabbar/home/home",
+				"text": "首页",
+				"iconPath": "/static/tabbar/home.png",
+				"selectedIconPath": "/static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/tabbar/statistic/statistic",
+				"text": "统计",
+				"iconPath": "/static/tabbar/chart.png",
+				"selectedIconPath": "/static/tabbar/chart-active.png"
+			},
+			{
+				"pagePath": "pages/tabbar/community/community",
+				"text": "社区",
+				"iconPath": "/static/tabbar/comment.png",
+				"selectedIconPath": "/static/tabbar/comment-active.png"
+			},
+			{
+				"pagePath": "pages/tabbar/ucenter/ucenter",
+				"text": "我的",
+				"iconPath": "/static/tabbar/me.png",
+				"selectedIconPath": "/static/tabbar/me-active.png"
+			}
+		]
+	},
+	"uniIdRouter": {
+		"loginPage": "pages/login/login",
+		"needLogin": [
+			"/uni_modules/uni-id-pages/pages/userinfo/userinfo",
+			"/pages/mine/settings/settings",
+			"pages/tabbar/home/home"
+		],
+		"resToLogin": true
+	}
+}

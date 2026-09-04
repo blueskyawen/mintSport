@@ -1,0 +1,7 @@
+{
+  "name": "mi-check-record-co",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

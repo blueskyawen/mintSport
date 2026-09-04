@@ -1,0 +1,7 @@
+{
+  "name": "mi-plan-co",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

@@ -1,0 +1,47 @@
+<template>
+	<view class="page">
+		<view v-if="postList.length===0" class="empty">
+			<empty-state tip="社区暂无动态" btn-text="去发布" @click="goPublish"></empty-state>
+		</view>
+		<view v-for="(item,idx) in postList" :key="idx" class="post-card">
+			<view class="user-row">
+				<image :src="item.avatar" class="avatar"></image>
+				<text>{{item.nickName}}</text>
+			</view>
+			<view class="text">{{item.content}}</view>
+			<scroll-view scroll-x class="img-row">
+				<image v-for="(img,i) in item.imgs" :key="i" :src="img" class="post-img" mode="aspectFill"></image>
+			</scroll-view>
+		</view>
+		<view class="fab-btn" @click="goPublish">+</view>
+	</view>
+</template>
+<script>
+import { getStorage } from '@/utils/storage.js'
+import EmptyState from '@/components/empty-state/empty-state.vue'
+export default {
+	components:{EmptyState},
+	data(){
+		return {
+			postList:[]
+		}
+	},
+	onShow(){
+		this.postList = getStorage('communityPost')||[]
+	},
+	methods:{
+		goPublish(){
+			uni.navigateTo({url:'/pages/community/publish'})
+		}
+	}
+}
+</script>
+<style scoped>
+.page{padding:30rpx;}
+.post-card{background:#fff;border-radius:20rpx;padding:30rpx;margin-bottom:24rpx;}
+.user-row{display:flex;align-items:center;margin-bottom:16rpx;}
+.avatar{width:60rpx;height:60rpx;border-radius:50%;margin-right:16rpx;}
+.img-row{white-space:nowrap;margin-top:16rpx;}
+.post-img{width:200rpx;height:200rpx;margin-right:12rpx;border-radius:12rpx;}
+.fab-btn{position:fixed;right:40rpx;bottom:100rpx;width:90rpx;height:90rpx;border-radius:50%;background:#72D1A8;color:#fff;text-align:center;line-height:90rpx;font-size:40rpx;}
+</style>

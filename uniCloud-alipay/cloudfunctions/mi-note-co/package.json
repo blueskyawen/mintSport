@@ -1,0 +1,7 @@
+{
+  "name": "mi-note-co",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
