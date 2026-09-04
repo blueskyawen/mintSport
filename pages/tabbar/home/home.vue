@@ -77,23 +77,23 @@
 					</view>
 					<text>定制计划</text>
 				</view>
-				<view class="item">
+				<view class="item" @tap="goRecordSport">
 					<view class="oper">
 						<uni-icons custom-prefix="iconfont" type="icon-fit-sport-log" color="#2979ff" size="22"></uni-icons>
 					</view>
 					<text>运动打卡</text>
 				</view>
-				<view class="item">
+				<view class="item" @tap="goRecordDiet">
 					<view class="oper">
 						<uni-icons custom-prefix="iconfont" type="icon-fit-dish" color="#ff9900" size="22"></uni-icons>
 					</view>
 					<text>记录饮食</text>
 				</view>
-				<view class="item">
+				<view class="item" @tap="goRecordSleep()">
 					<view class="oper">
 						<uni-icons custom-prefix="iconfont" type="icon-fit-edit-note" color="#19be6b" size="22"></uni-icons>
 					</view>
-					<text>心情分享</text>
+					<text>记录作息</text>
 				</view>
 			</view>
 		</view>
@@ -255,12 +255,17 @@ export default {
 				url: '/pages/plan/detail/detail'
 			})
 		},
-		goDiet() {
+		goRecordSport() {
+			uni.navigateTo({
+				url: '/pages/record/sport/sport'
+			})
+		},
+		goRecordDiet() {
 			uni.navigateTo({
 				url: '/pages/record/diet/diet'
 			})
 		},
-		goSleep() {
+		goRecordSleep() {
 			uni.navigateTo({
 				url: '/pages/record/sleep/sleep'
 			})
