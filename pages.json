@@ -175,19 +175,19 @@
 				{
 					"path": "diet/diet",
 					"style": {
-						"navigationBarTitleText": "饮食"
+						"navigationBarTitleText": "记录饮食"
 					}
 				},
 				{
 					"path": "sleep/sleep",
 					"style": {
-						"navigationBarTitleText": "睡眠"
+						"navigationBarTitleText": "作息时间"
 					}
 				},
 				{
 					"path": "sport/sport",
 					"style": {
-						"navigationBarTitleText": "sport"
+						"navigationBarTitleText": "运动打卡"
 					}
 				}
 			]

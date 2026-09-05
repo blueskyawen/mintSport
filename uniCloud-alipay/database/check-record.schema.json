@@ -17,6 +17,14 @@
 			"title":"关联计划id",
 			"foreignKey": "plan._id"
 		},
+		"user_id": {
+			"bsonType": "string",
+			"description": "收藏者id，参考uni-id-users表",
+			"forceDefaultValue": {
+				"$env": "uid"
+			},
+			"foreignKey": "uni-id-users._id"
+		},
 		"date": {
 			"bsonType":"string",
 			"title":"日期 yyyy‑MM‑dd"
@@ -37,6 +45,12 @@
 			"bsonType":"string"
 		},
 		"sleepTime": {
+			"bsonType":"string"
+		},
+		"planGetUpTime":  {
+			"bsonType":"string"
+		},
+		"planSleepTime":  {
 			"bsonType":"string"
 		},
 		"status": {

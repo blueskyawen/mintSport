@@ -2,7 +2,13 @@
 	<view class="page" :style="{ height: heighth + 'px' }">
 		<image class="bg-img" mode="widthFix" src="/static/bg/home.jpg"></image>
 		<view class="content">
-			<slot></slot>
+			<view class="main-content">
+				<view class="head">
+					<view class="title">{{ headTitle.title }}</view>
+					<view class="text">{{ headTitle.subText }}</view>
+				</view>
+				<slot></slot>
+			</view>
 		</view>
 	</view>
 </template>
@@ -10,6 +16,12 @@
 <script>
 	export default {
 		name:"page-bg",
+		props: {
+			headTitle: {
+				type: Object,
+				default: () => {}
+			}
+		},
 		data() {
 			return {
 				heighth: 500
@@ -21,7 +33,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .page {
 	height: 100%;
 	width: 100%;
@@ -43,6 +55,22 @@
 		box-sizing: border-box;
 		height: 100%;
 		overflow-y: auto;
+		.main-content {
+			padding: 38rpx 38rpx 14rpx;
+			.head {
+				display: flex;
+				flex-direction: column;
+				margin-bottom: 33rpx;
+				line-height: 1.8;
+				.title {
+					font-size: 56rpx;
+					font-weight: bold;
+				}
+				.text {
+					font-size: 33rpx;
+				}
+			}
+		}
 	}
 }
 </style>

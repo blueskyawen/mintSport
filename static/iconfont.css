@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 5230289 */
+  font-family: "iconfont";
   src: url('/static/iconfont.ttf') format('truetype');
 }
 
@@ -9,6 +9,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fit-check-finish:before {
+  content: "\e619";
+}
+
+.icon-fit-finished:before {
+  content: "\e618";
 }
 
 .icon-fit-add-jihua:before {

@@ -21,28 +21,65 @@
 	</view>
 </template>
 <script>
-import { getStorage, setStorage } from '@/utils/storage.js'
+import { getStorage, setStorage } from '@/utils/storage.js';
+import { getTodayStr } from "@/common/util.js";
+import {
+	store
+} from '@/uni_modules/uni-id-pages/common/store.js';
 export default {
 	data(){
 		return {
+			plan_id:'',
+			recordData: {
+				diet: '',
+				dietImgs: []
+			},
 			activePlan:{},
 			todayStr:'',
 			dietText:'',
 			imgList:[]
 		}
 	},
-	onLoad(){
-		this.activePlan = getStorage('activePlan')
-		let d = new Date()
-		this.todayStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
-		let recordList = getStorage('checkRecord')||[]
-		let curr = recordList.find(r=>r.date===this.todayStr)
-		if(curr){
-			this.dietText = curr.dietText||''
-			this.imgList = curr.dietImg||[]
+	onLoad(options) {
+		this.plan_id = options.plan_id;
+		this.getRecordData();
+	},
+	computed: {
+		userInfo() {
+			return store.userInfo;
 		}
 	},
-	methods:{
+	methods: {
+		async getRecordData() {
+			let todayStr = getTodayStr();
+			let res = await this.$cloudApi.getDayRecord({
+				plan_id: this.plan_id,
+				date: todayStr
+			});
+			if (res.data.length) {
+				this.recordData.diet = res.data[0].diet;
+				this.recordData.dietImgs = res.data[0].dietImgs;
+			} else {
+				let planRes = await this.$cloudApi.getPlanById({
+					id: this.plan_id
+				});
+				if (planRes.data.length) {
+					let res1 = await this.$cloudApi.addDayRecord({
+						"plan_id": this.plan_id,
+						"date": todayStr,
+						"sportFinishList": sportCheckList,
+						"diet": "",
+						"dietImgs": [],
+						"getUpTime": '',
+						"sleepTime": '',
+						"planGetUpTime": planRes.data[0].getUpTime,
+						"planSleepTime": planRes.data[0].sleepTime,
+						"status": 'running',
+						"create_date": Date.now()
+					});
+				}
+			}
+		},
 		afterRead(res){
 			this.imgList.push({url:res.file.url})
 		},

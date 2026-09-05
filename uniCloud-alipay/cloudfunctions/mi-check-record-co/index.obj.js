@@ -18,19 +18,22 @@ module.exports = {
 		}).orderBy('date desc').get();
 		return res;
 	},
-	saveCheckRecord: async function(event) {
-		let addData = {...event}
+	getDayRecord: async function(event) {
 		const res = await miRecordCollection.where({
-			'user_id': event.user_id
-		}).get();
-		if (res.data && res.data.length) {
-			let doc_id = res.data[0]._id;
-			let res3 = await miRecordCollection.doc(doc_id).update(addData)
-			return res3;
-		} else {
-			let res2 = await miRecordCollection.add(addData)
-			return res2;
-		}
+			'plan_id': event.plan_id,
+			'date': event.date
+		}).orderBy('date desc').get();
+		return res;
+	},
+	addDayRecord: async function(event) {
+		let addData = {...event}
+		let res = await miRecordCollection.add(addData)
+		return res;
+	},
+	saveCheckRecord: async function(event) {
+		let addData = event.data;
+		const res = await miRecordCollection.doc(event.id).update(addData);
+		return res;
 	},
 
 	/**

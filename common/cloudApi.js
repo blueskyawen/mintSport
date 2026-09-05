@@ -18,8 +18,20 @@ export default {
 	getActivePlan(event) {
 		return miPlanDB.getActivePlan(event);
 	},
+	getPlanById(event) {
+		return miPlanDB.get(event);
+	},
+	addDayRecord(event) {
+		return miRecordDB.addDayRecord(event);
+	},
+	getDayRecord(event) {
+		return miRecordDB.getDayRecord(event);
+	},
 	getPlanRecords(event) {
 		return miRecordDB.getPlanRecords(event);
+	},
+	saveCheckRecord(event) {
+		return miRecordDB.saveCheckRecord(event);
 	}
 
 }

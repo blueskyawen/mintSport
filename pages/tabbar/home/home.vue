@@ -26,7 +26,7 @@
 								</view>
 								<view class="w-title">
 									<text class="title-t">今日运动</text>
-									<text class="title-b">28 分钟</text>
+									<text class="title-b">{{ todayRecord.sportTime }} 分钟</text>
 								</view>
 							</view>
 							<view class="t-item">
@@ -35,16 +35,16 @@
 								</view>
 								<view class="w-title">
 									<text class="title-t">今日饮食</text>
-									<text class="title-b">已记录</text>
+									<text class="title-b">{{ todayRecord.dish ? '已记录' : '未记录' }}</text>
 								</view>
 							</view>
 							<view class="t-item">
 								<view class="w-icon sleep">
-									<uni-icons custom-prefix="iconfont" type="icon-fit-sleep-time" color="#2979ff" size="22"></uni-icons>
+									<uni-icons custom-prefix="iconfont" type="icon-fit-alarm-clock" color="#2979ff" size="22"></uni-icons>
 								</view>
 								<view class="w-title">
 									<text class="title-t">睡眠目标</text>
-									<text class="title-b">已达成</text>
+									<text class="title-b">{{ todayRecord.sleepTitle }}</text>
 								</view>
 							</view>
 						</view>
@@ -91,7 +91,7 @@
 				</view>
 				<view class="item" @tap="goRecordSleep()">
 					<view class="oper">
-						<uni-icons custom-prefix="iconfont" type="icon-fit-edit-note" color="#19be6b" size="22"></uni-icons>
+						<uni-icons custom-prefix="iconfont" type="icon-fit-sleep-time" color="#72D1A8" size="22"></uni-icons>
 					</view>
 					<text>记录作息</text>
 				</view>
@@ -105,6 +105,7 @@ import {
 	store
 } from '@/uni_modules/uni-id-pages/common/store.js';
 import parseImageUrl from "@/common/parseImageUrl.js";
+import { getTodayStr } from "@/common/util.js";
 import uCharts from '@/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js'
 var uChartsInstance = {};
 export default {
@@ -115,7 +116,15 @@ export default {
 			continueDay: 0,
 			plan: {},
 			heighth: 500,
-			todayRecord: {},
+			todayRecord: {
+				sportTime: 0,
+				dish: false,
+				sleepTime: {
+					getup: '',
+					sleep: ''
+				},
+				sleepTitle: '0%'
+			},
 			chartData: {},
 			      opts: {
 			        color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
@@ -194,42 +203,53 @@ export default {
 				});
 				if (planRes.data.length) {
 					this.plan = planRes.data[0];
+					const todayStr = getTodayStr();
 					let res = await this.$cloudApi.getPlanRecords({
 						plan_id: this.plan._id
 					});
 					let records = res.data || [];
-					// 累计打卡天数
-					this.continueDay = records.filter(x => x.status === 'finish').length;
-					let count = 0;
-					const todayStr = this.getTodayStr();
-					this.todayRecord = records.find(x => x.data == todayStr);
-					if (this.todayRecord) {
-						let finishNum = this.todayRecord.sportFinishList.filter(x => x.finish).length;
-						if (finishNum > 0) {
-							count = 2;
+					if (records.length) {
+						// 累计打卡天数
+						this.continueDay = records.filter(x => x.status === 'finish').length;
+						const todayStr = getTodayStr();
+						let todayData = records.find(x => x.date == todayStr);
+						if (todayData) {
+							let count = todayData.diet ? 3 : 0;
+							this.todayRecord.dish = todayData.diet;
+							this.todayRecord.sleepTime.getup = todayData.getUpTime;
+							this.todayRecord.sleepTime.sleep = todayData.sleepTime;
+							if (todayData.getUpTime && todayData.sleepTime) {
+								count += 2;
+								let isGetupOk = todayData.getUpTime <= todayData.planGetUpTime;
+								let isSleepOk = todayData.sleepTime <= todayData.planSleepTime;
+								this.todayRecord.sleepTitle = (isGetupOk && isSleepOk) ? '已完成' : '未完成'
+							} else {
+								if (todayData.getUpTime || todayData.sleepTime) {
+									this.todayRecord.sleepTitle = '50%';
+									count += 1;
+								} else {
+									this.todayRecord.sleepTitle = '0%';
+								}
+							}
+							let tmpTime = 0;
+							let finishedSports = todayData.sportFinishList.filter(x => x.finish);
+							let finishNum = finishedSports.length;
+							if (finishNum > 0) {
+								if (finishNum == todayData.sportFinishList.length) {
+									count += 5;
+								} else {
+									count += 2;
+								}
+							}
+							finishedSports.forEach(x => {
+								tmpTime += x.time;
+							})
+							this.todayRecord.sportTime = tmpTime;
+							this.getServerData(count / 10);
 						}
-						if (finishNum == this.todayRecord.sportFinishList.length) {
-							count = 5;
-						}
-						if (this.todayRecord.getUpTime) {
-							count++;
-						}
-						if (this.todayRecord.sleepTime) {
-							count++;
-						}
-						if (this.todayRecord.diet) {
-							count += 3;
-						}
-						this.getServerData(count / 10);
 					}
 				}
 			}
-		},
-		getTodayStr() {
-			const d = new Date()
-			const m = String(d.getMonth() + 1).padStart(2, '0')
-			const day = String(d.getDate()).padStart(2, '0')
-			return `${d.getFullYear()}-${m}-${day}`
 		},
 		getServerData(value) {
 		  setTimeout(() => {
@@ -256,18 +276,36 @@ export default {
 			})
 		},
 		goRecordSport() {
+			if (!this.plan._id) {
+				uni.showToast({
+					title: '你还没有专属计划, 请先创建'
+				});
+				return;
+			}
 			uni.navigateTo({
-				url: '/pages/record/sport/sport'
+				url: '/pages/record/sport/sport?plan_id=' + this.plan._id
 			})
 		},
 		goRecordDiet() {
+			if (!this.plan._id) {
+				uni.showToast({
+					title: '你还没有专属计划, 请先创建'
+				});
+				return;
+			}
 			uni.navigateTo({
-				url: '/pages/record/diet/diet'
+				url: '/pages/record/diet/diet?plan_id=' + this.plan._id
 			})
 		},
 		goRecordSleep() {
+			if (!this.plan._id) {
+				uni.showToast({
+					title: '你还没有专属计划, 请先创建'
+				});
+				return;
+			}
 			uni.navigateTo({
-				url: '/pages/record/sleep/sleep'
+				url: '/pages/record/sleep/sleep?plan_id=' + this.plan._id
 			})
 		}
 	}
