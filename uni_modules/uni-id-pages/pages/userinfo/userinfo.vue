@@ -9,7 +9,7 @@
 			</uni-list-item>
 			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link>
 			</uni-list-item>
-			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email">
+			<uni-list-item v-if="isBindEmail" class="item" title="电子邮箱" :rightText="userInfo.email">
 			</uni-list-item>
 			<!-- #ifdef APP -->
       <!-- 如未开通实人认证服务，可以将实名认证入口注释 -->
@@ -71,7 +71,8 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				// },
 				hasPwd: false,
 				showLoginManage: false ,//通过页面传参隐藏登录&退出登录按钮
-				setNicknameIng:false
+				setNicknameIng:false,
+				isBindEmail: false
 			}
 		},
 		async onShow() {
@@ -85,6 +86,8 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 			//判断当前用户是否有密码，否则就不显示密码修改功能
 			let res = await uniIdCo.getAccountInfo()
 			this.hasPwd = res.isPasswordSet
+			this.setNicknameIng = res.isWeixinBound;
+			this.isBindEmail = res.isEmailBound;
 		},
 		methods: {
 			login() {

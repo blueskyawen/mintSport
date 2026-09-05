@@ -593,7 +593,7 @@
 
 	.login-title {
 		text-align: center;
-		margin-top: 6px;
+		// margin-top: 6px;
 		color: #999;
 		font-size: 10px;
 		width: 80px;

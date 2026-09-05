@@ -7,6 +7,9 @@ const miRecordDB = uniCloud.importObject('mi-check-record-co', {
 const miNoteDB = uniCloud.importObject('mi-note-co', {
 	customUI: true
 });
+const miUserDB = uniCloud.importObject('mi-user-co', {
+	customUI: true
+});
 
 export default {
 	getPlanList(event) {
@@ -32,6 +35,9 @@ export default {
 	},
 	saveCheckRecord(event) {
 		return miRecordDB.saveCheckRecord(event);
+	},
+	delCloudFiles(event) {
+		return miUserDB.delCoverFiles(event);
 	}
 
 }
