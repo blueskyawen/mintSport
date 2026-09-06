@@ -135,12 +135,12 @@ export default {
 					"sportFinishList": updateList
 				}
 			}).then(res => {
-				uni.showToast({
-					title: '提交成功'
-				})
 				if (updateList.every(x => x.finish == true)) {
 					this.showPop = true;
 				} else {
+					uni.showToast({
+						title: '提交成功'
+					})
 					setTimeout(() => {
 						uni.navigateBack();
 					}, 1000)

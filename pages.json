@@ -189,6 +189,12 @@
 					"style": {
 						"navigationBarTitleText": "运动打卡"
 					}
+				},
+				{
+					"path": "detail/detail",
+					"style": {
+						"navigationBarTitleText": "今日详情"
+					}
 				}
 			]
 		},

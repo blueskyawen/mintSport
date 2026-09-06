@@ -208,20 +208,16 @@ export default {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		font-size: 14px;
+		font-size: 33rpx;
 		box-sizing: border-box;
 		line-height: 1.5;
-		.rate {
-			font-size: 14px;
-			margin-left: 6px;
-		}
 	}
 	.form-item {
 		display: flex;
 		flex-direction: row;
 		box-sizing: border-box;
 		flex-direction: column;
-		padding: 18px 0;
+		padding: 42rpx 0;
 		&:not(:last-of-type) {
 			border-bottom: solid 1px #f2f2f2;
 		}
@@ -235,12 +231,12 @@ export default {
 				flex-direction: row;
 				align-items: center;
 				.text {
-					font-size: 16px;
-					margin-left: 6px;
+					font-size: 36rpx;
+					margin-left: 14rpx;
 				}
 			}
 			.btn {
-				font-size: 12px;
+				font-size: 28rpx;
 				padding: 3px 8px;
 				border: solid 1px #72D1A8;
 				color: #fff;
@@ -257,16 +253,16 @@ export default {
 			flex-direction: row;
 			flex-direction: column;
 			margin-left: 29px;
-			font-size: 12px;
+			font-size: 28rpx;
 			line-height: 1.8;
 			.plan {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				font-size: 12px;
+				font-size: 28rpx;
 				.name {}
 				.time {
-					margin-left: 6px;
+					margin-left: 14rpx;
 				}
 			}
 			.curt {
@@ -274,14 +270,14 @@ export default {
 				flex-direction: row;
 				align-items: center;
 				color: #8bc8b9;
-				font-size: 12px;
+				font-size: 28rpx;
 				.name {}
 				.time {
-					margin-left: 6px;
+					margin-left: 14rpx;
 				}
 				.title {
-					font-size: 12px;
-					margin-left: 10px;
+					font-size: 28rpx;
+					margin-left: 24rpx;
 					color: #00bd56;
 					&.un-ok {
 						color: #e43d33;

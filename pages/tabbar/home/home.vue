@@ -15,7 +15,7 @@
 					<view class="card-head">
 						<text class="title">今日计划</text>
 						<view class="you">
-							<u-icon name="arrow-right" color="#c7c7c7" size="12"></u-icon>
+							<u-icon name="arrow-right" color="#c7c7c7" size="12" @click="toDetail"></u-icon>
 						</view>
 					</view>
 					<view class="card-content">
@@ -270,9 +270,9 @@ export default {
 				url: '/pages/plan/create/create'
 			})
 		},
-		goDetail() {
+		toDetail() {
 			uni.navigateTo({
-				url: '/pages/plan/detail/detail'
+				url: '/pages/record/detail/detail?plan_id=' + this.plan._id
 			})
 		},
 		goRecordSport() {

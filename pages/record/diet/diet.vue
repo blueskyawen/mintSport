@@ -49,8 +49,8 @@ export default {
 			},
 			imageList: [],
 			imageStyles:{
-				width:90,
-				height:90
+				width: '210rpx',
+				height: '210rpx'
 			},
 			isLoading: false,
 			record_id:'',
@@ -246,18 +246,18 @@ export default {
 		display: flex;
 		flex-direction: column;
 		box-sizing: border-box;
-		padding: 6px 0;
+		padding: 14rpx 0;
 		.item-title {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			.text {
-				font-size: 16px;
-				margin-left: 6px;
+				font-size: 37rpx;
+				margin-left: 14rpx;
 			}
 		}
 		.item-data {
-			margin-top: 8px;
+			margin-top: 18rpx;
 		}
 	}
 }
