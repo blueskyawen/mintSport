@@ -176,12 +176,12 @@ export default {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		font-size: 14px;
+		font-size: 33rpx;
 		box-sizing: border-box;
-		line-height: 28px;
+		line-height: 2;
 		.rate {
-			font-size: 14px;
-			margin-left: 6px;
+			font-size: 33rpx;
+			margin-left: 14rpx;
 		}
 	}
 	.form-item {
@@ -190,7 +190,7 @@ export default {
 		align-items: center;
 		justify-content: space-between;
 		box-sizing: border-box;
-		padding: 16px 0;
+		padding: 38rpx 0;
 		&:not(:last-of-type) {
 			border-bottom: solid 1px #f2f2f2;
 		}
@@ -198,15 +198,15 @@ export default {
 			display: inline-flex;
 			flex-direction: row;
 			align-items: center;
-			margin-right: 20px;
+			margin-right: 46rpx;
 		}
 		.name {
-			font-size: 16px;
-			margin-left: 6px;
+			font-size: 38rpx;
+			margin-left: 14rpx;
 		}
 		.time {
-			font-size: 14px;
-			margin-left: 8px;
+			font-size: 33rpx;
+			margin-left: 19rpx;
 			white-space: nowrap;
 		}
 		.hidden {
