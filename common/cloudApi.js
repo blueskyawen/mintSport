@@ -10,6 +10,9 @@ const miNoteDB = uniCloud.importObject('mi-note-co', {
 const miUserDB = uniCloud.importObject('mi-user-co', {
 	customUI: true
 });
+const noteLikeDB = uniCloud.importObject('note-like-co', {
+	customUI: true
+});
 
 export default {
 	getPlanList(event) {
@@ -42,6 +45,9 @@ export default {
 	getNoteList(event) {
 		return miNoteDB.getList(event);
 	},
+	getLikeNoteList(event) {
+		return miNoteDB.getLikeNoteList(event);
+	},
 	addNote(event) {
 		return miNoteDB.add(event);
 	},
@@ -56,5 +62,18 @@ export default {
 	},
 	updateNote(event, id) {
 		return miNoteDB.update(event, id);
-	}
+	},
+	incNoteLikeCount(event) {
+		return miNoteDB.incLikeCount(event);
+	},
+	getNoteLikesByUser(event) {
+		return noteLikeDB.getList(event);
+	},
+	addNoteLike(event) {
+		return noteLikeDB.add(event);
+	},
+	delNoteLike(event) {
+		return noteLikeDB.delete(event);
+	},
+
 }

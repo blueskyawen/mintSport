@@ -13,8 +13,8 @@
 				 </view>
 				 <view class="date-right">
 					 <view class="left-action">
-						 <u-icon v-if="!isLike" class="a-icon" name="heart" color="#909399" size="20" @click="doLike"></u-icon>
-						 <u-icon v-else class="a-icon" name="heart-fill" color="#fa3534" size="20" @click="doLike"></u-icon>
+						 <u-icon v-if="!isLike" class="a-icon" name="heart" color="#888888" size="20" @click="doLike"></u-icon>
+						 <u-icon v-else class="a-icon" name="heart-fill" color="#f3a73f" size="20" @click="doLike"></u-icon>
 					 </view>
 					 <!-- #ifdef MP -->
 					 <button style="border: none" type="default" size="mini" hover-class="none" plain open-type="share">
@@ -40,14 +40,11 @@
 				item: null,
 				isLoading: true,
 				isLike: false,
-				isCollect: false,
-				likeObj: {},
-				collectObj: {},
+				myLikeNotes: [],
 				isInOper: false,
 				from: '',
 				saveOldFlag: {
-					like: false,
-					collect: false
+					like: false
 				}
 			}
 		},
@@ -84,6 +81,12 @@
 			async getData() {
 				this.isLoading = true;
 				uni.showLoading();
+				if (this.userInfo._id) {
+					let likeRes = await this.$cloudApi.getNoteLikesByUser({
+						"id": this.userInfo._id
+					});
+					this.myLikeNotes = likeRes.data.length ? likeRes.data.map(x => x.note_id) : [];
+				}
 				let res = await this.$cloudApi.getOneNote({ id: this.id })
 				let temps = res.data || [];
 				if (temps.length) {
@@ -96,22 +99,8 @@
 						}
 					});
 					this.item = temps[0];
-					// if (this.hasLogin) {
-					// 	let res3 = await cmsNoteCollectDB.getList({
-					// 		id: this.userInfo._id
-					// 	})
-					// 	if (res3.data && res3.data.length) {
-					// 		let fdItem = res3.data.find(x => x.note_id == this.item._id);
-					// 		if (fdItem) {
-					// 			this.isLike = true;
-					// 			this.saveOldFlag.like = true;
-					// 			this.likeObj = {
-					// 				id: fdItem._id,
-					// 				note_id: fdItem.note_id
-					// 			}
-					// 		}
-					// 	}
-					// }
+					this.isLike = this.myLikeNotes.includes(temps[0]._id);
+					this.saveOldFlag.like = this.isLike;
 					this.isLoading = false;
 					uni.hideLoading();
 				}
@@ -121,8 +110,6 @@
 					uni.$emit('refresh-like-list',{});
 				}
 			},
-			doLike() {}
-			/*
 			doLike() {
 				if (this.isInOper) return;
 				if (!this.hasLogin) {
@@ -135,44 +122,41 @@
 				let likeFlag = !this.isLike;
 				this.isInOper = true;
 				if (likeFlag) {
-					cmsNoteLikeDB.add({
-						"user_id": this.userInfo._id,
+					this.$cloudApi.addNoteLike({
 						"note_id": this.item._id,
-						"note_cover": this.item.cover,
-						"note_content": this.item.content,
-						"publish_date": this.item.publish_date,
+						"user_id": this.userInfo._id,
 						"create_date": Date.now()
 					}).then(res => {
+						this.myLikeNotes.push(res.id);
 						this.isLike = likeFlag;
-						this.likeObj = {
-							id: res.id || '',
-							note_id: this.item._id
-						}
-						uni.showToast({
-							title: "收藏至个人喜爱",
-							icon: "none"
-						});
+						this.$cloudApi.incNoteLikeCount({
+							id: this.item._id,
+							value: 1
+						}).then(res1 => {})
 					}).finally(res => {
 						this.isInOper = false
 					})
 				} else {
-					if (this.likeObj.id) {
-						cmsNoteLikeDB.delete({id: this.likeObj.id}).then(res => {
-							if (res.status == 0) {
-								this.isLike = likeFlag;
-								this.likeObj = {};
-								uni.showToast({
-									title: "取消喜爱",
-									icon: "none"
-								});
+					this.$cloudApi.delNoteLike({
+						"note_id": this.item._id,
+						"user_id": this.userInfo._id,
+					}).then(res => {
+						if (res.status == 0) {
+							let fdIndex = this.myLikeNotes.findIndex(x => x.note_id == this.item._id);
+							if (fdIndex !== -1) {
+								this.myLikeNotes.splice(fdIndex, 1);
 							}
-						}).finally(res => {
-							this.isInOper = false;
-						})
-					}
+							this.isLike = likeFlag;
+							this.$cloudApi.incNoteLikeCount({
+								id: this.item._id,
+								value: -1
+							}).then(res1 => {})
+						}
+					}).finally(res => {
+						this.isInOper = false;
+					})
 				}
-			},
-			*/
+			}
 		}
 	}
 </script>

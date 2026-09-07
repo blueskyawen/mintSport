@@ -15,7 +15,8 @@
 										{{ item.user_id && item.user_id.length ?  (item.user_id[0].nickname || item.user_id[0].username) : '游客'}}
 									 </text>
 									 <text class="like" @click.stop="clickLike(item)">
-										 <uni-icons type="heart" size="17" color="#888888"></uni-icons>
+										 <uni-icons v-if="item.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
+										 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
 									 </text>
 								 </view>
 							 </view>
@@ -35,7 +36,8 @@
 										{{ item2.user_id && item2.user_id.length ?  (item2.user_id[0].nickname || item2.user_id[0].username) : '游客'}}
 									 </text>
 									 <text class="like" @click.stop="clickLike(item2)">
-										 <uni-icons type="heart" size="18" color="#888888"></uni-icons>
+										 <uni-icons v-if="item2.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
+										 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
 									 </text>
 								 </view>
 							 </view>
@@ -72,6 +74,8 @@ export default {
 				}
 			},
 			isHide: false,
+			myLikeNotes: [],
+			isInOper: false
 		}
 	},
 	onLoad() {
@@ -92,13 +96,36 @@ export default {
 		},
 		listRight() {
 			return this.list.filter((x, index) => index % 2 !== 0)
+		},
+		loginUserId() {
+			return uniCloud.getCurrentUserInfo() ? uniCloud.getCurrentUserInfo().uid : '';
 		}
 	},
 	methods: {
+		isNoteInlikes(id) {
+			return this.myLikeNotes.includes(id);
+		},
+		async getMyLikeNotes() {
+			if (this.loginUserId) {
+				try {
+					let res = await this.$cloudApi.getNoteLikesByUser({
+						id: this.loginUserId
+					})
+					let notes = res.data || [];
+					this.myLikeNotes = notes.map(x => x.note_id);
+				} catch(e) {
+					return {
+						status: 0
+					}
+				}
+			}
+		},
 		async upCallback(page) {
 			let pageNum = page.num; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
 			try {
+				await this.getMyLikeNotes();
+
 				let res = await this.$cloudApi.getNoteList({
 					pageNum: pageNum,
 					pageSize: pageSize
@@ -111,6 +138,7 @@ export default {
 					if (img) {
 						x.cover_src = img.src;
 					}
+					x.islike = this.myLikeNotes.includes(x._id);
 				});
 				if(pageNum == 1) this.list = [];
 				this.list = this.list.concat(curPageData);
@@ -124,13 +152,56 @@ export default {
 			this.mescroll.resetUpScroll();
 		},
 		goDetail(item) {
-			console.log('click-detail')
 			uni.navigateTo({
 				url: '/pages/community/detail/detail?id=' + item._id
 			})
 		},
 		clickLike(item) {
-			console.log('clickLike===')
+			if (this.isInOper) return;
+			if (!this.loginUserId) {
+				uni.showToast({
+					title: "请先登录",
+					icon: "none"
+				});
+				return;
+			}
+			let newFlag = !item.islike;
+			this.isInOper = true;
+			if (newFlag) {
+				this.$cloudApi.addNoteLike({
+					"note_id": item._id,
+					"user_id": this.loginUserId,
+					"create_date": Date.now()
+				}).then(res => {
+					this.myLikeNotes.push(res.id);
+					item.islike = newFlag;
+					this.$cloudApi.incNoteLikeCount({
+						id: item._id,
+						value: 1
+					}).then(res1 => {})
+				}).finally(res => {
+					this.isInOper = false
+				})
+			} else {
+				this.$cloudApi.delNoteLike({
+					"note_id": item._id,
+					"user_id": this.loginUserId,
+				}).then(res => {
+					if (res.status == 0) {
+						let fdIndex = this.myLikeNotes.findIndex(x => x.note_id == item._id);
+						if (fdIndex !== -1) {
+							this.myLikeNotes.splice(fdIndex, 1);
+						}
+						item.islike = newFlag;
+						this.$cloudApi.incNoteLikeCount({
+							id: item._id,
+							value: -1
+						}).then(res1 => {})
+					}
+				}).finally(res => {
+					this.isInOper = false;
+				})
+			}
 		},
 		goPublish(){
 			uni.navigateTo({

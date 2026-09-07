@@ -3,7 +3,7 @@
 		<image class="bg-img" mode="widthFix" src="/static/bg/home.jpg"></image>
 		<view class="content">
 			<view class="main-content">
-				<view class="head">
+				<view class="head" v-if="headTitle.title">
 					<view class="title">{{ headTitle.title }}</view>
 					<view class="text">{{ headTitle.subText }}</view>
 				</view>
@@ -19,7 +19,9 @@
 		props: {
 			headTitle: {
 				type: Object,
-				default: () => {}
+				default: function() {
+					return {}
+				}
 			}
 		},
 		data() {

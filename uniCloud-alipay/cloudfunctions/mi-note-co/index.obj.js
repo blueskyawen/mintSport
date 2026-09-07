@@ -104,6 +104,21 @@ module.exports = {
 						}).skip(skipNum).limit(pageSize).end()
 			return res;
 	},
+	getLikeNoteList: async function(event) {
+		const dbCmd = db.command;
+		const res = await miNoteCollection.where({
+			"_id": dbCmd.in(event.noteIds)
+		}).get();
+		return res;
+	},
+	incLikeCount: async function(event) {
+		let res = await miNoteCollection.where({
+			_id: event.id
+		}).update({
+		  like_count: db.command.inc(event.value)
+		})
+		return res;
+	},
 	/**
 	 * method1方法描述
 	 * @param {string} param1 参数1描述

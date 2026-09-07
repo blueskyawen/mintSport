@@ -105,7 +105,7 @@
 		padding: 15px;
 	}
 	page {
-		background-color: #fff;
+		// background-color: #fff;
 	}
 
 	.uni-input-border,
@@ -116,6 +116,7 @@
 		border: 1px #e5e5e5 solid;
 		border-radius: 5px;
 		box-sizing: border-box;
+		background-color: #fff;
 	}
 
 	.uni-input-border {
