@@ -89,7 +89,7 @@
 			</view>
 		</view>
 		<view class="form-content" v-if="!isLoading && !plan._id">
-			<image class="empty-img" mode="widthFix" src="/static/bg/empty.png"></image>
+			<image class="empty-img" mode="widthFix" src="/static/bg/no-data.png"></image>
 			<view class="title">暂无进行中的计划</view>
 		</view>
 	</page-bg>
@@ -229,6 +229,7 @@ export default {
 	},
 	methods: {
 		getSleepChartData(items) {
+			items.sort((x,y) => y.id - x.id);
 			let names = items.map(x => (x.id + 1) + '');
 			let timeList = items.map(x => x.sleepTime);
 			let res = {
@@ -435,7 +436,7 @@ export default {
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-		font-size: 14px;
+		font-size: 33rpx;
 	}
 	.content {
 		margin-top: 10px;
@@ -446,7 +447,7 @@ export default {
 		.item-card {
 			display: flex;
 			flex-direction: column;
-			padding: 6px 0 20px;
+			padding: 14rpx 0 47rpx;
 			&:not(:last-of-type) {
 				border-bottom: solid 1px #f2f2f2;
 			}
@@ -454,12 +455,12 @@ export default {
 				display: flex;
 				flex-direction: row;
 				.name {
-					font-size: 16px;
-					margin-left: 6px;
+					font-size: 33rpx;
+					margin-left: 14rpx;
 				}
 			}
 			.card {
-				margin-top: 12px;
+				margin-top: 28rpx;
 				width: 100%;
 				.items {
 					display: flex;
@@ -485,7 +486,7 @@ export default {
 				}
 				.charts {
 					width: 100%;
-					height: 240px
+					height: 562rpx
 				}
 			}
 		}
@@ -501,17 +502,17 @@ export default {
 			flex-direction: row;
 			justify-content: flex-start;
 			align-items: center;
-			font-size: 16px;
+			font-size: 38rpx;
 			line-height: 1;
 			.text {
-				margin-left: 8px;
+				margin-left: 19rpx;
 			}
 		}
 		.title-items {
 			display: flex;
 			flex-direction: column;
-			font-size: 14px;
-			margin-top: 8px;
+			font-size: 33px;
+			margin-top: 19rpx;
 			line-height: 1.5;
 			.title-item {
 				display: flex;

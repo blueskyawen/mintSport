@@ -1,45 +1,269 @@
 <template>
-	<view class="page">
-		<view v-if="postList.length===0" class="empty">
-			<empty-state tip="社区暂无动态" btn-text="去发布" @click="goPublish"></empty-state>
-		</view>
-		<view v-for="(item,idx) in postList" :key="idx" class="post-card">
-			<view class="user-row">
-				<image :src="item.avatar" class="avatar"></image>
-				<text>{{item.nickName}}</text>
+	<mescroll-body class="body-content" :bottombar="false" @init="mescrollInit" @down="downCallback" :up="upOptions" @up="upCallback">
+		<view class="note-page">
+			<view class="main-content" v-if="!isLoading && list.length">
+				<view class="note-list-left">
+					 <view class="note-item-box" v-for="(item, index) in listLeft" :key="index">
+						 <view class="note-item" @tap="goDetail(item)">
+							 <view class="note-img">
+								 <image mode="widthFix" :src="item.cover_src"></image>
+							 </view>
+							 <view class="bottom">
+								 <view class="note-title">{{ item.content }}</view>
+								 <view class="note-date">
+									 <text class="note-autor">
+										{{ item.user_id && item.user_id.length ?  (item.user_id[0].nickname || item.user_id[0].username) : '游客'}}
+									 </text>
+									 <text class="like" @click.stop="clickLike(item)">
+										 <uni-icons type="heart" size="17" color="#888888"></uni-icons>
+									 </text>
+								 </view>
+							 </view>
+						 </view>
+					 </view>
+				</view>
+				 <view class="note-list-left">
+					 <view class="note-item-box" v-for="(item2, index) in listRight" :key="index">
+						 <view class="note-item" @tap="goDetail(item2)">
+							 <view class="note-img">
+								 <image mode="widthFix" :src="item2.cover_src"></image>
+							 </view>
+							 <view class="bottom">
+							 <view class="note-title">{{ item2.content }}</view>
+								 <view class="note-date">
+									 <text class="note-autor">
+										{{ item2.user_id && item2.user_id.length ?  (item2.user_id[0].nickname || item2.user_id[0].username) : '游客'}}
+									 </text>
+									 <text class="like" @click.stop="clickLike(item2)">
+										 <uni-icons type="heart" size="18" color="#888888"></uni-icons>
+									 </text>
+								 </view>
+							 </view>
+						 </view>
+					 </view>
+				 </view>
 			</view>
-			<view class="text">{{item.content}}</view>
-			<scroll-view scroll-x class="img-row">
-				<image v-for="(img,i) in item.imgs" :key="i" :src="img" class="post-img" mode="aspectFill"></image>
-			</scroll-view>
+			<view class="empty-content" :style="{ height: heighth + 'px' }" v-if="!isLoading && !list.length">
+				<view class="title">
+					<text class="text">社区还没有动态, 发布一条吧~</text>
+					<text class="btn">发布动态</text>
+				</view>
+			</view>
 		</view>
-		<view class="fab-btn" @click="goPublish">+</view>
-	</view>
+	</mescroll-body>
 </template>
 <script>
-import EmptyState from '@/components/empty-state/empty-state.vue'
+import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
+import parseImageUrl from "@/common/parseImageUrl.js";
+const mocks = [
+	{
+	  "content": "在执行删除操作后，你可能需要更新应用的状态或UI，确保用户看到最新的文件状态。例如，你可以从列表中移除已删除的图片项。00",
+	  "cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1785949037630_11.jpg?expire_at=1788763995&er_sign=7882ca9201863fecbfa822d9c5f209ef",
+	  "last_modify_date": 1788197799518,
+	  "publish_date": 1785513718568
+	},
+	{
+	  "content": "你需要知道图片存储在什么地方",
+	  "cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
+	  "last_modify_date": 1785513749298,
+	  "publish_date": 1785513749298
+	},
+	{
+		  "content": "我的猪猪🐷我做主",
+		  "cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
+		  "last_modify_date": 1788097085531,
+		  "publish_date": 1788097085531
+	},
+	{
+		"content": "哈哈哈吃爱吃😂",
+		"cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
+		"last_modify_date": 1788112572744,
+		"publish_date": 1788112572744
+	},
+	{
+		"content": "哈哈哈吃爱吃😂",
+		"cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
+		"last_modify_date": 1788112572744,
+		"publish_date": 1788112572744
+	}
+]
 export default {
-	components:{EmptyState},
+	mixins: [MescrollMixin],
+	components: {},
 	data(){
 		return {
-			postList:[]
+			heighth: 500,
+			isLoading: true,
+			list:[],
+			upOptions: {
+				noMoreSize: 10,
+				textNoMore: '没有更多了',
+				empty: {
+					use: false
+				}
+			},
+			isHide: false,
 		}
 	},
-	onShow(){
+	onLoad() {
+		this.heighth = uni.getWindowInfo().windowHeight;
 	},
-	methods:{
+	onHide() {
+		this.isHide = true;
+	},
+	onShow() {
+		if (this.isHide) {
+			this.reloadList();
+			this.isHide = false;
+		}
+	},
+	computed: {
+		listLeft() {
+			return this.list.filter((x, index) => index % 2 == 0)
+		},
+		listRight() {
+			return this.list.filter((x, index) => index % 2 !== 0)
+		}
+	},
+	methods: {
+		async upCallback(page) {
+			let pageNum = page.num; // 页码, 默认从1开始
+			let pageSize = page.size; // 页长, 默认每页10条
+			try {
+				let res = await this.$cloudApi.getNoteList({
+					pageNum: pageNum,
+					pageSize: pageSize
+				});
+				let curPageData = res.data || [];
+				let images = curPageData.map(x => x.cover);
+				let resImgs = await parseImageUrl(images);
+				curPageData.forEach(x => {
+					let img = resImgs.find(y => y.source == x.cover)
+					if (img) {
+						x.cover_src = img.src;
+					}
+				});
+				if(pageNum == 1) this.list = [];
+				this.list = this.list.concat(curPageData);
+				this.mescroll.endSuccess(curPageData.length);
+				this.isLoading = false;
+			} catch(err) {
+				this.mescroll.endErr()
+			}
+		},
+		reloadList(){
+			this.mescroll.resetUpScroll();
+		},
+		goDetail(item) {
+			console.log('click-detail')
+			uni.navigateTo({
+				url: '/pages/community/detail/detail?id=' + item._id
+			})
+		},
+		clickLike(item) {
+			console.log('clickLike===')
+		},
 		goPublish(){
 			uni.navigateTo({url:'/pages/community/publish'})
 		}
 	}
 }
 </script>
-<style scoped>
-.page{padding:30rpx;}
-.post-card{background:#fff;border-radius:20rpx;padding:30rpx;margin-bottom:24rpx;}
-.user-row{display:flex;align-items:center;margin-bottom:16rpx;}
-.avatar{width:60rpx;height:60rpx;border-radius:50%;margin-right:16rpx;}
-.img-row{white-space:nowrap;margin-top:16rpx;}
-.post-img{width:200rpx;height:200rpx;margin-right:12rpx;border-radius:12rpx;}
-.fab-btn{position:fixed;right:40rpx;bottom:100rpx;width:90rpx;height:90rpx;border-radius:50%;background:#72D1A8;color:#fff;text-align:center;line-height:90rpx;font-size:40rpx;}
+<style lang="scss" scoped>
+.note-page {
+	position: relative;
+	width: 100%;
+	.main-content {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		padding-bottom: 10px;
+		.note-list-left {
+			width: 50%;
+		}
+		.note-item-box {
+			background: #fff;
+			box-shadow: 0 0 5px rgba($color: #8f939c, $alpha: 0.5);
+			margin: 5px;
+			box-sizing: border-box;
+			border-radius: 8px;
+			.note-item {
+				.note-img {
+					image {
+						width: 100%;
+						// height: 180px;
+						border-radius: 8px 8px 0 0;
+					}
+				}
+				.bottom {
+					position: relative;
+					top: -6px;
+					border-radius: 6px;
+					background: #fff;
+				}
+				.note-title {
+					margin: 12px;
+					box-sizing: border-box;
+					line-height: 1.5;
+					  display: -webkit-box;
+					  -webkit-line-clamp: 3;    /* 限制显示行数 */
+					  -webkit-box-orient: vertical;
+					  overflow: hidden;
+					  font-size: 12px;
+				}
+				.note-date {
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: center;
+					font-size: 11px;
+					box-sizing: border-box;
+					padding: 0 12px 6px;
+					.note-autor {}
+					.publish-date {
+						color: #8f939c;
+					}
+				}
+			}
+		}
+	}
+	.empty-content {
+		width: 100%;
+		position: absolute;
+		background-image:url('/static/bg/note-bg.jpg');
+		background-attachment:fixed;
+		background-size: cover;
+		height: 100%;
+		.title {
+			margin-top: 120px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			color: #8f8f8f;
+			.text {
+				font-size: 16px;
+				margin-bottom: 8px;
+			}
+			.btn {
+				font-size: 14px;
+				padding: 4px 8px;
+				border:solid 1px #72D1A8;
+				border-radius: 6px;
+				background-color: #72D1A8;
+				color: #fff;
+			}
+		}
+	}
+}
+.body-content ::v-deep {
+	.mescroll-empty {
+		align-items: center;
+	}
+	.downwarp-content {
+		align-items: center;
+	}
+	.mescroll-upwarp > view {
+		align-items: center;
+	}
+}
 </style>

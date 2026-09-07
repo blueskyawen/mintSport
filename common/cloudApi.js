@@ -38,6 +38,8 @@ export default {
 	},
 	delCloudFiles(event) {
 		return miUserDB.delCoverFiles(event);
+	},
+	getNoteList(event) {
+		return miNoteDB.getList(event);
 	}
-
 }
