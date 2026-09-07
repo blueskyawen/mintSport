@@ -42,11 +42,12 @@
 						 </view>
 					 </view>
 				 </view>
+				 <text class="fab-btn" @click="goPublish">分享今日</text>
 			</view>
 			<view class="empty-content" :style="{ height: heighth + 'px' }" v-if="!isLoading && !list.length">
 				<view class="title">
 					<text class="text">社区还没有动态, 发布一条吧~</text>
-					<text class="btn">发布动态</text>
+					<text class="btn" @click="goPublish">发布动态</text>
 				</view>
 			</view>
 		</view>
@@ -55,38 +56,6 @@
 <script>
 import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 import parseImageUrl from "@/common/parseImageUrl.js";
-const mocks = [
-	{
-	  "content": "在执行删除操作后，你可能需要更新应用的状态或UI，确保用户看到最新的文件状态。例如，你可以从列表中移除已删除的图片项。00",
-	  "cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1785949037630_11.jpg?expire_at=1788763995&er_sign=7882ca9201863fecbfa822d9c5f209ef",
-	  "last_modify_date": 1788197799518,
-	  "publish_date": 1785513718568
-	},
-	{
-	  "content": "你需要知道图片存储在什么地方",
-	  "cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
-	  "last_modify_date": 1785513749298,
-	  "publish_date": 1785513749298
-	},
-	{
-		  "content": "我的猪猪🐷我做主",
-		  "cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
-		  "last_modify_date": 1788097085531,
-		  "publish_date": 1788097085531
-	},
-	{
-		"content": "哈哈哈吃爱吃😂",
-		"cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
-		"last_modify_date": 1788112572744,
-		"publish_date": 1788112572744
-	},
-	{
-		"content": "哈哈哈吃爱吃😂",
-		"cover": "https://env-00jy6jrefihl.normal.cloudstatic.cn/cms-notes/1788097075961_2.jpg?expire_at=1788764054&er_sign=fe188b0675b6934b0f426d9bca7c1915",
-		"last_modify_date": 1788112572744,
-		"publish_date": 1788112572744
-	}
-]
 export default {
 	mixins: [MescrollMixin],
 	components: {},
@@ -134,7 +103,7 @@ export default {
 					pageNum: pageNum,
 					pageSize: pageSize
 				});
-				let curPageData = mocks || res.data || [];
+				let curPageData = res.data || [];
 				let images = curPageData.map(x => x.cover);
 				let resImgs = await parseImageUrl(images);
 				curPageData.forEach(x => {
@@ -164,7 +133,9 @@ export default {
 			console.log('clickLike===')
 		},
 		goPublish(){
-			uni.navigateTo({url:'/pages/community/publish'})
+			uni.navigateTo({
+				url:'/pages/community/publish/publish',
+			})
 		}
 	}
 }
@@ -177,7 +148,7 @@ export default {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: nowrap;
-		padding-bottom: 23rpx;
+		padding-bottom: 110rpx;
 		.note-list-left {
 			width: 50%;
 		}
@@ -265,5 +236,18 @@ export default {
 	.mescroll-upwarp > view {
 		align-items: center;
 	}
+}
+.fab-btn {
+	position: fixed;
+	bottom: var(--window-bottom);
+	margin-bottom: 5px;
+    background: #fa7803;
+    padding: 8px 12px;
+    border-radius: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+	color: #fff;
+	font-size: 12px;
+	box-shadow: 0 0 5px rgba($color: #8f939c, $alpha: 0.5);
 }
 </style>

@@ -166,6 +166,12 @@
 					"style": {
 						"navigationBarTitleText": "计划周期"
 					}
+				},
+				{
+					"path": "list/list",
+					"style": {
+						"navigationBarTitleText": "我的计划"
+					}
 				}
 			]
 		},
@@ -204,7 +210,25 @@
 				{
 					"path": "publish/publish",
 					"style": {
-						"navigationBarTitleText": "分享"
+						"navigationBarTitleText": "发布动态"
+					}
+				},
+				{
+					"path": "detail/detail",
+					"style": {
+						"navigationBarTitleText": "动态详情"
+					}
+				},
+				{
+					"path": "list/list",
+					"style": {
+						"navigationBarTitleText": "我的分享"
+					}
+				},
+				{
+					"path": "likeList/likeList",
+					"style": {
+						"navigationBarTitleText": "我的收藏"
 					}
 				}
 			]

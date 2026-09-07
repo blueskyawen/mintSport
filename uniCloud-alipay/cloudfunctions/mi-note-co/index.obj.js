@@ -7,6 +7,77 @@ module.exports = {
 	_before: function () { // 通用预处理器
 
 	},
+	get: async function({id}) {
+		const res = await miNoteCollection.doc(id).get();
+		return res;
+	},
+	add: async function(event) {
+		let addData = {
+			...event
+		}
+		const res = await miNoteCollection.add(addData)
+		return res;
+	},
+	update: async function (event, id) {
+		let tempData = {...event};
+		const res = await miNoteCollection.doc(id).update(tempData);
+		if (res.updated === 1) {
+			return {
+				status: 0,
+				msg: '更新成功'
+			}
+		} else {
+			return {
+				status: -1,
+				msg: '更新数据失败'
+			}
+		}
+	},
+	getOne: async function({id}) {
+		const dbCmd = db.command
+		const $ = dbCmd.aggregate
+		const res = miNoteCollection.aggregate()
+						.lookup({
+						  from: userDBName,
+						  let: {
+							user_id: '$user_id'
+						  },
+						  pipeline: $.pipeline()
+							.match(dbCmd.expr(
+							  $.eq(['$_id', '$$user_id'])
+							))
+							.project({
+							  nickname: true,
+							  username: true,
+							  _id: true
+							})
+							.done(),
+						  as: 'user_id'
+						}).match({
+							"_id": id
+						}).end()
+			return res;
+	},
+	delete: async function(event) {
+		let res = await miNoteCollection.doc(event.id).remove()
+		if (res.deleted === 1) {
+			return {
+				status: 0,
+				msg: '成功删除'
+			}
+		} else {
+			return {
+				status: -2,
+				msg: '删除数据失败'
+			}
+		}
+	},
+	delCoverFile: async function(event) {
+		let res = await uniCloud.deleteFile({
+						fileList: [event.cover]
+					})
+		return res;
+	},
 	getList: async function(event) {
 		let pageNum = event.pageNum
 		let pageSize = event.pageSize

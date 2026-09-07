@@ -1,48 +1,471 @@
 <template>
-	<view class="page">
-		<u-textarea v-model="content" placeholder="写下你的自律心得/晨间感悟"></u-textarea>
-		<u-upload :file-list="imgList" max-count="9" @after-read="afterRead" @delete="del"></u-upload>
-		<u-button type="primary" @click="submit">发布动态</u-button>
-	</view>
+	<page-bg :headTitle="headTitle">
+		<view class="add-note">
+			<view class="form-item">
+				<view class="uni-uploader__files">
+					<block v-for="(image,index) in imageList" :key="index">
+						<view class="uni-uploader__file">
+							<image mode="widthFix" class="uni-uploader__img" :src="image" :data-src="image" @tap="previewImage"></image>
+						</view>
+					</block>
+					<view class="add-uploader__input-box" v-if="!imageList.length">
+						<uni-icons type="plusempty" size="100" color="#e9e9eb" @tap="chooseImage"></uni-icons>
+					</view>
+					<view class="replace-uploader" v-if="imageList.length">
+						<view class="replace-up" @tap="chooseImage">
+							<uni-icons type="image" size="35" color="#fff"></uni-icons>
+						</view>
+						<view class="replace-title">点击更改图片</view>
+					</view>
+				</view>
+			</view>
+			<view class="form-item-text">
+				<uni-easyinput type="textarea" autoHeight v-model="formData.content" primaryColor="#72D1A8" placeholder="写点什么吧" :maxlength="300"></uni-easyinput>
+			</view>
+		</view>
+		<view class="uni-button-group">
+			<u-button class="uni-button" :disabled="isLoading" @click="goBack">返回</u-button>
+			<u-button class="uni-button" type="primary" :loading="isLoading" color="#72D1A8" @click="submit">发布</u-button>
+		</view>
+	</page-bg>
 </template>
 <script>
-import { getStorage, setStorage } from '@/utils/storage.js'
+import parseImageUrl from "@/common/parseImageUrl.js";
+const sourceType = [
+	['camera'],
+	['album'],
+	['camera', 'album']
+];
 export default {
 	data(){
 		return {
-			content:'',
-			imgList:[]
+			headTitle: {
+				title: '分享今日',
+				subText: '记录风景, 也记录自己'
+			},
+			formData: {
+				"cover": '',
+				"content": '',
+				"user_id": '',
+				"publish_date": "",
+				"last_modify_date": "",
+			},
+			imageStyles:{
+				width: '100%',
+				height: '320'
+			},
+			isLoading: false,
+			imageList: [],
+			imageFiles: [],
+			sourceType: ['camera', 'album'],
+			sizeType: ['compressed', 'original'],
+			sourceTypeIndex: 2,
+			imageUrls: [],
+			id: '',
+			oldData: {}
 		}
 	},
-	methods:{
-		afterRead(res){
-			this.imgList.push({url:res.file.url})
+	computed: {
+		loginUserId() {
+			return uniCloud.getCurrentUserInfo() ? uniCloud.getCurrentUserInfo().uid : '';
 		},
-		del(idx){
-			this.imgList.splice(idx,1)
+	},
+	onLoad(options) {
+		this.id = options.id;
+		if (this.id) {
+			this.getEditNote();
+			uni.setNavigationBarTitle({
+			  title: '编辑动态'
+			})
+		} else {
+			this.formData.user_id = this.loginUserId;
+		}
+	},
+	onUnload() {
+		this.imageList = [];
+	},
+	methods: {
+		async getEditNote() {
+			let res = await this.$cloudApi.getNoteById({ id: this.id })
+			let temp = res.data && res.data[0] ? res.data[0] : null;
+			if (temp) {
+				this.formData.cover = temp.cover;
+				this.formData.content = temp.content;
+				this.formData.user_id = temp.user_id;
+				this.formData.publish_date = temp.publish_date;
+				this.imageUrls = await parseImageUrl([temp.cover]);
+				this.imageList = this.imageUrls.map(x => x.src);
+				this.oldData = {
+					cover: temp.cover,
+					content: temp.content,
+					image: this.imageList[0] || ''
+				}
+			}
 		},
-		submit(){
-			if(!this.content.trim() && this.imgList.length===0){
-				return uni.showToast({title:'请填写内容或上传图片',icon:'none'})
+		isModify() {
+			return this.formData.content !== this.oldData.content || this.imageList[0] !== this.oldData.image;
+		},
+		setLoadingState(v) {
+			if (v) {
+				this.isLoading = true;
+				uni.showLoading({
+					title: '动态发布中'
+				});
+			} else {
+				this.isLoading = false;
+				uni.hideLoading();
 			}
-			let user = getStorage('userInfo')
-			let post = {
-				id:new Date().getTime(),
-				nickName:user.nickName||'匿名',
-				avatar:user.avatarUrl||'',
-				content:this.content,
-				imgs:this.imgList.map(i=>i.url),
-				createTime:new Date().getTime()
+		},
+		submit() {
+			if (this.isLoading) return;
+			if (this.imageList.length == 0) {
+				uni.showToast({
+					title: '图片不可缺少',
+					duration: 1000
+				})
+				return;
 			}
-			let list = getStorage('communityPost')||[]
-			list.unshift(post)
-			setStorage('communityPost',list)
-			uni.showToast({title:'发布成功'})
-			setTimeout(()=>uni.navigateBack(),1200)
+			if (!this.formData.content) {
+				uni.showToast({
+					title: '文字内容不可为空',
+					duration: 1000
+				})
+				return;
+			}
+			if (this.id && !this.isModify()) {
+				uni.navigateBack();
+				return;
+			}
+			this.setLoadingState(true)
+			let filePath, tempFile;
+			if (this.id && this.imageUrls[0].src === this.imageList[0]) {
+				// 编辑时没有更改图片
+				this.checkDataSec().then(res => {
+					this.submitForm();
+				}).catch(err => {
+					uni.showToast({
+						title: err.errMsg || '图片或文字存在违规, 请修改',
+						icon: 'none',
+						duration: 3000
+					});
+					this.setLoadingState(false);
+				})
+				return;
+			} else {
+				// 新增, 编辑时更改了图片
+				filePath = this.imageList[0];
+				tempFile = this.imageFiles[0];
+			}
+			let that = this;
+			let fileName = '';
+			if (tempFile.name) {
+				fileName = `${Date.now()}_${tempFile.name}`;
+			} else {
+				let tmppaths = filePath.split('/');
+				let len = tmppaths.length;
+				fileName = `note_${tmppaths[len - 1]}`;
+			}
+			uniCloud.uploadFile({
+				filePath: filePath,
+				cloudPath: `cms-notes/${fileName}`,
+				onUploadProgress() {},
+				success(e) {
+					that.formData.cover = e.fileID;
+					that.checkDataSec().then(res => {
+						that.submitForm();
+					}).catch(err => {
+						uni.showToast({
+							title: err.errMsg || '图片或文字存在违规, 请修改',
+							icon: 'none',
+							duration: 3000
+						});
+						that.setLoadingState(false)
+					})
+				},
+				fail() {
+					that.setLoadingState(false)
+				},
+				complete() {}
+			});
+		},
+		submitForm() {
+			let addData = {...this.formData};
+			addData['last_modify_date'] = Date.now();
+			if (!this.id) {
+				addData['like_count'] = 0;
+				addData['collect_count'] = 0;
+				addData['publish_date'] = addData['last_modify_date'];
+			}
+			if (this.id) {
+				this.procEdit(addData);
+			} else {
+				this.procAdd(addData);
+			}
+		},
+		procAdd(addData) {
+			this.$cloudApi.addNote(addData).then(res => {
+				uni.showToast({
+					title: '发布成功',
+					icon: "success"
+				});
+				uni.$emit('add-note-sucess', {type: 'add'});
+				setTimeout(() => {
+					uni.navigateBack();
+				}, 1000);
+			}).finally(() => {
+				this.setLoadingState(false);
+			})
+		},
+		procEdit(addData) {
+			this.$cloudApi.updateNote(addData, this.id).then(res => {
+				if (res.status == 0) {
+					uni.showToast({
+						title: res.msg,
+						icon: "success"
+					});
+					uni.$emit('add-note-sucess',{});
+					this.checkDelCloudFile(addData).then(res2 => {
+					  setTimeout(() => {
+					  	uni.navigateBack();
+					  }, 1000);
+					  this.setLoadingState(false);
+					})
+				} else {
+					uni.showToast({
+						title: res.msg,
+						icon: "none"
+					});
+					this.setLoadingState(false);
+				}
+			}).catch(() => {
+				this.setLoadingState(false);
+			})
+		},
+		async checkDataSec() {
+			return Promise.resolve();
+		},
+		async checkDelCloudFile(addData) {
+			let delFiles = [];
+			if (this.oldData.cover && (this.oldData.cover !== addData.cover)) {
+				delFiles.push(this.oldData.cover);
+			}
+			if (delFiles.length) {
+				try {
+					let res = await this.$cloudApi.delCloudFiles({
+						files: delFiles
+					})
+					return res;
+				} catch(e) {
+					return { status: 0 };
+				}
+			} else {
+				return { status: 0 };
+			}
+		},
+		goBack() {
+			uni.navigateBack();
+		},
+		previewImage(e) {
+			var current = e.target.dataset.src
+			uni.previewImage({
+				current: current,
+				urls: this.imageList
+			})
+		},
+		// #ifdef APP-PLUS
+		async checkPermission(code) {
+			let type = code ? code - 1 : this.sourceTypeIndex;
+			let status = permision.isIOS ? await permision.requestIOS(sourceType[type][0]) :
+				await permision.requestAndroid(type === 0 ? 'android.permission.CAMERA' :
+					'android.permission.READ_EXTERNAL_STORAGE');
+
+			if (status === null || status === 1) {
+				status = 1;
+			} else {
+				uni.showModal({
+					content: "没有开启权限",
+					confirmText: "设置",
+					success: function(res) {
+						if (res.confirm) {
+							permision.gotoAppSetting();
+						}
+					}
+				})
+			}
+
+			return status;
+		},
+		// #endif
+		chooseImage: async function() {
+			// #ifdef APP-PLUS
+			// TODO 选择相机或相册时 需要弹出actionsheet，目前无法获得是相机还是相册，在失败回调中处理
+			if (this.sourceTypeIndex !== 2) {
+				let status = await this.checkPermission();
+				if (status !== 1) {
+					return;
+				}
+			}
+			// #endif
+			const imageExtname = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+			uni.chooseImage({
+				sourceType: sourceType[this.sourceTypeIndex],
+				sizeType: this.sizeType,
+				extension: imageExtname,
+				count: 1,
+				success: (res) => {
+					if (res.tempFiles.length) {
+						let file = res.tempFiles[0];
+						if (file.size > 3145728) {
+							uni.showToast({
+								title: '上传图片大小不能大于3MB',
+								duration: 2000
+							});
+						} else {
+							this.imageFiles = res.tempFiles;
+							// #ifdef H5
+							this.imageList = res.tempFilePaths;
+							// #endif
+							// #ifndef H5
+							uni.compressImage({
+								src: res.tempFilePaths[0],
+								quality: 80,
+								compressedWidth: 1080,
+								success: (compressRes) => {
+									this.imageList = [compressRes.tempFilePath]
+								}
+							});
+							// #endif
+						}
+					}
+				},
+				fail: (err) => {
+					console.log("err: ",err);
+					// #ifdef APP-PLUS
+					if (err['code'] && err.code !== 0 && this.sourceTypeIndex === 2) {
+						this.checkPermission(err.code);
+					}
+					// #endif
+					// #ifdef MP
+					if(err.errMsg.indexOf('cancel') !== '-1'){
+						return;
+					}
+					uni.getSetting({
+						success: (res) => {
+							let authStatus = false;
+							switch (this.sourceTypeIndex) {
+								case 0:
+									authStatus = res.authSetting['scope.camera'];
+									break;
+								case 1:
+									authStatus = res.authSetting['scope.album'];
+									break;
+								case 2:
+									authStatus = res.authSetting['scope.album'] && res.authSetting['scope.camera'];
+									break;
+								default:
+									break;
+							}
+							if (!authStatus) {
+								uni.showModal({
+									title: '授权失败',
+									content: '需要从您的相机或相册获取图片，请在设置界面打开相关权限',
+									success: (res) => {
+										if (res.confirm) {
+											uni.openSetting()
+										}
+									}
+								})
+							}
+						}
+					})
+					// #endif
+				}
+			})
 		}
 	}
 }
 </script>
-<style scoped>
-.page{padding:30rpx;}
+<style lang="scss" scoped>
+.add-note {
+	box-sizing: border-box;
+	padding: 2rpx;
+	box-sizing: border-box;
+	.form-item {
+		width: 100%;
+		background-color: #fff;
+		border-radius: 8px;
+	}
+	.form-item-text {
+		width: 100%;
+		margin: 20rpx 0 20rpx;
+		border-radius: 8px;
+		::v-deep .uni-easyinput__content {
+			border-radius: 8px;
+		}
+	}
+	.uni-uploader__files {
+		width: 100%;
+		//border: solid 1px;
+		min-height: 240px;
+		box-sizing: border-box;
+		position: relative;
+		border-radius: 10px;
+		.uni-uploader__file {
+			width: 100%;
+			height: 100%;
+			.uni-uploader__img {
+				width: 100%;
+				height: 100%;
+				// ::v-deep img {
+				// 	position: relative;
+				// 	opacity: initial;
+				// }
+			}
+		}
+		.add-uploader__input-box {
+			width: 100%;
+			height: 100%;
+			border: solid 1px #f0f0f0;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 240px;
+			border-radius: 8px;
+		}
+		.replace-uploader {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			display: inline-flex;
+			flex-direction: column;
+			align-items: center;
+			.replace-up {
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				background-color: #909399;
+				opacity: 0.5;
+			}
+			.replace-title {
+				font-size: 14px;
+				margin-top: 8px;
+				color: #fff;
+			}
+		}
+	}
+}
+.uni-button-group {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 6px;
+	box-sizing: border-box;
+	.uni-button {
+		width: 47%;
+	}
+}
 </style>

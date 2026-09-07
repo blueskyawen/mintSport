@@ -20,7 +20,7 @@
 				</view>
 			</view>
 			<view class="card-box">
-				<view class="list-item" v-for="item in ucenterList" :key="item.id">
+				<view class="list-item" v-for="item in ucenterList" :key="item.id" @click="toItemUrl(item)">
 					<view class="item-left">
 						<view class="icon-box" :style="{ 'background-color': item.bgColor }">
 							<uni-icons custom-prefix="iconfont" :type="item.icon" :color="item.color" size="20"></uni-icons>
@@ -87,7 +87,7 @@ export default {
 				{
 					"id": 4,
 					"title": '我的分享',
-					"to": '/pages/plan/list/list',
+					"to": '/pages/community/list/list',
 					"icon": "icon-fit-edit-note",
 					"color": "#19be6b",
 					"bgColor": "#dbf1e1"
@@ -95,8 +95,8 @@ export default {
 				{
 					"id": 5,
 					"title": '我的收藏',
-					"to": '/pages/plan/list/list',
-					"icon": "icon-fit-star-outline",
+					"to": '/pages/community/likeList/likeList',
+					"icon": "icon-fit-like",
 					"color": "#8f939c",
 					"bgColor": "#e9e9eb"
 				},
@@ -143,11 +143,10 @@ export default {
 				url: '/pages/mine/settings/settings'
 			})
 		},
-		goCalendar(){
-			uni.navigateTo({url:'/pages/plan/calendar'})
-		},
-		goMyPost(){
-			uni.navigateTo({url:'/pages/mine/myPost'})
+		toItemUrl(item) {
+			uni.navigateTo({
+				url: item.to
+			})
 		}
 	}
 }

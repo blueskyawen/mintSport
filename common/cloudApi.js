@@ -41,5 +41,20 @@ export default {
 	},
 	getNoteList(event) {
 		return miNoteDB.getList(event);
+	},
+	addNote(event) {
+		return miNoteDB.add(event);
+	},
+	getNoteById(event) {
+		return miNoteDB.get(event);
+	},
+	getOneNote(event) {
+		return miNoteDB.getOne(event);
+	},
+	delNote(event) {
+		return miNoteDB.delete(event);
+	},
+	updateNote(event, id) {
+		return miNoteDB.update(event, id);
 	}
 }
