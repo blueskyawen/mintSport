@@ -9,20 +9,20 @@ module.exports = {
 	getList: async function({user_id}) {
 		const res = await miRecordCollection.where({
 			'user_id': user_id
-		}).orderBy('date asc').get();
+		}).orderBy('date','desc').get();
 		return res;
 	},
 	getPlanRecords: async function(event) {
 		const res = await miRecordCollection.where({
 			'plan_id': event.plan_id
-		}).orderBy('date desc').get();
+		}).orderBy('date','desc').get();
 		return res;
 	},
 	getDayRecord: async function(event) {
 		const res = await miRecordCollection.where({
 			'plan_id': event.plan_id,
 			'date': event.date
-		}).orderBy('date desc').get();
+		}).get();
 		return res;
 	},
 	addDayRecord: async function(event) {

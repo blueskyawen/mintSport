@@ -126,32 +126,32 @@ export default {
 				sleepTitle: '0%'
 			},
 			chartData: {},
-			      opts: {
-			        color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
-			        padding: undefined,
-			        title: {
-			          name: "",
-			          fontSize: 35,
-			          color: "#2fc25b"
-			        },
-			        subtitle: {
-			          name: "",
-			          fontSize: 25,
-			          color: "#666666"
-			        },
-			        extra: {
-			          arcbar: {
-			            type: "default",
-			            width: 10,
-			            backgroundColor: "#E9E9E9",
-			            startAngle: 0.2,
-			            endAngle: 0.75,
-			            gap: 2,
-			            direction: "ccw",
-			            linearType: "custom"
-			          }
-			        }
-			      }
+			  opts: {
+				color: ["#1890FF","#91CB74","#FAC858","#EE6666","#73C0DE","#3CA272","#FC8452","#9A60B4","#ea7ccc"],
+				padding: undefined,
+				title: {
+				  name: "",
+				  fontSize: 35,
+				  color: "#2fc25b"
+				},
+				subtitle: {
+				  name: "",
+				  fontSize: 25,
+				  color: "#666666"
+				},
+				extra: {
+				  arcbar: {
+					type: "default",
+					width: 10,
+					backgroundColor: "#E9E9E9",
+					startAngle: 0.2,
+					endAngle: 0.75,
+					gap: 2,
+					direction: "ccw",
+					linearType: "custom"
+				  }
+				}
+			  }
 		}
 	},
 	computed: {

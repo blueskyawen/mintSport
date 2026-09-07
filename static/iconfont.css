@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "iconfont";
+  font-family: "iconfont"; /* Project id 5230289 */
   src: url('/static/iconfont.ttf') format('truetype');
 }
 
@@ -9,6 +9,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fit-uncomplate:before {
+  content: "\e61a";
+}
+
+.icon-fit-overview:before {
+  content: "\e61b";
 }
 
 .icon-fit-check-finish:before {

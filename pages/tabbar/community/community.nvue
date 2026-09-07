@@ -17,7 +17,6 @@
 	</view>
 </template>
 <script>
-import { getStorage } from '@/utils/storage.js'
 import EmptyState from '@/components/empty-state/empty-state.vue'
 export default {
 	components:{EmptyState},
@@ -27,7 +26,6 @@ export default {
 		}
 	},
 	onShow(){
-		this.postList = getStorage('communityPost')||[]
 	},
 	methods:{
 		goPublish(){

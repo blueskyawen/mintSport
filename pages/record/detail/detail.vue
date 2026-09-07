@@ -99,7 +99,7 @@
 				if (this.recordData.sleepTime) {
 					count++;
 				}
-				return Math.ceil((count * 100) / this.total) + '%'
+				return this.total ? Math.ceil((count * 100) / this.total) + '%' : '0%'
 			}
 		},
 		onLoad(options) {
