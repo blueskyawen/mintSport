@@ -175,7 +175,7 @@
 			margin-right: 46rpx;
 			font-size: 28rpx;
 			.completed-1 {
-				color: $main-color;
+				color: #72D1A8;
 			}
 			.completed {
 				display: inline-flex;
@@ -183,7 +183,7 @@
 				align-items: center;
 				font-size: 28rpx;
 				.title {
-					color: $main-color;
+					color: #72D1A8;
 				}
 				.state {
 					margin-right: 28rpx;

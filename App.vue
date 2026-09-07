@@ -16,8 +16,9 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
 	@import "@/static/iconfont.css";
+	@import "@/uni_modules/uview-ui/index.scss";
 	/*每个页面公共css */
-	@import "./uni.scss";
+	/* @import "./uni.scss"; */
 </style>

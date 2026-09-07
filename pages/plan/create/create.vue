@@ -306,8 +306,8 @@ export default {
 						margin-right: 16rpx;
 					}
 					&.active {
-						background-color: $main-color;
-						border-color: $main-color;
+						background-color: #72D1A8;
+						border-color: #72D1A8;
 						color: #fff;
 					}
 				}

@@ -15,7 +15,7 @@
 			<view class="data-row">
 				<view class="chenhao">Lv.12 习惯实践者</view>
 				<view class="text">
-					<text>完成计划 1 个</text>
+					<text>完成计划 {{ finishPlanCount }} 个</text>
 					<text>累计坚持 15 天</text>
 				</view>
 			</view>
@@ -59,6 +59,8 @@ export default {
 			avatorSrc: '/static/logo.png',
 			avatorUrl: '',
 			heighth: 500,
+			finishPlanCount: 0,
+			totalFinishDay: 0,
 			ucenterList: [
 				{
 					"id": 1,
