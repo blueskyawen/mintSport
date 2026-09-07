@@ -75,7 +75,7 @@ export default {
 		}
 		.agress {
 			width: 90%;
-			padding: 14px 8px;
+			padding: 33rpx 19rpx;
 		}
 	}
 }

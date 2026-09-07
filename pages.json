@@ -237,12 +237,6 @@
 			"root": "pages/mine",
 			"pages": [
 				{
-					"path": "myPost/myPost",
-					"style": {
-						"navigationBarTitleText": "我的分享"
-					}
-				},
-				{
 					"path": "settings/settings",
 					"style": {
 						"navigationBarTitleText": "个人设置"

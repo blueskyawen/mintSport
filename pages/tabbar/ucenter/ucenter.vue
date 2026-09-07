@@ -78,14 +78,6 @@ export default {
 				},
 				{
 					"id": 3,
-					"title": '打卡记录',
-					"to": '/pages/plan/list/list',
-					"icon": "icon-fit-log-t",
-					"color": "#ff9900",
-					"bgColor": "#fdf6ec"
-				},
-				{
-					"id": 4,
 					"title": '我的分享',
 					"to": '/pages/community/list/list',
 					"icon": "icon-fit-edit-note",
@@ -93,15 +85,15 @@ export default {
 					"bgColor": "#dbf1e1"
 				},
 				{
-					"id": 5,
+					"id": 4,
 					"title": '我的收藏',
 					"to": '/pages/community/likeList/likeList',
 					"icon": "icon-fit-like",
-					"color": "#8f939c",
-					"bgColor": "#e9e9eb"
+					"color": "#ff9900",
+					"bgColor": "#fdf6ec"
 				},
 				{
-					"id": 6,
+					"id": 5,
 					"title": '问题与反馈',
 					"to": '/uni_modules/uni-feedback/pages/opendb-feedback/opendb-feedback',
 					"icon": "icon-fit-help",
@@ -179,7 +171,7 @@ export default {
 			flex-direction: row;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 23rpx;
+			margin-bottom: 30rpx;
 			.user {
 				display: inline-flex;
 				align-items: center;
@@ -199,7 +191,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			line-height: 2;
-			margin-bottom: 46rpx;
+			margin-bottom: 90rpx;
 			.chenhao {
 				font-size: 66rpx;
 				font-weight: bolder;
@@ -238,7 +230,7 @@ export default {
 						border-radius: 50%;
 						height: 60rpx;
 						width: 60rpx;
-						padding: 5px;
+						padding: 12rpx;
 						display: inline-flex;
 						justify-content: center;
 						align-items: center;
@@ -246,7 +238,7 @@ export default {
 					}
 					.name {
 						font-size: 32rpx;
-						margin-left: 8px;
+						margin-left: 19rpx;
 					}
 				}
 			}

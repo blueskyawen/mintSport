@@ -147,10 +147,10 @@
 				align-items: center;
 				font-size: 26rpx;
 				box-sizing: border-box;
-				padding: 0 28rpx 14rpx;
+				padding: 0 28rpx 14rpx;r
 				.like-num {
 					margin-left: 10rpx;
-					font-size: 12px;
+					font-size: 28rpx;
 				}
 			}
 		}

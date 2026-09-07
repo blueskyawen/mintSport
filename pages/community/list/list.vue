@@ -178,7 +178,7 @@
 				padding: 0 28rpx 14rpx;
 				.like-num {
 					margin-left: 10rpx;
-					font-size: 12px;
+					font-size: 28rpx;
 				}
 			}
 		}
@@ -187,14 +187,14 @@
 			flex-direction: row;
 			align-items: center;
 			justify-content: flex-end;
-			padding: 5px 6px 10px;
+			padding: 12rpx 14rpx 24rpx;
 			border-top: solid 1px #e7eaed;
 			.oper-i {
 				display: inline-flex;
 				flex-direction: row;
 				align-items: center;
-				font-size: 12px;
-				margin-left: 8px;
+				font-size: 28rpx;
+				margin-left: 19rpx;
 			}
 		}
 	}
