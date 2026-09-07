@@ -1,6 +1,6 @@
 <template>
 	<mint-bg :isEmpty="!isLoading && !list.length">
-		<view class="like-list" v-if="!isLoading && list.length">
+		<view class="like-list" :class="{'hide': isLoading || !list.length}">
 			<view class="note-list-left">
 				 <view class="note-item-box" v-for="(item, index) in listLeft" :key="index">
 					 <view class="note-item" @tap="goDetail(item)">
@@ -105,6 +105,9 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
+	&.hide {
+		display: none;
+	}
 	.note-list-left {
 		width: 50%;
 	}

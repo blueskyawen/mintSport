@@ -119,6 +119,12 @@ module.exports = {
 		})
 		return res;
 	},
+	getMyNoteList: async function(event) {
+		const res = await miNoteCollection.where({
+			"user_id": event.user_id
+		}).get();
+		return res;
+	},
 	/**
 	 * method1方法描述
 	 * @param {string} param1 参数1描述

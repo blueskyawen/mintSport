@@ -45,6 +45,9 @@ export default {
 	getNoteList(event) {
 		return miNoteDB.getList(event);
 	},
+	getMyNoteList(event) {
+		return miNoteDB.getMyNoteList(event);
+	},
 	getLikeNoteList(event) {
 		return miNoteDB.getLikeNoteList(event);
 	},
