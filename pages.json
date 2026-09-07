@@ -249,6 +249,16 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "uni_modules/uni-feedback/pages",
+			"pages": [{
+				"path": "opendb-feedback/opendb-feedback",
+				"style": {
+					"navigationBarTitleText": "意见反馈",
+					"enablePullDownRefresh": false
+				}
+			}]
 		}
 	],
 	"globalStyle": {
