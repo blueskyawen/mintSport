@@ -393,23 +393,23 @@ export default {
 	.form-item {
 		width: 100%;
 		background-color: #fff;
-		border-radius: 8px;
+		border-radius: 19rpx;
 	}
 	.form-item-text {
 		width: 100%;
 		margin: 20rpx 0 20rpx;
-		border-radius: 8px;
+		border-radius: 19rpx;
 		::v-deep .uni-easyinput__content {
-			border-radius: 8px;
+			border-radius: 19rpx;
 		}
 	}
 	.uni-uploader__files {
 		width: 100%;
 		//border: solid 1px;
-		min-height: 240px;
+		min-height: 562rpx;
 		box-sizing: border-box;
 		position: relative;
-		border-radius: 10px;
+		border-radius: 24rpx;
 		.uni-uploader__file {
 			width: 100%;
 			height: 100%;
@@ -430,8 +430,8 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			min-height: 240px;
-			border-radius: 8px;
+			min-height: 562rpx;
+			border-radius: 19rpx;
 		}
 		.replace-uploader {
 			position: absolute;
@@ -452,8 +452,8 @@ export default {
 				opacity: 0.5;
 			}
 			.replace-title {
-				font-size: 14px;
-				margin-top: 8px;
+				font-size: 33rpx;
+				margin-top: 19rpx;
 				color: #fff;
 			}
 		}
@@ -462,7 +462,7 @@ export default {
 .uni-button-group {
 	display: flex;
 	justify-content: space-between;
-	margin-top: 6px;
+	margin-top: 14rpx;
 	box-sizing: border-box;
 	.uni-button {
 		width: 47%;

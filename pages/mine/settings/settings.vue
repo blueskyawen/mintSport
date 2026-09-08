@@ -257,17 +257,19 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		margin-top: 10px;
-		width: 750rpx;
-		height: 44px;
+		margin-top: 24rpx;
+		width: 700rpx;
+		margin-right: 25rpx;
+		margin-left: 25rpx;
+		height: 103rpx;
 		/* #ifndef APP-NVUE */
 		display: flex;
-		width: 100%;
 		border: none;
 		/* #endif */
 		border-width: 0;
-		border-radius: 0;
-		background-color: #FFFFFF;
+		border-radius: 20rpx;
+		background-color: #72D1A8;
+		color: #FFFFFF;
 		.bottom-back-text {
 			font-size: 33rpx;
 		}
@@ -278,8 +280,8 @@
 	background-color: #F9F9F9;
 }
 .settings ::v-deep .uni-list-item--disabled,.list-item {
-	height: 50px;
-	margin-bottom: 1px;
+	height: 117rpx;
+	margin-bottom: 3rpx;
 }
 /* #endif */
 </style>

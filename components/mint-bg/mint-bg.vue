@@ -49,13 +49,13 @@
 	}
 	.data-empty {
 		position: absolute;
-		top: 100px;
+		top: 234rpx;
 		left: 50%;
 		transform: translateX(-50%);
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		border-radius: 12px;
+		border-radius: 28rpx;
 		color: #fff;
 		&.hide {
 			display: none;

@@ -311,14 +311,14 @@ export default {
 .fab-btn {
 	position: fixed;
 	bottom: var(--window-bottom);
-	margin-bottom: 5px;
+	margin-bottom: 11rpx;
     background: #fa7803;
-    padding: 8px 12px;
-    border-radius: 16px;
+    padding: 19rpx 28rpx;
+    border-radius: 38rpx;
     left: 50%;
     transform: translateX(-50%);
 	color: #fff;
-	font-size: 12px;
+	font-size: 28rpx;
 	box-shadow: 0 0 5px rgba($color: #8f939c, $alpha: 0.5);
 }
 </style>
