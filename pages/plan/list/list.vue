@@ -53,8 +53,9 @@
 						user_id: this.loginUserId
 					}).then(res => {
 						this.list = res.data || [];
+					}).finally(e => {
+						this.isLoading = false;
 					})
-					this.isLoading = false;
 				} else {
 					this.isLoading = false;
 				}
@@ -76,7 +77,7 @@
 }
 .plan-item-box {
 	width: 100%;
-	padding: 2px 4px;
+	padding: 5rpx 10rpx;
 	box-sizing: border-box;
 }
 .plan-item {
@@ -84,9 +85,9 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	padding: 10px 8px;
+	padding: 24rpx 19rpx;
 	box-sizing: border-box;
-	border-radius: 8px;
+	border-radius: 19rpx;
 	background-color: #fff;
 	.left {
 		display: inline-flex;
@@ -96,31 +97,31 @@
 			flex-direction: row;
 			align-items: center;
 			.name {
-				margin-left: 6px;
-				font-size: 14px;
+				margin-left: 14rpx;
+				font-size: 33rpx;
 			}
 		}
 		.foot {
 			display: inline-flex;
 			flex-direction: column;
 			padding-left: 24px;
-			font-size: 12px;
-			margin-top: 6px;
+			font-size: 28rpx;
+			margin-top: 14rpx;
 			.text-i {
 				display: inline-flex;
 				flex-direction: row;
 				align-items: center;
-				font-size: 12px;
+				font-size: 28rpx;
 				color: #888;
 				line-height: 1.1;
 				.text-1 {
-					margin-right: 6px;
+					margin-right: 14rpx;
 				}
 				.text-2 {
-					margin-left: 12px;
+					margin-left: 28rpx;
 				}
 				&.t-day {
-					margin-top: 3px;
+					margin-top: 7rpx;
 				}
 			}
 		}

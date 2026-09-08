@@ -162,12 +162,6 @@
 					}
 				},
 				{
-					"path": "calendar/calendar",
-					"style": {
-						"navigationBarTitleText": "计划周期"
-					}
-				},
-				{
 					"path": "list/list",
 					"style": {
 						"navigationBarTitleText": "我的计划"
@@ -200,6 +194,12 @@
 					"path": "detail/detail",
 					"style": {
 						"navigationBarTitleText": "今日详情"
+					}
+				},
+				{
+					"path": "list/list",
+					"style": {
+						"navigationBarTitleText": "打卡记录"
 					}
 				}
 			]

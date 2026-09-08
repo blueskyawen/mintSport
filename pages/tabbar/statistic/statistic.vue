@@ -1,6 +1,9 @@
 <template>
 	<page-bg :headTitle="headTitle">
 		<view class="static-content" v-if="!isLoading && plan._id">
+			<view class="lishi">
+				<text @click="toRecordList">历史打卡记录</text>
+			</view>
 			<view class="head">
 				<view class="left">
 					计划周期: {{ plan.totalDay}} 天
@@ -422,6 +425,11 @@ export default {
 			} else {
 				this.isLoading = false;
 			}
+		},
+		toRecordList() {
+			uni.navigateTo({
+				url: '/pages/record/list/list?id=' + this.plan._id + '&from=statistic'
+			})
 		}
 	}
 }
@@ -429,6 +437,14 @@ export default {
 <style lang="scss" scoped>
 .static-content {
 	margin-top: 60rpx;
+	.lishi {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		margin-bottom: 24rpx;
+		color: #888;
+		font-size: 28rpx;
+	}
 	.head {
 		border-radius: 18rpx;
 		padding: 24rpx 30rpx;
@@ -439,7 +455,7 @@ export default {
 		font-size: 33rpx;
 	}
 	.content {
-		margin-top: 10px;
+		margin-top: 24rpx;
 		min-height: 300px;
 		border-radius: 18rpx;
 		padding: 24rpx 30rpx;

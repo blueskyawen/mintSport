@@ -1,67 +1,303 @@
 <template>
-	<view class="page">
-		<view class="head">今日运动清单</view>
-		<view v-if="!activePlan || !activePlan.sportList.length" class="empty">今日暂无运动任务</view>
-		<view v-else>
-			<view v-for="(sport,idx) in activePlan.sportList" :key="idx" class="sport-card">
-				<view class="left">
-					<view class="name">{{sport.name}}</view>
-					<view class="time">{{sport.time}}</view>
+	<mint-bg :isEmpty="!isLoading && !plan._id">
+		<view class="detail-page">
+			<view class="head">
+				{{ plan.name }}
+			</view>
+			<view class="content">
+				<view class="status">
+					<text class="title">计划状态: </text>
+					<text>
+						<uni-icons custom-prefix="iconfont" v-if="plan.status == 'running'" type="icon-fit-runing" color="#ff9900" size="28"></uni-icons>
+						<uni-icons custom-prefix="iconfont" v-else-if="plan.status == 'finish'" type="icon-fit-finished" color="#72D1A8" size="28"></uni-icons>
+						<uni-icons custom-prefix="iconfont" v-else type="icon-fit-uncomplate" color="#888888" size="28"></uni-icons>
+					</text>
 				</view>
-				<u-button :type="dayRecord.sportFinishList.includes(idx)?'success':'primary'"
-					@click="checkItem(idx)">
-					{{dayRecord.sportFinishList.includes(idx)?'已完成':'打卡'}}
-				</u-button>
+				<view class="overview">
+					<view class="item total-day">
+						<text>计划周期</text>
+						<text class="num">{{ plan.totalDay }} 天</text>
+					</view>
+					<view class="item start-date">
+						<text>开始时间</text>
+						<text class="num">{{ startDate }}</text>
+					</view>
+					<view class="item end-date">
+						<text>结束时间</text>
+						<text class="num">{{ endDate }}</text>
+					</view>
+				</view>
+				<view class="rate-view">
+					<view class="record-rate">
+						<view class="item count">
+							<text>累计打卡</text>
+							<text class="sub">{{ plan.recordDay }} 天</text>
+						</view>
+						<view class="item rate">
+							<view class="item">
+								<text>打卡率</text>
+								<text class="sub">{{ recordRate }}</text>
+							</view>
+						</view>
+					</view>
+					<view class="record-rate finish">
+						<view class="item count">
+							<text>完成打卡</text>
+							<text class="sub">{{ plan.recordFinishDay }} 天</text>
+						</view>
+						<view class="item rate">
+							<view class="item">
+								<text>完成率</text>
+								<text class="sub">{{ finishRecordRate }}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="record-rili">
+					<view class="head">
+						<text class="name">打卡日历</text>
+						<text class="oper" @click.stop="toRecordList">更多打卡记录</text>
+					</view>
+					<view class="rili">
+						<uni-calendar
+						:insert="true"
+						:lunar="true"
+						:start-date="startDate"
+						:end-date="finishDate"
+						:selected="selectedInfos"
+						></uni-calendar>
+					</view>
+				</view>
 			</view>
 		</view>
-	</view>
+	</mint-bg>
 </template>
 <script>
-import { getStorage, setStorage } from '@/utils/storage.js'
+
 export default {
 	data(){
 		return {
-			activePlan:{},
-			todayStr:''
+			isLoading: true,
+			plan: {},
+			plan_id: '',
+			recordList: [],
+			startDate: '',
+			endDate: '',
+			finishDate: '',
+			recordRate: '',
+			finishRecordRate: '',
+			selectedInfos: []
 		}
+	},
+	onLoad(options){
+		this.plan_id = options.id;
+		this.getPlanData();
 	},
 	computed:{
-		dayRecord(){
-			let recordList = getStorage('checkRecord') || []
-			return recordList.find(r=>r.date === this.todayStr) || {date:this.todayStr,sportFinishList:[],dietFinish:false,getUpFinish:false,sleepFinish:false}
+		loginUserId() {
+			return uniCloud.getCurrentUserInfo() ? uniCloud.getCurrentUserInfo().uid : '';
 		}
 	},
-	onLoad(){
-		this.activePlan = getStorage('activePlan')
-		let date = new Date()
-		this.todayStr = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`
-	},
 	methods:{
-		checkItem(index){
-			let recordList = getStorage('checkRecord') || []
-			let curr = recordList.find(r=>r.date === this.todayStr)
-			if(!curr){
-				curr = {date:this.todayStr,sportFinishList:[],dietFinish:false,getUpFinish:false,sleepFinish:false}
-				recordList.push(curr)
+		getPlanData() {
+			if (this.plan_id) {
+				this.$cloudApi.getPlanById({
+					id: this.plan_id
+				}).then(res => {
+					this.plan = res.data[0] || {};
+					let startDateTime = new Date(this.plan.create_date);
+					this.startDate = startDateTime.toJSON().split('T')[0];
+					this.endDate = this.plan.end_date ? new Date(this.plan.end_date).toJSON().split('T')[0] : '-';
+					this.recordRate = this.plan.recordDay ? ((this.plan.recordDay*100/this.plan.totalDay).toFixed(1) + '%') : '0%';
+					this.finishRecordRate = this.plan.recordFinishDay ? ((this.plan.recordFinishDay*100/this.plan.totalDay).toFixed(1) + '%') : '0%';
+					this.getCalendarSelectInfos();
+				}).finally(e => {
+					this.isLoading = false;
+				})
+			} else {
+				this.isLoading = false;
 			}
-			let i = curr.sportFinishList.indexOf(index)
-			if(i>-1){
-				curr.sportFinishList.splice(i,1)
-			}else{
-				curr.sportFinishList.push(index)
-			}
-			setStorage('checkRecord',recordList)
-			uni.showToast({title:'打卡状态更新'})
-			this.$forceUpdate()
+		},
+		getCalendarSelectInfos() {
+			let startDateTime = new Date(this.plan.create_date);
+			let tmpDay = new Date(this.plan.create_date);
+			tmpDay.setDate(startDateTime.getDate() + this.plan.totalDay - 1);
+			this.finishDate = tmpDay.toJSON().split('T')[0];
+			this.$cloudApi.getPlanRecords({
+				"plan_id": this.plan_id
+			}).then(res => {
+				let resords = res.data || [];
+				for (let i = 0; i < this.plan.totalDay; i++) {
+					let curDay = new Date(this.plan.create_date);
+					curDay.setDate(startDateTime.getDate() + i);
+					let curDateStr = curDay.toJSON().split('T')[0];
+					let fdItem = resords.find(x => x.date == curDateStr);
+					if (fdItem) {
+						if (fdItem.status == 'finish') {
+							this.selectedInfos.push({
+								date: curDateStr,
+								info: '已完成',
+								fontSize: '28rpx',
+								color: '#42B983'
+							})
+						} else {
+							this.selectedInfos.push({
+								date: curDateStr,
+								info: '未完成',
+								fontSize: '28rpx',
+								color: '#e43d33'
+							})
+						}
+					} else {
+						this.selectedInfos.push({
+							date: curDateStr,
+							info: '未打卡',
+							fontSize: '28rpx',
+							color: '#7f7f7f'
+						})
+					}
+				}
+				console.log('this.selectedInfos', this.selectedInfos)
+			})
+		},
+		toRecordList() {
+			uni.navigateTo({
+				url: '/pages/record/list/list?id=' + this.plan_id
+			})
 		}
 	}
 }
 </script>
-<style scoped>
-.page{padding:30rpx;}
-.head{font-size:34rpx;font-weight:bold;margin-bottom:30rpx;}
-.sport-card{background:#fff;border-radius:20rpx;padding:30rpx;margin-bottom:20rpx;display:flex;justify-content:space-between;align-items:center;}
-.name{font-size:30rpx;}
-.time{font-size:24rpx;color:#888;margin-top:8rpx;}
-.empty{text-align:center;padding:100rpx;color:#888;}
+<style lang="scss" scoped>
+.detail-page {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	width: 100%;
+	padding: 33rpx;
+	box-sizing: border-box;
+	.head {
+		font-size: 47rpx;
+		font-weight: bold;
+		margin-bottom: 33rpx;
+	}
+	.content {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		.status {
+			display: flex;
+			font-size: 38rpx;
+			flex-direction: row;
+			align-items: center;
+			padding: 19rpx 0 28rpx;
+			.title {
+				margin-right: 14rpx;
+			}
+		}
+		.overview {
+			width: 100%;
+			background-color: #fff;
+			padding: 24rpx 0px;
+			border-radius: 19rpx;
+			box-sizing: border-box;
+			margin-bottom: 24rpx;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			.item {
+				display: inline-flex;
+				flex-direction: column;
+				align-items: center;
+				width: 33%;
+				font-size: 31rpx;
+				position: relative;
+				color: #888;
+				.num {
+					margin-top: 14rpx;
+					color: #696869;
+				}
+				&:not(:last-of-type)::after {
+					position: absolute;
+					content: '';
+					right: 0;
+					width: 1px;
+					background-color: #c5c5c5;
+					height: 47rpx;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+			}
+		}
+		.rate-view {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			width: 100%;
+			.record-rate {
+				background-color: #fff;
+				width: 338rpx;
+				border-radius: 19rpx;
+				padding: 28rpx 24rpx;
+				box-sizing: border-box;
+				.item {
+					width: 143rpx;
+					display: inline-flex;
+					flex-direction: column;
+					align-items: center;
+					font-size: 31rpx;
+					position: relative;
+					color: #888;
+					.sub {
+						margin-top: 14rpx;
+						color: #696869;
+					}
+					&:not(:last-of-type)::after {
+						position: absolute;
+						content: '';
+						right: 0;
+						width: 1px;
+						background-color: #c5c5c5;
+						height: 33rpx;
+						top: 50%;
+						transform: translateY(-50%);
+					}
+				}
+			}
+		}
+		.record-rili {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			background-color: #fff;
+			margin-top: 28rpx;
+			border-radius: 19rpx 19rpx 0 0;
+			font-weight: normal;
+			box-sizing: border-box;
+			padding: 19rpx;
+			.head {
+				margin-bottom: 19rpx;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				.name {
+					font-size: 33rpx;
+					color: #888;
+				}
+				.oper {
+					color: #72D1A8;
+					font-size: 28rpx;
+					margin-left: 19rpx;
+				}
+			}
+			.rili {
+				box-sizing: border-box;
+				width: 100%;
+				::v-deep .uni-calendar-item__weeks-box-item {
+					width: auto;
+				}
+			}
+		}
+	}
+}
 </style>

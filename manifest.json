@@ -52,9 +52,11 @@
     "mp-weixin" : {
         "appid" : "",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+		"lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -65,5 +67,12 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
+    }
 }
