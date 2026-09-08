@@ -33,6 +33,9 @@ export default {
 	incFinishRecordCount(event) {
 		return miPlanDB.incFinishRecordCount(event);
 	},
+	incRecordCount(event) {
+		return miPlanDB.incRecordCount(event);
+	},
 	addDayRecord(event) {
 		return miRecordDB.addDayRecord(event);
 	},

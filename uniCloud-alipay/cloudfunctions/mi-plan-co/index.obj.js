@@ -74,6 +74,12 @@ module.exports = {
 		})
 		return res;
 	},
+	incRecordCount: async function(event) {
+		let res = await cmiPlanCollection.doc(event.id).update({
+		  "recordDay": db.command.inc(event.value)
+		})
+		return res;
+	},
 	/**
 	 * method1方法描述
 	 * @param {string} param1 参数1描述

@@ -117,6 +117,10 @@ export default {
 					"create_date": Date.now()
 				});
 				this.record_id = res1.id;
+				await this.$cloudApi.incRecordCount({
+					id: this.plan_id,
+					value: 1
+				});
 			}
 		},
 		selectCheck(item) {
