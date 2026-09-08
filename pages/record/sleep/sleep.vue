@@ -162,6 +162,7 @@ export default {
 					title: '打卡成功'
 				})
 				this.recordData.getUpTime = nowTime;
+				this.checkShowPopUp();
 			}).catch(e => {
 				uni.showToast({
 					title: e.msg || e.message || JSON.stringify(e)
@@ -183,6 +184,7 @@ export default {
 					title: '打卡成功'
 				})
 				this.recordData.sleepTime = nowTime;
+				this.checkShowPopUp();
 			}).catch(e => {
 				uni.showToast({
 					title: e.msg || e.message || JSON.stringify(e)

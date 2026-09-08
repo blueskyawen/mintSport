@@ -8,7 +8,7 @@
 			</view>
 			<view class="head">
 				<view class="sologn">今天也要动起来</view>
-				<view class="day-text">已连续打卡 {{ continueDay }} 天</view>
+				<view class="day-text">已累计打卡完成 {{ continueDay }} 天</view>
 			</view>
 			<view class="card-box">
 				<view v-if="plan._id" class="has-plan">
@@ -97,6 +97,7 @@
 				</view>
 			</view>
 		</view>
+		<finish-record-popup :show="showTodayFinshPop" @close-pop="closePop"></finish-record-popup>
 	</view>
 </template>
 
@@ -116,7 +117,9 @@ export default {
 			continueDay: 0,
 			plan: {},
 			heighth: 500,
+			showTodayFinshPop: false,
 			todayRecord: {
+				id: '',
 				sportTime: 0,
 				dish: false,
 				sleepTime: {
@@ -196,56 +199,109 @@ export default {
 				this.avatorSrc = resImgs[0] ? resImgs[0].src : '';
 			}
 		},
+		isOverPlanEndDate(plan) {
+			// 计划是否超期, 超期即至未结束
+			let startDate = new Date(plan.create_date);
+			let tmpDate = new Date(plan.create_date);
+			tmpDate.setDate(startDate.getDate() + plan.totalDay);
+			let tmpDateStr = tmpDate.toJSON().split('T')[0] + ' 00:00:00';
+			let deadline = new Date(tmpDateStr);
+			console.log('tmpDateStr', tmpDateStr)
+			console.log('deadline', deadline.toJSON())
+			return (new Date()) >= deadline;
+		},
+		setOverDeadlinePlan(plan) {
+			this.$cloudApi.getPlanRecords({
+				plan_id: plan._id
+			}).then(res => {
+				let tmpRecords = res.data || [];
+				let status = '';
+				if (plan.recordDay < plan.totalDay) {
+					status = 'unfinish';
+				} else {
+					if (tmpRecords.every(x => x.status == 'finish')) {
+						status = 'finish';
+					} else {
+						status = 'unfinish';
+					}
+				}
+				this.$cloudApi.updatePlan({
+					"status": status
+				}, plan._id).then(res1 => {} )
+			})
+		},
+		closePop() {
+			this.showTodayFinshPop = false;
+			this.$cloudApi.saveCheckRecord({
+				id: this.todayRecord.id,
+				data: {
+					"status": "finish"
+				}
+			}).then(res => {});
+			this.$cloudApi.incFinishRecordCount({
+				id: this.plan._id,
+				value: 1
+			}).then(res => {})
+		},
 		async loadData() {
 			if (this.userInfo._id) {
 				let planRes = await this.$cloudApi.getActivePlan({
 					user_id: this.userInfo._id
 				});
 				if (planRes.data.length) {
-					this.plan = planRes.data[0];
-					const todayStr = getTodayStr();
-					let res = await this.$cloudApi.getPlanRecords({
-						plan_id: this.plan._id
-					});
-					let records = res.data || [];
-					if (records.length) {
-						// 累计打卡天数
-						this.continueDay = records.filter(x => x.status === 'finish').length;
+					let tmpPlan = planRes.data[0];
+					if (this.isOverPlanEndDate(tmpPlan)) {
+						this.setOverDeadlinePlan(tmpPlan);
+					} else {
+						this.plan = tmpPlan;
 						const todayStr = getTodayStr();
-						let todayData = records.find(x => x.date == todayStr);
-						if (todayData) {
-							let count = todayData.diet ? 3 : 0;
-							this.todayRecord.dish = todayData.diet;
-							this.todayRecord.sleepTime.getup = todayData.getUpTime;
-							this.todayRecord.sleepTime.sleep = todayData.sleepTime;
-							if (todayData.getUpTime && todayData.sleepTime) {
-								count += 2;
-								let isGetupOk = todayData.getUpTime <= todayData.planGetUpTime;
-								let isSleepOk = todayData.sleepTime <= todayData.planSleepTime;
-								this.todayRecord.sleepTitle = (isGetupOk && isSleepOk) ? '已完成' : '未完成'
-							} else {
-								if (todayData.getUpTime || todayData.sleepTime) {
-									this.todayRecord.sleepTitle = '50%';
-									count += 1;
-								} else {
-									this.todayRecord.sleepTitle = '0%';
-								}
-							}
-							let tmpTime = 0;
-							let finishedSports = todayData.sportFinishList.filter(x => x.finish);
-							let finishNum = finishedSports.length;
-							if (finishNum > 0) {
-								if (finishNum == todayData.sportFinishList.length) {
-									count += 5;
-								} else {
+						let res = await this.$cloudApi.getPlanRecords({
+							plan_id: this.plan._id
+						});
+						let records = res.data || [];
+						if (records.length) {
+							// 累计打卡天数
+							this.continueDay = records.filter(x => x.status === 'finish').length;
+							const todayStr = getTodayStr();
+							let todayData = records.find(x => x.date == todayStr);
+							if (todayData) {
+								let count = todayData.diet ? 3 : 0;
+								this.todayRecord.id = todayData._id;
+								this.todayRecord.dish = todayData.diet;
+								this.todayRecord.sleepTime.getup = todayData.getUpTime;
+								this.todayRecord.sleepTime.sleep = todayData.sleepTime;
+								if (todayData.getUpTime && todayData.sleepTime) {
 									count += 2;
+									let isGetupOk = todayData.getUpTime <= todayData.planGetUpTime;
+									let isSleepOk = todayData.sleepTime <= todayData.planSleepTime;
+									this.todayRecord.sleepTitle = (isGetupOk && isSleepOk) ? '已完成' : '未完成目标'
+								} else {
+									if (todayData.getUpTime || todayData.sleepTime) {
+										this.todayRecord.sleepTitle = '50%';
+										count += 1;
+									} else {
+										this.todayRecord.sleepTitle = '0%';
+									}
+								}
+								let tmpTime = 0;
+								let finishedSports = todayData.sportFinishList.filter(x => x.finish);
+								let finishNum = finishedSports.length;
+								if (finishNum > 0) {
+									if (finishNum == todayData.sportFinishList.length) {
+										count += 5;
+									} else {
+										count += 2;
+									}
+								}
+								finishedSports.forEach(x => {
+									tmpTime += x.time;
+								})
+								this.todayRecord.sportTime = tmpTime;
+								this.getServerData(count / 10);
+								if (count == 10 && todayData.status !== 'finish') {
+									this.showTodayFinshPop = true;
 								}
 							}
-							finishedSports.forEach(x => {
-								tmpTime += x.time;
-							})
-							this.todayRecord.sportTime = tmpTime;
-							this.getServerData(count / 10);
 						}
 					}
 				}

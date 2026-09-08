@@ -21,11 +21,17 @@ export default {
 	addPlan(data) {
 		return miPlanDB.add(data);
 	},
+	updatePlan(data, id) {
+		return miPlanDB.update(data, id);
+	},
 	getActivePlan(event) {
 		return miPlanDB.getActivePlan(event);
 	},
 	getPlanById(event) {
 		return miPlanDB.get(event);
+	},
+	incFinishRecordCount(event) {
+		return miPlanDB.incFinishRecordCount(event);
 	},
 	addDayRecord(event) {
 		return miRecordDB.addDayRecord(event);

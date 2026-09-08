@@ -32,13 +32,34 @@ module.exports = {
 		const res = await cmiPlanCollection.add(addData)
 		return res;
 	},
+	update: async function (event, id) {
+		let tempData = {...event};
+		const res = await cmiPlanCollection.doc(id).update(tempData);
+		if (res.updated === 1) {
+			return {
+				status: 0,
+				msg: '更新成功'
+			}
+		} else {
+			return {
+				status: -1,
+				msg: '更新数据失败'
+			}
+		}
+	},
 	getActivePlan: async function(event) {
 		const res = await cmiPlanCollection.where({
 			user_id: event.user_id,
 			status: 'running'
 		}).orderBy('create_date desc').get();
 		return res;
-	}
+	},
+	incFinishRecordCount: async function(event) {
+		let res = await cmiPlanCollection.doc(event.id).update({
+		  "recordFinishDay": db.command.inc(event.value)
+		})
+		return res;
+	},
 	/**
 	 * method1方法描述
 	 * @param {string} param1 参数1描述
