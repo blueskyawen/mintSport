@@ -16,7 +16,7 @@
 				<view class="chenhao">Lv.12 习惯实践者</view>
 				<view class="text">
 					<text>完成计划 {{ finishPlanCount }} 个</text>
-					<text>累计坚持 15 天</text>
+					<text>累计打卡 {{ totalRecordNum }} 天</text>
 				</view>
 			</view>
 			<view class="card-box">
@@ -60,7 +60,7 @@ export default {
 			avatorUrl: '',
 			heighth: 500,
 			finishPlanCount: 0,
-			totalFinishDay: 0,
+			totalRecordNum: 0,
 			ucenterList: [
 				{
 					"id": 1,
@@ -113,7 +113,22 @@ export default {
 		this.getAvatorImg();
 	},
 	methods:{
-		loadData() {},
+		loadData() {
+			if (this.userInfo._id) {
+				this.$cloudApi.getPlanList({
+					user_id: this.userInfo._id
+				}).then(res => {
+					if (res.data.length) {
+						this.finishPlanCount = res.data.filter(x => x.status == 'finish').length;
+					}
+				});
+				this.$cloudApi.getDayRecordsByUser({
+					user_id: this.userInfo._id
+				}).then(res => {
+					this.totalRecordNum = res.data ? res.data.length : 0;
+				});
+			}
+		},
 		isGetAvator() {
 			return this.userInfo.avatar_file &&
 					this.userInfo.avatar_file.url &&
