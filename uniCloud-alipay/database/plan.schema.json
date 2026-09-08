@@ -46,12 +46,27 @@
 		},
 		"status": {
 			"bsonType":"string",
-			"enum": ["running", "finish"],
+			"enum": ["running", "finish", "unfinish"],
 			"title":"计划状态"
+		},
+		"recordDay": {
+			"bsonType":"int",
+			"title":"打卡总天数"
+		},
+		"recordFinishDay": {
+			"bsonType":"int",
+			"title":"打卡成功天数"
 		},
 		"create_date": {
 			"bsonType": "timestamp",
-			"description": "收藏时间",
+			"description": "开始时间",
+			"forceDefaultValue": {
+				"$env": "now"
+			}
+		},
+		"end_date": {
+			"bsonType": "timestamp",
+			"description": "结束时间",
 			"forceDefaultValue": {
 				"$env": "now"
 			}

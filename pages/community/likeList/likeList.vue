@@ -1,38 +1,36 @@
 <template>
 	<mint-bg :isEmpty="!isLoading && !list.length">
-		<view class="like-list" :class="{'hide': isLoading || !list.length}">
-			<view class="note-list-left">
-				 <view class="note-item-box" v-for="(item, index) in listLeft" :key="index">
-					 <view class="note-item" @tap="goDetail(item)">
-						 <view class="note-img">
-							 <image mode="widthFix" :src="item.cover_src"></image>
-						 </view>
-						 <view class="bottom">
-							 <view class="note-title">{{ item.content }}</view>
-							 <view class="note-date">
-								 <uni-icons type="heart-filled" size="17" color="#f3a73f"></uni-icons>
-								 <text class="like-num">{{ item.like_count }}</text>
-							 </view>
+		<view class="note-list-left">
+			 <view class="note-item-box" v-for="(item, index) in listLeft" :key="index">
+				 <view class="note-item" @tap="goDetail(item)">
+					 <view class="note-img">
+						 <image mode="widthFix" :src="item.cover_src"></image>
+					 </view>
+					 <view class="bottom">
+						 <view class="note-title">{{ item.content }}</view>
+						 <view class="note-date">
+							 <uni-icons type="heart-filled" size="17" color="#f3a73f"></uni-icons>
+							 <text class="like-num">{{ item.like_count }}</text>
 						 </view>
 					 </view>
 				 </view>
-			</view>
-			<view class="note-list-left">
-				 <view class="note-item-box" v-for="(item2, index) in listRight" :key="index">
-					 <view class="note-item" @tap="goDetail(item2)">
-						 <view class="note-img">
-							 <image mode="widthFix" :src="item2.cover_src"></image>
-						 </view>
-						 <view class="bottom">
-							 <view class="note-title">{{ item2.content }}</view>
-							 <view class="note-date">
-								 <uni-icons type="heart-filled" size="17" color="#f3a73f"></uni-icons>
-								 <text class="like-num">{{ item2.like_count }}</text>
-							 </view>
+			 </view>
+		</view>
+		<view class="note-list-left">
+			 <view class="note-item-box" v-for="(item2, index) in listRight" :key="index">
+				 <view class="note-item" @tap="goDetail(item2)">
+					 <view class="note-img">
+						 <image mode="widthFix" :src="item2.cover_src"></image>
+					 </view>
+					 <view class="bottom">
+						 <view class="note-title">{{ item2.content }}</view>
+						 <view class="note-date">
+							 <uni-icons type="heart-filled" size="17" color="#f3a73f"></uni-icons>
+							 <text class="like-num">{{ item2.like_count }}</text>
 						 </view>
 					 </view>
 				 </view>
-			</view>
+			 </view>
 		</view>
 	</mint-bg>
 </template>
@@ -101,57 +99,49 @@
 </script>
 
 <style lang="scss" scoped>
-.like-list {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	&.hide {
-		display: none;
-	}
-	.note-list-left {
-		width: 50%;
-	}
-	.note-item-box {
-		background: #fff;
-		box-shadow: 0 0 5px rgba($color: #8f939c, $alpha: 0.5);
-		margin: 12rpx;
-		box-sizing: border-box;
-		border-radius: 19rpx;
-		.note-item {
-			.note-img {
-				image {
-					width: 100%;
-					// height: 180px;
-					border-radius: 19rpx 19rpx 0 0;
-				}
+.note-list-left {
+	width: 50%;
+}
+.note-item-box {
+	background: #fff;
+	box-shadow: 0 0 5px rgba($color: #8f939c, $alpha: 0.5);
+	margin: 12rpx;
+	box-sizing: border-box;
+	border-radius: 19rpx;
+	.note-item {
+		.note-img {
+			image {
+				width: 100%;
+				// height: 180px;
+				border-radius: 19rpx 19rpx 0 0;
 			}
-			.bottom {
-				position: relative;
-				top: -14rpx;
-				border-radius: 14rpx;
-				background: #fff;
-			}
-			.note-title {
-				margin: 28rpx;
-				box-sizing: border-box;
-				line-height: 1.5;
-				  display: -webkit-box;
-				  -webkit-line-clamp: 3;    /* 限制显示行数 */
-				  -webkit-box-orient: vertical;
-				  overflow: hidden;
-				  font-size: 28rpx;
-			}
-			.note-date {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				font-size: 26rpx;
-				box-sizing: border-box;
-				padding: 0 28rpx 14rpx;r
-				.like-num {
-					margin-left: 10rpx;
-					font-size: 28rpx;
-				}
+		}
+		.bottom {
+			position: relative;
+			top: -14rpx;
+			border-radius: 14rpx;
+			background: #fff;
+		}
+		.note-title {
+			margin: 28rpx;
+			box-sizing: border-box;
+			line-height: 1.5;
+			  display: -webkit-box;
+			  -webkit-line-clamp: 3;    /* 限制显示行数 */
+			  -webkit-box-orient: vertical;
+			  overflow: hidden;
+			  font-size: 28rpx;
+		}
+		.note-date {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			font-size: 26rpx;
+			box-sizing: border-box;
+			padding: 0 28rpx 14rpx;r
+			.like-num {
+				margin-left: 10rpx;
+				font-size: 28rpx;
 			}
 		}
 	}

@@ -11,6 +11,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-fit-runing:before {
+  content: "\e61c";
+}
+
 .icon-fit-uncomplate:before {
   content: "\e61a";
 }

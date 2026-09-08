@@ -1,7 +1,9 @@
 <template>
 	<view class="mint-page" :style="{ height: heighth + 'px' }">
 		<view class="content">
-			<slot></slot>
+			<view class="main-content" :class="{'hide': isEmpty}">
+				<slot></slot>
+			</view>
 			<view class="data-empty" :class="{'hide': !isEmpty}">
 				<image src="/static/bg/data-empty.png"></image>
 			</view>
@@ -46,6 +48,14 @@
 		box-sizing: border-box;
 		height: 100%;
 		overflow-y: auto;
+	}
+	.main-content {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		&.hide {
+			display: none;
+		}
 	}
 	.data-empty {
 		position: absolute;
