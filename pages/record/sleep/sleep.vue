@@ -108,26 +108,35 @@ export default {
 				this.planTime.getUpTime = res.data[0].planGetUpTime;
 				this.planTime.sleepTime = res.data[0].planSleepTime;
 				this.record_id = res.data[0]._id;
-			} else {
-				let planRes = await this.$cloudApi.getPlanById({
-					id: this.plan_id
+			}
+		},
+		async addOneRecord() {
+			let todayStr = getTodayStr();
+			let planRes = await this.$cloudApi.getPlanById({
+				id: this.plan_id
+			});
+			if (planRes.data.length) {
+				let planSports = planRes.data[0].sportList;
+				let sportCheckList = planSports.map(x => {
+					return {
+						...x,
+						finish: false
+					}
 				});
-				if (planRes.data.length) {
-					let res1 = await this.$cloudApi.addDayRecord({
-						"plan_id": this.plan_id,
-						"date": todayStr,
-						"sportFinishList": [],
-						"diet": "",
-						"dietImgs": [],
-						"getUpTime": '',
-						"sleepTime": '',
-						"planGetUpTime": planRes.data[0].getUpTime,
-						"planSleepTime": planRes.data[0].sleepTime,
-						"status": 'running',
-						"create_date": Date.now()
-					});
-					this.record_id = res1.id;
-				}
+				let res1 = await this.$cloudApi.addDayRecord({
+					"plan_id": this.plan_id,
+					"date": todayStr,
+					"sportFinishList": sportCheckList,
+					"diet": "",
+					"dietImgs": [],
+					"getUpTime": '',
+					"sleepTime": '',
+					"planGetUpTime": planRes.data[0].getUpTime,
+					"planSleepTime": planRes.data[0].sleepTime,
+					"status": 'running',
+					"create_date": Date.now()
+				});
+				this.record_id = res1.id;
 			}
 		},
 		back() {
@@ -149,8 +158,11 @@ export default {
 				this.showPop = true;
 			}
 		},
-		clickGetUp() {
+		async clickGetUp() {
 			if (this.isLoading || this.recordData.getUpTime) return;
+			if (!this.record_id) {
+				await this.addOneRecord();
+			}
 			let nowTime = this.getNowTime();
 			this.$cloudApi.saveCheckRecord({
 				id: this.record_id,
@@ -171,8 +183,11 @@ export default {
 				this.isLoading = false;
 			})
 		},
-		clickSleep() {
+		async clickSleep() {
 			if (this.isLoading || this.recordData.sleepTime) return;
+			if (!this.record_id) {
+				await this.addOneRecord();
+			}
 			let nowTime = this.getNowTime();
 			this.$cloudApi.saveCheckRecord({
 				id: this.record_id,

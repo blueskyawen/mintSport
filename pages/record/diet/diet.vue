@@ -83,26 +83,36 @@ export default {
 				this.imageList = res.data[0].dietImgs.length ? JSON.parse(JSON.stringify(res.data[0].dietImgs)) : []
 				console.log('recordData', this.recordData)
 			} else {
-				let planRes = await this.$cloudApi.getPlanById({
-					id: this.plan_id
+				this.oldData = JSON.parse(JSON.stringify(this.recordData));
+			}
+		},
+		async addOneRecord() {
+			let todayStr = getTodayStr();
+			let planRes = await this.$cloudApi.getPlanById({
+				id: this.plan_id
+			});
+			if (planRes.data.length) {
+				let planSports = planRes.data[0].sportList;
+				let sportCheckList = planSports.map(x => {
+					return {
+						...x,
+						finish: false
+					}
 				});
-				if (planRes.data.length) {
-					let res1 = await this.$cloudApi.addDayRecord({
-						"plan_id": this.plan_id,
-						"date": todayStr,
-						"sportFinishList": sportCheckList,
-						"diet": "",
-						"dietImgs": [],
-						"getUpTime": '',
-						"sleepTime": '',
-						"planGetUpTime": planRes.data[0].getUpTime,
-						"planSleepTime": planRes.data[0].sleepTime,
-						"status": 'running',
-						"create_date": Date.now()
-					});
-					this.record_id = res1.id;
-					this.oldData = JSON.parse(JSON.stringify(this.recordData));
-				}
+				let res1 = await this.$cloudApi.addDayRecord({
+					"plan_id": this.plan_id,
+					"date": todayStr,
+					"sportFinishList": sportCheckList,
+					"diet": "",
+					"dietImgs": [],
+					"getUpTime": '',
+					"sleepTime": '',
+					"planGetUpTime": planRes.data[0].getUpTime,
+					"planSleepTime": planRes.data[0].sleepTime,
+					"status": 'running',
+					"create_date": Date.now()
+				});
+				this.record_id = res1.id;
 			}
 		},
 		closePop() {
@@ -133,7 +143,7 @@ export default {
 		isModify() {
 			return  (this.recordData.diet !== this.oldData.diet) || this.isImgChange();
 		},
-		submit() {
+		async submit() {
 			if (this.isLoading) return;
 			if (!this.recordData.diet) {
 				uni.showToast({
@@ -143,6 +153,9 @@ export default {
 			}
 			let isImgChanged = this.isImgChange();
 			if ((this.recordData.diet !== this.oldData.diet) || isImgChanged) {
+				if (!this.record_id) {
+					await this.addOneRecord();
+				}
 				if (isImgChanged) {
 					console.log('isImgChanged', this.newDeitImages)
 					console.log('files', this.$refs.fileUp.files)

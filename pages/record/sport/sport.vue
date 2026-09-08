@@ -79,30 +79,44 @@ export default {
 				});
 				if (planRes.data.length) {
 					let planSports = planRes.data[0].sportList;
-					let sportCheckList = planSports.map(x => {
+					this.recordData = planSports.map(x => {
 						return {
 							...x,
 							finish: false,
 							checked: false
 						}
 					});
-					let res1 = await this.$cloudApi.addDayRecord({
-						"user_id": this.userInfo._id,
-						"plan_id": this.plan_id,
-						"date": todayStr,
-						"sportFinishList": sportCheckList,
-						"diet": "",
-						"dietImgs": [],
-						"getUpTime": '',
-						"sleepTime": '',
-						"planGetUpTime": planRes.data[0].getUpTime,
-						"planSleepTime": planRes.data[0].sleepTime,
-						"status": 'running',
-						"create_date": Date.now()
-					});
-					this.record_id = res1.id;
-					this.recordData = sportCheckList;
 				}
+			}
+		},
+		async addOneRecord() {
+			let todayStr = getTodayStr();
+			let planRes = await this.$cloudApi.getPlanById({
+				id: this.plan_id
+			});
+			if (planRes.data.length) {
+				let planSports = planRes.data[0].sportList;
+				let sportCheckList = planSports.map(x => {
+					return {
+						...x,
+						finish: false
+					}
+				});
+				let res1 = await this.$cloudApi.addDayRecord({
+					"user_id": this.userInfo._id,
+					"plan_id": this.plan_id,
+					"date": todayStr,
+					"sportFinishList": sportCheckList,
+					"diet": "",
+					"dietImgs": [],
+					"getUpTime": '',
+					"sleepTime": '',
+					"planGetUpTime": planRes.data[0].getUpTime,
+					"planSleepTime": planRes.data[0].sleepTime,
+					"status": 'running',
+					"create_date": Date.now()
+				});
+				this.record_id = res1.id;
 			}
 		},
 		selectCheck(item) {
@@ -114,7 +128,7 @@ export default {
 				return fdItem ? fdItem.finish !== x.finish : false;
 			})
 		},
-		submit() {
+		async submit() {
 			if (this.isLoading) return;
 			this.isLoading = true;
 			let updateList = this.recordData.map(x => {
@@ -128,6 +142,11 @@ export default {
 				uni.navigateBack();
 				return;
 			}
+
+			if (!this.record_id) {
+				await this.addOneRecord();
+			}
+
 			console.log('saveCheckRecord==')
 			this.$cloudApi.saveCheckRecord({
 				id: this.record_id,
