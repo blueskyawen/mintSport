@@ -75,6 +75,7 @@
 				},
 				plan_id:'',
 				plan: {},
+				record_id: '',
 				recordData: {},
 				sportList: [],
 				rate: '0%',
@@ -104,9 +105,26 @@
 		},
 		onLoad(options) {
 			this.plan_id = options.plan_id;
-			this.getRecordData();
+			this.record_id = options.record_id;
+			if (options.record_id) {
+				this.getDataByRecordId();
+				uni.setNavigationBarTitle({
+				  title: '记录详情'
+				})
+			} else {
+				this.getRecordData();
+			}
 		},
 		methods: {
+			getDataByRecordId() {
+				this.$cloudApi.getDayRecordById({
+					id: this.record_id
+				}).then(res => {
+					this.recordData = res.data[0] || {};
+					this.sportList = this.recordData.sportFinishList;
+					this.total = this.sportList.length + 3;
+				})
+			},
 			async getRecordData() {
 				let planRes = await this.$cloudApi.getPlanById({
 					id: this.plan_id

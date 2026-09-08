@@ -39,6 +39,9 @@ export default {
 	getDayRecordsByUser(event) {
 		return miRecordDB.getList(event);
 	},
+	getDayRecordById(event) {
+		return miRecordDB.get(event);
+	},
 	getDayRecord(event) {
 		return miRecordDB.getDayRecord(event);
 	},

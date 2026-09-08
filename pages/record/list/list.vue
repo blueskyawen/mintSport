@@ -2,7 +2,7 @@
 	<mint-bg :isEmpty="!isLoading && !list.length">
 		<view class="list-page">
 			<view class="item-box" v-for="(item, index) in list" :key="index">
-				<view class="item-t">
+				<view class="item-t" @click="toDetail(item)">
 					<view class="left">
 						<uni-icons custom-prefix="iconfont" type="icon-fit-fire" color="#ff9900" size="26"></uni-icons>
 						<text class="name">日期: {{ item.date }}</text>
@@ -54,6 +54,11 @@
 				} else {
 					this.isLoading = false;
 				}
+			},
+			toDetail(item) {
+				uni.navigateTo({
+					url: '/pages/record/detail/detail?record_id=' + item._id
+				})
 			}
 		}
 	}

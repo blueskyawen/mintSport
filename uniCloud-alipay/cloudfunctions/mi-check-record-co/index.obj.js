@@ -6,6 +6,10 @@ module.exports = {
 	_before: function () { // 通用预处理器
 
 	},
+	get: async function({id}) {
+		const res = await miRecordCollection.doc(id).get();
+		return res;
+	},
 	getList: async function({user_id}) {
 		const res = await miRecordCollection.where({
 			'user_id': user_id
@@ -29,6 +33,22 @@ module.exports = {
 		let addData = {...event}
 		let res = await miRecordCollection.add(addData)
 		return res;
+	},
+	delRecordsByPlanId: async function(event) {
+		let res = await miRecordCollection.where({
+			'plan_id': event.plan_id,
+		}).remove()
+		if (res.deleted === 1) {
+			return {
+				status: 0,
+				msg: '成功删除'
+			}
+		} else {
+			return {
+				status: -2,
+				msg: '删除数据失败'
+			}
+		}
 	},
 	saveCheckRecord: async function(event) {
 		let addData = event.data;

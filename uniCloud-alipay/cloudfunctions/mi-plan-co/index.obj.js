@@ -32,6 +32,20 @@ module.exports = {
 		const res = await cmiPlanCollection.add(addData)
 		return res;
 	},
+	delete: async function(event) {
+		let res = await cmiPlanCollection.doc(event.id).remove()
+		if (res.deleted === 1) {
+			return {
+				status: 0,
+				msg: '成功删除'
+			}
+		} else {
+			return {
+				status: -2,
+				msg: '删除数据失败'
+			}
+		}
+	},
 	update: async function (event, id) {
 		let tempData = {...event};
 		const res = await cmiPlanCollection.doc(id).update(tempData);

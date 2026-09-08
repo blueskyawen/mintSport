@@ -111,17 +111,47 @@
 				})
 			},
 			clickEdit(item) {
-				console.log(this.listLeft)
-				uni.showToast({
-					title: 'edit ' + item._id
+				uni.navigateTo({
+					url: '/pages/community/publish/publish?id=' + item._id
 				})
 			},
-			clickDelete(item) {
-				console.log(this.listRight)
-				uni.showToast({
-					title: 'delete ' + item._id
-				})
-			}
+			clickDelete(item, index) {
+				uni.showModal({
+					title: '确认删除',
+					content: '执行删除后数据将不可恢复, 确定要删除吗?',
+					confirmColor: '#e43d33',
+					showCancel: true,
+					success: (res) => {
+						if (res.confirm) {
+							this.procDel(item, index);
+						}
+					}
+				});
+			},
+			procDel(item, index) {
+				this.$cloudApi.delNote({
+					id: item._id
+				}).then(res => {
+					if (res.status == 0) {
+					  uni.showToast({
+						title: res.msg,
+						icon: "none"
+					  });
+					  this.$cloudApi.delCloudFiles({
+						  files: [item.cover]
+					  }).then(res => {});
+					  let fdIndex = this.list.findIndex(x => x._id == item._id);
+					  if (fdIndex !== -1) {
+						  this.list.splice(fdIndex, 1);
+					  }
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: "none"
+						});
+					}
+				});
+			},
 		}
 	}
 </script>

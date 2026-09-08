@@ -208,7 +208,7 @@ export default {
 					title: '发布成功',
 					icon: "success"
 				});
-				uni.$emit('add-note-sucess', {type: 'add'});
+				uni.$emit('refresh-list', {type: 'add'});
 				setTimeout(() => {
 					uni.navigateBack();
 				}, 1000);
@@ -223,7 +223,7 @@ export default {
 						title: res.msg,
 						icon: "success"
 					});
-					uni.$emit('add-note-sucess',{});
+					uni.$emit('refresh-list',{});
 					this.checkDelCloudFile(addData).then(res2 => {
 					  setTimeout(() => {
 					  	uni.navigateBack();
