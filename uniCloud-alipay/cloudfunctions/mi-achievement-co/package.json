@@ -1,0 +1,7 @@
+{
+  "name": "mi-achievement-co",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

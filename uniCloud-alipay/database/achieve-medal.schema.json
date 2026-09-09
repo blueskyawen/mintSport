@@ -1,0 +1,37 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+	"bsonType": "object",
+	"required": [],
+	"permission": {
+		"read": true,
+		"create": false,
+		"update": false,
+		"delete": false
+	},
+	"properties": {
+		"_id": {
+			"description": "ID，系统自动生成"
+		},
+		"description": {
+			"bsonType": "string",
+			"description": "勋章名"
+		},
+		"name": {
+			"bsonType": "string",
+			"description": "勋章名"
+		},
+		"grade": {
+			"bsonType": "int",
+			"description": "等级"
+		},
+		"url": {
+			"bsonType": "string",
+			"description": "勋章图标地址"
+		},
+		"type": {
+			"bsonType":"string",
+			"enum": ["overall", "sport"],
+			"title":"类型"
+		}
+	}
+}

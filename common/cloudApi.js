@@ -13,6 +13,9 @@ const miUserDB = uniCloud.importObject('mi-user-co', {
 const noteLikeDB = uniCloud.importObject('note-like-co', {
 	customUI: true
 });
+const miAchieveDB = uniCloud.importObject('mi-achievement-co', {
+	customUI: true
+});
 
 export default {
 	getPlanList(event) {
@@ -98,6 +101,18 @@ export default {
 	},
 	delNoteLike(event) {
 		return noteLikeDB.delete(event);
+	},
+	getAchieveMedalList(event) {
+		return miAchieveDB.getModelList(event);
+	},
+	addAchievement(event) {
+		return miAchieveDB.addAchievement(event);
+	},
+	getAchievementByUserAchieve(event) {
+		return miAchieveDB.getAchievement(event);
+	},
+	getAchievementByUserId(event) {
+		return miAchieveDB.getMyAchievements(event);
 	},
 
 }

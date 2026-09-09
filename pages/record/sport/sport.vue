@@ -24,6 +24,7 @@
 			<u-button type="primary" :loading="isLoading" color="#72D1A8" @click="submit">提交</u-button>
 		</view>
 		<record-success-popup :show="showPop" @close-pop="closePop"></record-success-popup>
+		<achievement-popup :achieve="newAchievement" :show="showAchievePop" @close-pop="closeAchievePop"></achievement-popup>
 	</page-bg>
 </template>
 
@@ -32,6 +33,13 @@ import { getTodayStr } from "@/common/util.js";
 import {
 	store
 } from '@/uni_modules/uni-id-pages/common/store.js';
+const mock = {
+  "description": "完成运动打卡5-14天",
+  "grade": 1,
+  "name": "运动试水者",
+  "type": "sport",
+  "url": "https://env-00jy6sztxc4d.normal.cloudstatic.cn/medal/sport-1.png"
+}
 export default {
 	data() {
 		return {
@@ -43,7 +51,11 @@ export default {
 			recordData: [],
 			isLoading: false,
 			record_id:'',
-			showPop: false
+			showPop: false,
+			showAchievePop: false,
+			totalFinishCount: 0,
+			medalList: [],
+			newAchievement: {}
 		}
 	},
 	computed: {
@@ -60,6 +72,8 @@ export default {
 	onLoad(options) {
 		this.plan_id = options.plan_id;
 		this.getRecordData();
+		this.getTotalSportFinishNum();
+		this.getAchieveMedals();
 	},
 	methods: {
 		async getRecordData() {
@@ -159,7 +173,10 @@ export default {
 				}
 			}).then(res => {
 				if (updateList.every(x => x.finish == true)) {
-					this.showPop = true;
+					this.checkIfGetNewAchievement();
+					setTimeout(() => {
+						this.showPop = true;
+					}, 500)
 				} else {
 					uni.showToast({
 						title: '提交成功'
@@ -177,9 +194,81 @@ export default {
 		},
 		closePop() {
 			this.showPop = false;
+			if (this.newAchievement._id) {
+				setTimeout(() => {
+					this.showAchievePop = true;
+				}, 300)
+			} else {
+				setTimeout(() => {
+					uni.navigateBack();
+				}, 200)
+			}
+		},
+		closeAchievePop() {
+			this.showAchievePop = false;
 			setTimeout(() => {
 				uni.navigateBack();
-			}, 300)
+			}, 200)
+		},
+		getTotalSportFinishNum() {
+			this.$cloudApi.getDayRecordsByUser({
+				"user_id": this.userInfo._id
+			}).then(res => {
+				let tmps = res.data || [];
+				this.totalFinishCount = tmps.filter(x => x.sportFinishList.every(y => y.finish == true)).length;
+				console.log('this.totalFinishCount', this.totalFinishCount);
+			})
+		},
+		getAchieveMedals() {
+			this.$cloudApi.getAchieveMedalList({
+				type: 'sport'
+			}).then(res => {
+				this.medalList = res.data || [];
+			})
+		},
+		checkIfGetNewAchievement() {
+			this.totalFinishCount++;
+			let tmpMedalName = this.getMedalName(this.totalFinishCount);
+			if (tmpMedalName) {
+				this.$cloudApi.getAchievementByUserAchieve({
+					"user_id": this.userInfo._id,
+					"medalName": tmpMedalName
+				}).then(res2 => {
+					let achieves = res2.data || [];
+					if (!achieves.length)  {
+						this.newAchievement = this.medalList.find(x => x.name == tmpMedalName);
+						if (this.newAchievement) {
+							this.$cloudApi.addAchievement({
+								"user_id": this.userInfo._id,
+								"achieve_id": this.newAchievement._id,
+								"medalName": tmpMedalName,
+								"medalGrade": this.newAchievement.grade,
+								"medalUrl": this.newAchievement.url,
+								"create_date": Date.now()
+							}).then(res3 => {})
+						}
+					}
+				})
+			}
+		},
+		getMedalName(num) {
+			if (num >= 300) {
+				return '炽炼战神';
+			} else if (num >= 180) {
+				return '燃动强者';
+			} else if (num >= 100) {
+				return '疾风勇士';
+			} else if (num >= 60) {
+				return '运动先锋';
+			} else if (num >= 30) {
+				return '汗水奔赴者';
+			} else if (num >= 15) {
+				return '活力练习生';
+			} else if (num >= 5) {
+				return '运动试水者';
+			} else {
+				return '';
+			}
 		}
 	}
 }
