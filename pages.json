@@ -263,7 +263,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "薄荷打卡",
+		"navigationBarTitleText": "青苗打卡",
 		"navigationBarBackgroundColor": "#F7FBF9",
 		"backgroundColor": "#F7FBF9"
 	},
@@ -304,7 +304,10 @@
 		"needLogin": [
 			"/uni_modules/uni-id-pages/pages/userinfo/userinfo",
 			"/pages/mine/settings/settings",
-			"pages/tabbar/home/home"
+			"pages/tabbar/home/home",
+			"pages/mine/achievements/achievements",
+			"pages/community/likeList/likeList",
+			"pages/plan/list/list"
 		],
 		"resToLogin": true
 	}
