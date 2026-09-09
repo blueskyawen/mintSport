@@ -425,16 +425,18 @@ export default {
 				}).then(res2 => {
 					let achieves = res2.data || [];
 					if (!achieves.length)  {
-						this.newAchievement = this.medalList.find(x => x.name == tmpMedalName);
-						if (this.newAchievement) {
+						let newAchievement = this.medalList.find(x => x.name == tmpMedalName);
+						if (newAchievement) {
 							this.$cloudApi.addAchievement({
 								"user_id": this.userInfo._id,
-								"achieve_id": this.newAchievement._id,
+								"achieve_id": newAchievement._id,
 								"medalName": tmpMedalName,
-								"medalGrade": this.newAchievement.grade,
-								"medalUrl": this.newAchievement.url,
+								"medalGrade": newAchievement.grade,
+								"medalUrl": newAchievement.url,
 								"create_date": Date.now()
-							}).then(res3 => {})
+							}).then(res3 => {
+								this.newAchievement = newAchievement;
+							})
 						}
 					}
 				})

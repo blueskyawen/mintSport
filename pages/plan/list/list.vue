@@ -59,7 +59,7 @@
 			}
 		},
 		onLoad() {
-				this.getListData();
+			this.getListData();
 		},
 		computed: {
 			loginUserId() {
@@ -197,12 +197,12 @@
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	padding: 0 20px;
+	padding: 0 47rpx;
 	background-color: #ff5a5f;
 }
 
 .slot-button-text {
 	color: #ffffff;
-	font-size: 14px;
+	font-size: 33rpx;
 }
 </style>

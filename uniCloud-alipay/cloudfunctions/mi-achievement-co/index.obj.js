@@ -28,7 +28,7 @@ module.exports = {
 	getMyAchievements: async function(event) {
 		const res = await miUserAchieveCollection.where({
 			"user_id": event.user_id
-		}).get();
+		}).orderBy('create_date','desc').get();
 		return res;
 	},
 	/**

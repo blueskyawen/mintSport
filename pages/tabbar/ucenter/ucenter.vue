@@ -19,7 +19,7 @@
 				</view>
 			</view>
 			<view class="data-row">
-				<view class="chenhao">Lv.12 习惯实践者</view>
+				<view class="chenhao">Lv.{{ grade }} {{ medalName }}</view>
 				<view class="text">
 					<text>完成计划 {{ finishPlanCount }} 个</text>
 					<text>累计打卡 {{ totalRecordNum }} 天</text>
@@ -72,6 +72,8 @@ export default {
 			navBarHeight: 44, // 导航栏高度
 			finishPlanCount: 0,
 			totalRecordNum: 0,
+			grade: 0,
+			medalName: '生手萌新',
 			ucenterList: [
 				{
 					"id": 1,
@@ -84,7 +86,7 @@ export default {
 				{
 					"id": 2,
 					"title": '成就勋章',
-					"to": '/pages/plan/list/list',
+					"to": '/pages/mine/achievements/achievements',
 					"icon": "icon-fit-jiangpai",
 					"color": "#2979ff",
 					"bgColor": "#ecf5ff"
@@ -146,6 +148,17 @@ export default {
 				}).then(res => {
 					this.totalRecordNum = res.data ? res.data.length : 0;
 				});
+				this.$cloudApi.getAchievementByUserId({
+					'user_id': this.userInfo._id
+				}).then(res2 => {
+					let tmp = res2.data[0] || {};
+					if (tmp._id) {
+						this.grade = tmp.medalGrade;
+						this.medalName = tmp.medalName;
+					}
+				}).finally(e => {
+					this.isLoading = false;
+				})
 			}
 		},
 		isGetAvator() {

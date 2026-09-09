@@ -241,6 +241,12 @@
 					"style": {
 						"navigationBarTitleText": "个人设置"
 					}
+				},
+				{
+					"path": "achievements/achievements",
+					"style": {
+						"navigationBarTitleText": "成就勋章"
+					}
 				}
 			]
 		},
