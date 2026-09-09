@@ -104,6 +104,7 @@
 			</view>
 		</view>
 		<finish-record-popup :show="showTodayFinshPop" @close-pop="closePop"></finish-record-popup>
+		<achievement-popup :achieve="newAchievement" :show="showAchievePop" @close-pop="closeAchievePop"></achievement-popup>
 	</view>
 </template>
 
@@ -129,6 +130,10 @@ export default {
 			heighth: 500,
 			navBarHeight: 44, // 导航栏高度
 			showTodayFinshPop: false,
+			showAchievePop: false,
+			totalFinishCount: 0,
+			medalList: [],
+			newAchievement: {},
 			todayRecord: {
 				id: '',
 				sportTime: 0,
@@ -182,6 +187,8 @@ export default {
 	onShow() {
 		this.init();
 		this.getAvatorImg();
+		this.getAchieveMedals();
+		this.getTotalSportFinishNum();
 	},
 	onReady() {
 		this.getServerData();
@@ -258,7 +265,15 @@ export default {
 			this.$cloudApi.incFinishRecordCount({
 				id: this.plan._id,
 				value: 1
-			}).then(res => {})
+			}).then(res => {});
+			if (this.newAchievement._id) {
+				setTimeout(() => {
+					this.showAchievePop = true;
+				}, 300)
+			}
+		},
+		closeAchievePop() {
+			this.showAchievePop = false;
 		},
 		async loadData() {
 			if (this.userInfo._id) {
@@ -316,7 +331,10 @@ export default {
 								this.todayRecord.sportTime = tmpTime;
 								this.getServerData(count / 10);
 								if (count == 10 && todayData.status !== 'finish') {
-									this.showTodayFinshPop = true;
+									this.checkIfGetNewAchievement();
+									setTimeout(() => {
+										this.showTodayFinshPop = true;
+									}, 500)
 								}
 							}
 						}
@@ -380,6 +398,66 @@ export default {
 			uni.navigateTo({
 				url: '/pages/record/sleep/sleep?plan_id=' + this.plan._id
 			})
+		},
+		getAchieveMedals() {
+			this.$cloudApi.getAchieveMedalList({
+				type: 'overall'
+			}).then(res => {
+				this.medalList = res.data || [];
+			})
+		},
+		getTotalSportFinishNum() {
+			this.$cloudApi.getDayRecordsByUser({
+				"user_id": this.userInfo._id
+			}).then(res => {
+				let tmps = res.data || [];
+				this.totalFinishCount = tmps.filter(x => x.status == 'finish').length;
+				console.log('this.totalFinishCount', this.totalFinishCount);
+			})
+		},
+		checkIfGetNewAchievement() {
+			this.totalFinishCount++;
+			let tmpMedalName = this.getMedalName(this.totalFinishCount);
+			if (tmpMedalName) {
+				this.$cloudApi.getAchievementByUserAchieve({
+					"user_id": this.userInfo._id,
+					"medalName": tmpMedalName
+				}).then(res2 => {
+					let achieves = res2.data || [];
+					if (!achieves.length)  {
+						this.newAchievement = this.medalList.find(x => x.name == tmpMedalName);
+						if (this.newAchievement) {
+							this.$cloudApi.addAchievement({
+								"user_id": this.userInfo._id,
+								"achieve_id": this.newAchievement._id,
+								"medalName": tmpMedalName,
+								"medalGrade": this.newAchievement.grade,
+								"medalUrl": this.newAchievement.url,
+								"create_date": Date.now()
+							}).then(res3 => {})
+						}
+					}
+				})
+			}
+		},
+		getMedalName(num) {
+			if (num >= 365) {
+				return '生活宗师';
+			} else if (num >= 180) {
+				return '时光掌舵人';
+			} else if (num >= 90) {
+				return '节奏玩家';
+			} else if (num >= 45) {
+				return '生活塑形师';
+			} else if (num >= 21) {
+				return '自律萌芽';
+			} else if (num >= 8) {
+				return '微光坚持者';
+			} else if (num >= 1) {
+				return '初启行者';
+			} else {
+				return '';
+			}
 		}
 	}
 }
