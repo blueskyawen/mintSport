@@ -36,7 +36,7 @@ module.exports = {
 	},
 	delRecordsByPlanId: async function(event) {
 		let res = await miRecordCollection.where({
-			'plan_id': event.plan_id,
+			'plan_id': event.plan_id
 		}).remove()
 		if (res.deleted === 1) {
 			return {

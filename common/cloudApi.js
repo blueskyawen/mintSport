@@ -21,6 +21,9 @@ export default {
 	addPlan(data) {
 		return miPlanDB.add(data);
 	},
+	delPlan(event) {
+		return miPlanDB.delete(event);
+	},
 	updatePlan(data, id) {
 		return miPlanDB.update(data, id);
 	},
@@ -53,6 +56,9 @@ export default {
 	},
 	saveCheckRecord(event) {
 		return miRecordDB.saveCheckRecord(event);
+	},
+	delRecordsByPlanId(event) {
+		return miRecordDB.delRecordsByPlanId(event);
 	},
 	delCloudFiles(event) {
 		return miUserDB.delCoverFiles(event);

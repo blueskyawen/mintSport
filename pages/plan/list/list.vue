@@ -1,31 +1,42 @@
 <template>
 	<mint-bg :isEmpty="!isLoading && !list.length">
 		<view class="plan-items">
-			<view class="plan-item-box" v-for="(plan, index) in list" :key="index" >
-				<view class="plan-item" @click="toDetail(plan)">
-					<view class="left">
-						<view class="head">
-							<uni-icons custom-prefix="iconfont" type="icon-fit-add-jihua" color="#ff9900" size="18"></uni-icons>
-							<text class="name">{{ plan.name }}</text>
-						</view>
-						<view class="foot">
-							<view class="text-i">
-								<text class="text-1">开始时间:</text>
-								<u--text mode="date" :text="plan.create_date" color="#888" size="12px"></u--text>
+			<uni-swipe-action>
+				<uni-swipe-action-item
+					v-for="(plan, index) in list"
+					:key="index"
+					:threshold="0"
+					:autoClose="true"
+					:right-options="rightOptions"
+					@click="swipeClick($event, index)"
+				>
+					<view class="plan-item-box" >
+						<view class="plan-item" @click.stop="toDetail(plan)">
+							<view class="left">
+								<view class="head">
+									<uni-icons custom-prefix="iconfont" type="icon-fit-add-jihua" color="#ff9900" size="18"></uni-icons>
+									<text class="name">{{ plan.name }}</text>
+								</view>
+								<view class="foot">
+									<view class="text-i">
+										<text class="text-1">开始时间:</text>
+										<u--text mode="date" :text="plan.create_date" color="#888" size="12px"></u--text>
+									</view>
+									<view class="text-i t-day">
+										<text>计划周期: {{ plan.totalDay }} 天</text>
+										<text class="text-2">已打卡: {{ plan.recordDay }} 天</text>
+									</view>
+								</view>
 							</view>
-							<view class="text-i t-day">
-								<text>计划周期: {{ plan.totalDay }} 天</text>
-								<text class="text-2">已打卡: {{ plan.recordDay }} 天</text>
+							<view class="right">
+								<uni-icons custom-prefix="iconfont" v-if="plan.status == 'running'" type="icon-fit-runing" color="#ff9900" size="28"></uni-icons>
+								<uni-icons custom-prefix="iconfont" v-else-if="plan.status == 'finish'" type="icon-fit-finished" color="#72D1A8" size="28"></uni-icons>
+								<uni-icons custom-prefix="iconfont" v-else type="icon-fit-uncomplate" color="#888888" size="28"></uni-icons>
 							</view>
 						</view>
 					</view>
-					<view class="right">
-						<uni-icons custom-prefix="iconfont" v-if="plan.status == 'running'" type="icon-fit-runing" color="#ff9900" size="28"></uni-icons>
-						<uni-icons custom-prefix="iconfont" v-else-if="plan.status == 'finish'" type="icon-fit-finished" color="#72D1A8" size="28"></uni-icons>
-						<uni-icons custom-prefix="iconfont" v-else type="icon-fit-uncomplate" color="#888888" size="28"></uni-icons>
-					</view>
-				</view>
-			</view>
+				</uni-swipe-action-item>
+			</uni-swipe-action>
 		</view>
 	</mint-bg>
 </template>
@@ -35,7 +46,16 @@
 		data() {
 			return {
 				isLoading: true,
-				list: []
+				list: [],
+				rightOptions: [
+					{
+						text: '删除',
+						style: {
+							backgroundColor: 'rgb(255,58,49)'
+						}
+					}
+				],
+				operItem: {}
 			}
 		},
 		onLoad() {
@@ -64,7 +84,47 @@
 				uni.navigateTo({
 					url: '/pages/plan/detail/detail?id=' + item._id
 				})
-			}
+			},
+			swipeClick(e, index) {
+				if (e.position === 'right' && e.content.text == '删除') {
+					this.operItem = this.list[index];
+					uni.showModal({
+						title: '确认删除',
+						content: '执行计划后将删除计划下的打卡记录, 数据将不可恢复, 确定要删除吗?',
+						confirmColor: '#e43d33',
+						showCancel: true,
+						success: (res) => {
+							if (res.confirm) {
+								this.procDel(this.operItem, index);
+							}
+						}
+					});
+				}
+			},
+			procDel(item, index) {
+				this.$cloudApi.delPlan({
+					id: item._id
+				}).then(res => {
+					if (res.status == 0) {
+					  uni.showToast({
+						title: res.msg,
+						icon: "none"
+					  });
+					  let fdIndex = this.list.findIndex(x => x._id == item._id);
+					  if (fdIndex !== -1) {
+						  this.list.splice(fdIndex, 1);
+					  }
+					  this.$cloudApi.delRecordsByPlanId({
+						  'plan_id': item._id
+					  }).then(res1 => {});
+					} else {
+						uni.showToast({
+							title: res.msg,
+							icon: "none"
+						});
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -127,5 +187,22 @@
 		}
 	}
 	.right {}
+}
+.slot-button {
+	/* #ifndef APP-NVUE */
+	display: flex;
+	height: 100%;
+	/* #endif */
+	flex: 1;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 0 20px;
+	background-color: #ff5a5f;
+}
+
+.slot-button-text {
+	color: #ffffff;
+	font-size: 14px;
 }
 </style>
