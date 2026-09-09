@@ -92,7 +92,7 @@
 			</view>
 		</view>
 		<view class="form-content" v-if="!isLoading && !plan._id">
-			<image class="empty-img" mode="widthFix" src="/static/bg/no-data.png"></image>
+			<image class="empty-img" mode="widthFix" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/no-data.png"></image>
 			<view class="title">暂无进行中的计划</view>
 		</view>
 	</page-bg>

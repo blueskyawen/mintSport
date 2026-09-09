@@ -5,7 +5,7 @@
 				<slot></slot>
 			</view>
 			<view class="data-empty" :class="{'hide': !isEmpty}">
-				<image src="/static/bg/data-empty.png"></image>
+				<image src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/data-empty.png"></image>
 			</view>
 		</view>
 	</view>

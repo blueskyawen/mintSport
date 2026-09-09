@@ -1,6 +1,6 @@
 <template>
 	<view class="home" :style="{ height: heighth + 'px' }">
-		<image class="bg-img" mode="widthFix" src="/static/bg/home.jpg"></image>
+		<image class="bg-img" mode="widthFix" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/home.jpg"></image>
 		<view class="content">
 			<view class="user-bar">
 				<image v-if="avatorSrc" :src="avatorSrc" class="avatar"></image>
@@ -52,7 +52,7 @@
 							<view class="chart-box">
 							   <qiun-data-charts type="arcbar":opts="opts" :chartData="chartData"/>
 							</view>
-							<image class="img" src="/static/bg/run-man2.png"></image>
+							<image class="img" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/run-man2.png"></image>
 						</view>
 					</view>
 				</view>
@@ -66,7 +66,7 @@
 						</view>
 					</view>
 					<view class="set-right">
-						<image src="/static/bg/ready.png" class="ready-man"></image>
+						<image src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/ready.png" class="ready-man"></image>
 					</view>
 				</view>
 			</view>

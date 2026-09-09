@@ -1,6 +1,6 @@
 <template>
 	<view class="page" :style="{ height: heighth + 'px' }">
-		<image class="bg-img" mode="widthFix" src="/static/bg/home.jpg"></image>
+		<image class="bg-img" mode="widthFix" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/home.jpg"></image>
 		<view class="content">
 			<view class="main-content">
 				<view class="head" v-if="headTitle.title">

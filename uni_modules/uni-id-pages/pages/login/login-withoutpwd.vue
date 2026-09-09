@@ -74,10 +74,10 @@
 			},
 			imgSrc() { //大快捷登录按钮图
 				const images = {
-					weixin: '/uni_modules/uni-id-pages/static/login/weixin.png',
-					apple: '/uni_modules/uni-id-pages/static/app/apple.png',
-					huawei: '/uni_modules/uni-id-pages/static/login/huawei.png',
-					huaweiMobile: '/uni_modules/uni-id-pages/static/login/huawei-mobile.png',
+					weixin: 'https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/weixin.png',
+					apple: 'https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/apple.png',
+					huawei: 'https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/huawei.png',
+					huaweiMobile: 'https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/huawei-mobile.png'
 				}
 				return images[this.type]
 			}

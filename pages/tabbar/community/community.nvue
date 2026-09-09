@@ -272,7 +272,7 @@ export default {
 	.empty-content {
 		width: 100%;
 		position: absolute;
-		background-image:url('/static/bg/note-bg.jpg');
+		background-image:url('https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/note-bg.jpg');
 		background-attachment:fixed;
 		background-size: cover;
 		height: 100%;

@@ -2,7 +2,7 @@
 	<u-popup :show="show" :round="6" mode="center">
 		<view class="pop-content">
 			<view class="icon">
-				<image src="/static/bg/record-finish.png"></image>
+				<image src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/record-finish.png"></image>
 			</view>
 			<view class="text">今日打卡已全部完成 👍</view>
 			<view class="text">又向好习惯靠近了一步</view>
