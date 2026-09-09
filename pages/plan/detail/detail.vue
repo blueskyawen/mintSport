@@ -73,7 +73,7 @@
 	</mint-bg>
 </template>
 <script>
-
+import { getFullDateStr } from "@/common/util.js";
 export default {
 	data(){
 		return {
@@ -98,7 +98,7 @@ export default {
 			return uniCloud.getCurrentUserInfo() ? uniCloud.getCurrentUserInfo().uid : '';
 		}
 	},
-	methods:{
+	methods: {
 		getPlanData() {
 			if (this.plan_id) {
 				this.$cloudApi.getPlanById({
@@ -106,8 +106,8 @@ export default {
 				}).then(res => {
 					this.plan = res.data[0] || {};
 					let startDateTime = new Date(this.plan.create_date);
-					this.startDate = startDateTime.toJSON().split('T')[0];
-					this.endDate = this.plan.end_date ? new Date(this.plan.end_date).toJSON().split('T')[0] : '-';
+					this.startDate = getFullDateStr(startDateTime);
+					this.endDate = this.plan.end_date ? getFullDateStr(new Date(this.plan.end_date)) : '-';
 					this.recordRate = this.plan.recordDay ? ((this.plan.recordDay*100/this.plan.totalDay).toFixed(1) + '%') : '0%';
 					this.finishRecordRate = this.plan.recordFinishDay ? ((this.plan.recordFinishDay*100/this.plan.totalDay).toFixed(1) + '%') : '0%';
 					this.getCalendarSelectInfos();
@@ -122,7 +122,7 @@ export default {
 			let startDateTime = new Date(this.plan.create_date);
 			let tmpDay = new Date(this.plan.create_date);
 			tmpDay.setDate(startDateTime.getDate() + this.plan.totalDay - 1);
-			this.finishDate = tmpDay.toJSON().split('T')[0];
+			this.finishDate = getFullDateStr(tmpDay);
 			this.$cloudApi.getPlanRecords({
 				"plan_id": this.plan_id
 			}).then(res => {
@@ -130,7 +130,7 @@ export default {
 				for (let i = 0; i < this.plan.totalDay; i++) {
 					let curDay = new Date(this.plan.create_date);
 					curDay.setDate(startDateTime.getDate() + i);
-					let curDateStr = curDay.toJSON().split('T')[0];
+					let curDateStr = getFullDateStr(curDay);
 					let fdItem = resords.find(x => x.date == curDateStr);
 					if (fdItem) {
 						if (fdItem.status == 'finish') {

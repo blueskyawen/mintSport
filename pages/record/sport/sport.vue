@@ -156,7 +156,7 @@ export default {
 					finish: x.checked
 				}
 			});
-			if (!this.isModify(updateList)) {
+			if (!this.isModify(updateList) || !this.plan_id) {
 				uni.navigateBack();
 				return;
 			}

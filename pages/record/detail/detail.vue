@@ -64,7 +64,7 @@
 </template>
 
 <script>
-	import { getTodayStr } from "@/common/util.js";
+	import { getTodayStr, getFullDateStr } from "@/common/util.js";
 	const weekMap = ['日','一','二','三','四','五','六']
 	export default {
 		data() {
@@ -133,7 +133,7 @@
 				this.headTitle.title = this.plan.name;
 				let now = new Date();
 				let planCreateTime = new Date(this.plan.create_date);
-				let planStart = planCreateTime.toJSON().split('T').shift() + ' 00:00:00'
+				let planStart = getFullDateStr(planCreateTime) + ' 00:00:00'
 				let planStartTime = new Date(planStart).valueOf();
 				let num = Math.ceil((now.valueOf() - planCreateTime) / 86400000)
 				this.headTitle.subText = '今天周' + weekMap[now.getDay()] + ' · ' + '第 ' + num + ' 天';

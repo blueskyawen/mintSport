@@ -102,7 +102,7 @@ import uCharts from '@/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js'
 import {
 	store
 } from '@/uni_modules/uni-id-pages/common/store.js';
-import { getTodayStr } from "@/common/util.js";
+import { getTodayStr, getFullDateStr } from "@/common/util.js";
 export default {
 	components: {},
 	data(){
@@ -262,7 +262,7 @@ export default {
 			for (let i = 0; i < this.dayCount; i++) {
 				let tmpDay = new Date();
 				tmpDay.setDate(today.getDate() - i);
-				let dateStr = tmpDay.toJSON().split('T').shift();
+				let dateStr = getFullDateStr(tmpDay);
 				tmpRecords.push({
 					id: i,
 					date: dateStr,
@@ -301,7 +301,7 @@ export default {
 			for (let i = 0; i < this.dayCount; i++) {
 				let tmpDay = new Date();
 				tmpDay.setDate(today.getDate() - i);
-				let dateStr = tmpDay.toJSON().split('T').shift();
+				let dateStr = getFullDateStr(tmpDay);
 				tmpRecords.push({
 					date: dateStr,
 					getUpTime: '',
@@ -388,7 +388,7 @@ export default {
 				for (let index = 0; index < this.dayCount; index++) {
 					let tmpDay = new Date();
 					tmpDay.setDate(today.getDate() - index);
-					let dateStr = tmpDay.toJSON().split('T').shift();
+					let dateStr = getFullDateStr(tmpDay);
 					if (this.records.find(x => x.date == dateStr)) {
 						contiNum++;
 					} else {
@@ -403,7 +403,7 @@ export default {
 		getDayCount() {
 			let now = new Date();
 			let planCreateTime = new Date(this.plan.create_date);
-			let planStart = planCreateTime.toJSON().split('T').shift() + ' 00:00:00'
+			let planStart = getFullDateStr(planCreateTime) + ' 00:00:00'
 			let planStartTime = new Date(planStart).valueOf();
 			return Math.ceil((now.valueOf() - planCreateTime) / 86400000)
 		},

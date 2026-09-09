@@ -5,6 +5,13 @@ function getTodayStr() {
 	return `${d.getFullYear()}-${m}-${day}`
 }
 
+function getFullDateStr(value) {
+	const m = String(value.getMonth() + 1).padStart(2, '0')
+	const day = String(value.getDate()).padStart(2, '0')
+	return `${value.getFullYear()}-${m}-${day}`
+}
+
 export {
-	getTodayStr
+	getTodayStr,
+	getFullDateStr
 }

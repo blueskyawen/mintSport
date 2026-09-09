@@ -112,6 +112,14 @@ export default {
 		},
 		async addOneRecord() {
 			let todayStr = getTodayStr();
+			let res3 = await this.$cloudApi.getDayRecord({
+				plan_id: this.plan_id,
+				date: todayStr
+			});
+			if (res3.data.length) {
+				this.record_id = res3.data[0]._id;
+				return Promise.resolve();
+			}
 			let planRes = await this.$cloudApi.getPlanById({
 				id: this.plan_id
 			});
@@ -124,6 +132,7 @@ export default {
 					}
 				});
 				let res1 = await this.$cloudApi.addDayRecord({
+					"user_id": this.userInfo._id,
 					"plan_id": this.plan_id,
 					"date": todayStr,
 					"sportFinishList": sportCheckList,

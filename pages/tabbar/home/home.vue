@@ -113,7 +113,7 @@ import {
 	store
 } from '@/uni_modules/uni-id-pages/common/store.js';
 import parseImageUrl from "@/common/parseImageUrl.js";
-import { getTodayStr } from "@/common/util.js";
+import { getTodayStr, getFullDateStr } from "@/common/util.js";
 import uCharts from '@/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js'
 var uChartsInstance = {};
 export default {
@@ -221,10 +221,10 @@ export default {
 			let startDate = new Date(plan.create_date);
 			let tmpDate = new Date(plan.create_date);
 			tmpDate.setDate(startDate.getDate() + plan.totalDay);
-			let tmpDateStr = tmpDate.toJSON().split('T')[0] + ' 00:00:00';
+			let tmpDateStr = getFullDateStr(tmpDate) + ' 00:00:00';
 			let deadline = new Date(tmpDateStr);
 			console.log('tmpDateStr', tmpDateStr)
-			console.log('deadline', deadline.toJSON())
+			console.log('deadline', deadline.toDateString())
 			return (new Date()) >= deadline;
 		},
 		setOverDeadlinePlan(plan) {
