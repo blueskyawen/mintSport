@@ -1,5 +1,5 @@
 <template>
-	<page-bg :headTitle="headTitle">
+	<page-bg :headTitle="headTitle" :navBarHeight="navBarHeight">
 		<view class="static-content" v-if="!isLoading && plan._id">
 			<view class="lishi">
 				<text @click="toRecordList">历史打卡记录</text>
@@ -104,6 +104,7 @@ import {
 } from '@/uni_modules/uni-id-pages/common/store.js';
 import { getTodayStr } from "@/common/util.js";
 export default {
+	components: {},
 	data(){
 		return {
 			headTitle: {
@@ -114,6 +115,7 @@ export default {
 			records: [],
 			isLoading: true,
 			dayCount: 0,
+			navBarHeight: 44, // 导航栏高度
 			overViewItems: [
 				{
 					name: '累计打卡',
@@ -226,6 +228,14 @@ export default {
 		userInfo() {
 			return store.userInfo;
 		}
+	},
+	onReady() {
+		// #ifdef H5
+		this.navBarHeight = 10;
+		// #endif
+		// #ifndef H5
+		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 44 : 48;
+		// #endif
 	},
 	onShow() {
 		this.loadData();

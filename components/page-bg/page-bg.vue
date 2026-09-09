@@ -2,6 +2,12 @@
 	<view class="page" :style="{ height: heighth + 'px' }">
 		<image class="bg-img" mode="widthFix" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/home.jpg"></image>
 		<view class="content">
+			<view class="placeholder-bar">
+				<!-- #ifndef H5 -->
+				<statusBar></statusBar>
+				<!-- #endif -->
+			    <view v-if="navBarHeight" :style="{ height: `${navBarHeight}px` }"></view>
+			</view>
 			<view class="main-content">
 				<view class="head" v-if="headTitle.title">
 					<view class="title">{{ headTitle.title }}</view>
@@ -22,6 +28,9 @@
 				default: function() {
 					return {}
 				}
+			},
+			navBarHeight: {
+				type: Number
 			}
 		},
 		data() {

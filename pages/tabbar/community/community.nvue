@@ -1,69 +1,81 @@
 <template>
-	<mescroll-body class="body-content" :bottombar="false" @init="mescrollInit" @down="downCallback" :up="upOptions" @up="upCallback">
-		<view class="note-page">
-			<view class="main-content" v-if="!isLoading && list.length">
-				<view class="note-list-left">
-					 <view class="note-item-box" v-for="(item, index) in listLeft" :key="index">
-						 <view class="note-item" @tap="goDetail(item)">
-							 <view class="note-img">
-								 <image mode="widthFix" :src="item.cover_src"></image>
-							 </view>
-							 <view class="bottom">
-								 <view class="note-title">{{ item.content }}</view>
-								 <view class="note-date">
-									 <text class="note-autor">
-										{{ item.user_id && item.user_id.length ?  (item.user_id[0].nickname || item.user_id[0].username) : '游客'}}
-									 </text>
-									 <text class="like" @click.stop="clickLike(item)">
-										 <uni-icons v-if="item.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
-										 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
-									 </text>
-								 </view>
-							 </view>
-						 </view>
-					 </view>
-				</view>
-				 <view class="note-list-left">
-					 <view class="note-item-box" v-for="(item2, index) in listRight" :key="index">
-						 <view class="note-item" @tap="goDetail(item2)">
-							 <view class="note-img">
-								 <image mode="widthFix" :src="item2.cover_src"></image>
-							 </view>
-							 <view class="bottom">
-							 <view class="note-title">{{ item2.content }}</view>
-								 <view class="note-date">
-									 <text class="note-autor">
-										{{ item2.user_id && item2.user_id.length ?  (item2.user_id[0].nickname || item2.user_id[0].username) : '游客'}}
-									 </text>
-									 <text class="like" @click.stop="clickLike(item2)">
-										 <uni-icons v-if="item2.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
-										 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
-									 </text>
-								 </view>
-							 </view>
-						 </view>
-					 </view>
-				 </view>
-				 <text class="fab-btn" @click="goPublish">分享今日</text>
-			</view>
-			<view class="empty-content" :style="{ height: heighth + 'px' }" v-if="!isLoading && !list.length">
-				<view class="title">
-					<text class="text">社区还没有动态, 发布一条吧~</text>
-					<text class="btn" @click="goPublish">发布动态</text>
-				</view>
+	<view class="note-pages" :style="{ height: heighth + 'px' }">
+		<view class="placeholder-bar">
+			<!-- #ifndef H5 -->
+			<statusBar></statusBar>
+		    <view :style="{ height: `${navBarHeight}px` }"></view>
+			<!-- #endif -->
+		</view>
+		<view class="empty-content" :style="{ height: heighth + 'px' }" v-if="!isLoading && !list.length">
+			<view class="title">
+				<text class="text">社区还没有动态, 发布一条吧~</text>
+				<text class="btn" @click="goPublish">发布动态</text>
 			</view>
 		</view>
-	</mescroll-body>
+		<mescroll-body class="body-content" :bottombar="false" @init="mescrollInit" @down="downCallback" :up="upOptions" @up="upCallback">
+			<view class="note-page">
+				<view class="main-content" v-if="!isLoading && list.length">
+					<view class="note-list-left">
+						 <view class="note-item-box" v-for="(item, index) in listLeft" :key="index">
+							 <view class="note-item" @tap="goDetail(item)">
+								 <view class="note-img">
+									 <image mode="widthFix" :src="item.cover_src"></image>
+								 </view>
+								 <view class="bottom">
+									 <view class="note-title">{{ item.content }}</view>
+									 <view class="note-date">
+										 <text class="note-autor">
+											{{ item.user_id && item.user_id.length ?  (item.user_id[0].nickname || item.user_id[0].username) : '游客'}}
+										 </text>
+										 <text class="like" @click.stop="clickLike(item)">
+											 <uni-icons v-if="item.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
+											 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
+										 </text>
+									 </view>
+								 </view>
+							 </view>
+						 </view>
+					</view>
+					 <view class="note-list-left">
+						 <view class="note-item-box" v-for="(item2, index) in listRight" :key="index">
+							 <view class="note-item" @tap="goDetail(item2)">
+								 <view class="note-img">
+									 <image mode="widthFix" :src="item2.cover_src"></image>
+								 </view>
+								 <view class="bottom">
+								 <view class="note-title">{{ item2.content }}</view>
+									 <view class="note-date">
+										 <text class="note-autor">
+											{{ item2.user_id && item2.user_id.length ?  (item2.user_id[0].nickname || item2.user_id[0].username) : '游客'}}
+										 </text>
+										 <text class="like" @click.stop="clickLike(item2)">
+											 <uni-icons v-if="item2.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
+											 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
+										 </text>
+									 </view>
+								 </view>
+							 </view>
+						 </view>
+					 </view>
+					 <text class="fab-btn" @click="goPublish">分享今日</text>
+				</view>
+			</view>
+		</mescroll-body>
+	</view>
 </template>
 <script>
+import statusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar";
 import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 import parseImageUrl from "@/common/parseImageUrl.js";
 export default {
 	mixins: [MescrollMixin],
-	components: {},
+	components: {
+		statusBar
+	},
 	data(){
 		return {
 			heighth: 500,
+			navBarHeight: 44, // 导航栏高度
 			isLoading: true,
 			list:[],
 			upOptions: {
@@ -89,6 +101,11 @@ export default {
 			this.reloadList();
 			this.isHide = false;
 		}
+	},
+	onReady() {
+		// #ifndef H5
+		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 44 : 48;
+		// #endif
 	},
 	computed: {
 		listLeft() {
@@ -219,7 +236,8 @@ export default {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: nowrap;
-		padding-bottom: 110rpx;
+		// padding-bottom: 110rpx;
+		padding-bottom: 230rpx;
 		.note-list-left {
 			width: 50%;
 		}
@@ -269,31 +287,31 @@ export default {
 			}
 		}
 	}
-	.empty-content {
-		width: 100%;
-		position: absolute;
-		background-image:url('https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/note-bg.jpg');
-		background-attachment:fixed;
-		background-size: cover;
-		height: 100%;
-		.title {
-			margin-top: 281rpx;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			color: #8f8f8f;
-			.text {
-				font-size: 38rpx;
-				margin-bottom: 19rpx;
-			}
-			.btn {
-				font-size: 33rpx;
-				padding: 9rpx 19rpx;
-				border:solid 1px #72D1A8;
-				border-radius: 14rpx;
-				background-color: #72D1A8;
-				color: #fff;
-			}
+}
+.empty-content {
+	width: 100%;
+	position: absolute;
+	background-image:url('https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/note-bg.jpg');
+	background-attachment:fixed;
+	background-size: cover;
+	height: 100%;
+	.title {
+		margin-top: 281rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: #8f8f8f;
+		.text {
+			font-size: 38rpx;
+			margin-bottom: 19rpx;
+		}
+		.btn {
+			font-size: 33rpx;
+			padding: 9rpx 19rpx;
+			border:solid 1px #72D1A8;
+			border-radius: 14rpx;
+			background-color: #72D1A8;
+			color: #fff;
 		}
 	}
 }

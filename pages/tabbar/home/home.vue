@@ -2,6 +2,12 @@
 	<view class="home" :style="{ height: heighth + 'px' }">
 		<image class="bg-img" mode="widthFix" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/home.jpg"></image>
 		<view class="content">
+			<view class="placeholder-bar">
+				<!-- #ifndef H5 -->
+				<statusBar></statusBar>
+				<!-- #endif -->
+			    <view :style="{ height: `${navBarHeight}px` }"></view>
+			</view>
 			<view class="user-bar">
 				<image v-if="avatorSrc" :src="avatorSrc" class="avatar"></image>
 				<text class="name">{{ userInfo ? (userInfo.nickname || userInfo.username) : '匿名用户' }}</text>
@@ -102,6 +108,7 @@
 </template>
 
 <script>
+import statusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar";
 import {
 	store
 } from '@/uni_modules/uni-id-pages/common/store.js';
@@ -110,6 +117,9 @@ import { getTodayStr } from "@/common/util.js";
 import uCharts from '@/uni_modules/qiun-data-charts/js_sdk/u-charts/u-charts.js'
 var uChartsInstance = {};
 export default {
+	components: {
+		statusBar
+	},
 	data() {
 		return {
 			avatorSrc: '/static/logo.png',
@@ -117,6 +127,7 @@ export default {
 			continueDay: 0,
 			plan: {},
 			heighth: 500,
+			navBarHeight: 44, // 导航栏高度
 			showTodayFinshPop: false,
 			todayRecord: {
 				id: '',
@@ -174,6 +185,12 @@ export default {
 	},
 	onReady() {
 		this.getServerData();
+		// #ifdef H5
+		this.navBarHeight = 30;
+		// #endif
+		// #ifndef H5
+		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 44 : 48;
+		// #endif
 	},
 	methods: {
 		init() {
@@ -387,15 +404,19 @@ export default {
 		// height: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		padding: 38rpx;
+		padding: 0 38rpx 24rpx 38rpx;
 		height: 100%;
 		overflow-y: auto;
-		padding-bottom: 14rpx;
 		.user-bar {
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			margin-bottom:40rpx;
+			/*  #ifdef H5  */
+			margin-bottom:28rpx;
+			/*  #endif  */
+			/*  #ifndef H5  */
+			margin-bottom:26rpx;
+			/*  #endif  */
 			.avatar{
 				width:80rpx;
 				height:80rpx;
@@ -408,14 +429,19 @@ export default {
 			}
 		}
 		.head {
-			margin-bottom: 60rpx;
+			/*  #ifdef H5  */
+			margin-bottom:56rpx;
+			/*  #endif  */
+			/*  #ifndef H5  */
+			margin-bottom: 47rpx;
+			/*  #endif  */
 			.sologn {
 				font-size: 56rpx;
 				font-weight: bold;
 			}
 			.day-text {
 				font-size: 33rpx;
-				margin-top: 12rpx;
+				margin-top: 7rpx;
 			}
 		}
 		.card-box {
@@ -425,7 +451,12 @@ export default {
 			background-color: #fff;
 			margin-bottom: 18rpx;
 			width: 100%;
-			height: 674rpx;
+			/*  #ifdef H5  */
+			height: 651rpx;
+			/*  #endif  */
+			/*  #ifndef H5  */
+			height: 621rpx;
+			/*  #endif  */
 			box-shadow: 0 0 5px rgba($color: #d8d8d8, $alpha: 0.5);
 			.has-plan {
 				display: flex;

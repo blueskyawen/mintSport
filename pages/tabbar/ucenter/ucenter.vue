@@ -2,6 +2,12 @@
 	<view class="page" :style="{ height: heighth + 'px' }">
 		<image class="bg-img" mode="widthFix" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/home.jpg"></image>
 		<view class="content">
+			<view class="placeholder-bar">
+				<!-- #ifndef H5 -->
+				<statusBar></statusBar>
+				<!-- #endif -->
+			    <view :style="{ height: `${navBarHeight}px` }"></view>
+			</view>
 			<view class="user-bar">
 				<view class="user" @click.capture="toUserInfo">
 					<image v-if="avatorSrc" :src="avatorSrc" class="avatar"></image>
@@ -36,12 +42,16 @@
 	</view>
 </template>
 <script>
+import statusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar";
 import {
 	store
 } from '@/uni_modules/uni-id-pages/common/store.js';
 import parseImageUrl from "@/common/parseImageUrl.js";
 
 export default {
+	components: {
+		statusBar
+	},
 	computed:{
 		userInfo() {
 			return store.userInfo;
@@ -59,6 +69,7 @@ export default {
 			avatorSrc: '/static/logo.png',
 			avatorUrl: '',
 			heighth: 500,
+			navBarHeight: 44, // 导航栏高度
 			finishPlanCount: 0,
 			totalRecordNum: 0,
 			ucenterList: [
@@ -111,6 +122,14 @@ export default {
 	onShow() {
 		this.loadData();
 		this.getAvatorImg();
+	},
+	onReady() {
+		// #ifdef H5
+		this.navBarHeight = 30;
+		// #endif
+		// #ifndef H5
+		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 44 : 48;
+		// #endif
 	},
 	methods:{
 		loadData() {
@@ -179,7 +198,7 @@ export default {
 		// height: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		padding: 38rpx;
+		padding: 0 38rpx 24rpx 38rpx;
 		height: 100%;
 		overflow-y: auto;
 		padding-bottom: 14rpx;

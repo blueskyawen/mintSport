@@ -1,5 +1,11 @@
 <template>
 	<view class="login-wrap">
+		<view class="placeholder-bar">
+			<!-- #ifndef H5 -->
+			<statusBar></statusBar>
+			<!-- #endif -->
+		    <view :style="{ height: `${navBarHeight}px` }"></view>
+		</view>
 		<view class="title">制定健身计划 · 自律打卡</view>
 		<view class="img-box">🏃‍♂️</view>
 		<view class="btn-box">
@@ -14,15 +20,18 @@
 
 <script>
 import { setStorage } from '@/utils/storage.js';
+import statusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar";
 import uniIdPagesAgreements from '@/uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements.vue';
 import uniIdPagesFabLogin from '@/uni_modules/uni-id-pages/components/uni-id-pages-fab-login/uni-id-pages-fab-login.vue';
 export default {
 	components: {
 		uniIdPagesAgreements,
-		uniIdPagesFabLogin
+		uniIdPagesFabLogin,
+		statusBar
 	},
 	data() {
 		return {
+			navBarHeight: 44, // 导航栏高度
 			type: "weixin" //快捷登录方式
 		}
 	},
