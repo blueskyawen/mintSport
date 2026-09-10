@@ -49,6 +49,8 @@
 							  :opts="sportChartOpts"
 							  :chartData="sportChartData"
 							  :ontouch="true"
+							  :canvas2d="true"
+							  canvasId="sportcanvas"
 							/>
 						</view>
 					</view>
@@ -73,6 +75,8 @@
 							  :opts="sleepChartOpts"
 							  :chartData="sleepChartData"
 							  :ontouch="true"
+							  :canvas2d="true"
+							  canvasId="sleepcanvas"
 							/>
 						</view>
 					</view>

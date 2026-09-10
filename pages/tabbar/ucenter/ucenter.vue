@@ -11,11 +11,11 @@
 			<view class="user-bar">
 				<view class="user" @click.capture="toUserInfo">
 					<image v-if="avatorSrc" :src="avatorSrc" class="avatar"></image>
-					<text class="name" v-if="hasLogin">{{ userInfo ? (userInfo.nickname || userInfo.username) : '匿名用户' }}</text>
+					<text class="name" v-if="hasLogin">{{ userInfo ? (userInfo.nickname || userInfo.username || '匿名用户') : '匿名用户' }}</text>
 					<text class="uer-login" v-else>请登录</text>
 				</view>
-				<view class="right-set">
-					<uni-icons type="gear" color="#888888" size="28" @click.capture="toUserSeting"></uni-icons>
+				<view class="right-set" @click="toUserSeting">
+					<uni-icons type="gear" color="#888888" size="28"></uni-icons>
 				</view>
 			</view>
 			<view class="data-row">

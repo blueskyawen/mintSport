@@ -19,11 +19,12 @@
 </template>
 
 <script>
-import { setStorage } from '@/utils/storage.js';
+import mixin from '@/uni_modules/uni-id-pages/common/login-page.mixin.js';
 import statusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar";
 import uniIdPagesAgreements from '@/uni_modules/uni-id-pages/components/uni-id-pages-agreements/uni-id-pages-agreements.vue';
 import uniIdPagesFabLogin from '@/uni_modules/uni-id-pages/components/uni-id-pages-fab-login/uni-id-pages-fab-login.vue';
 export default {
+	mixins: [mixin],
 	components: {
 		uniIdPagesAgreements,
 		uniIdPagesFabLogin,

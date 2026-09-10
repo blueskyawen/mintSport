@@ -24,8 +24,12 @@
 			</view>
 		</view>
 		<view class="uni-button-group">
-			<u-button class="uni-button" :disabled="isLoading" @click="goBack">返回</u-button>
-			<u-button class="uni-button" type="primary" :loading="isLoading" color="#72D1A8" @click="submit">发布</u-button>
+			<view class="uni-button2">
+				<u-button class="uni-button" :disabled="isLoading" @click="goBack">返回</u-button>
+			</view>
+			<view class="uni-button2">
+				<u-button class="uni-button" type="primary" :loading="isLoading" color="#72D1A8" @click="submit">发布</u-button>
+			</view>
 		</view>
 	</page-bg>
 </template>
@@ -464,7 +468,7 @@ export default {
 	justify-content: space-between;
 	margin-top: 14rpx;
 	box-sizing: border-box;
-	.uni-button {
+	.uni-button2 {
 		width: 47%;
 	}
 }

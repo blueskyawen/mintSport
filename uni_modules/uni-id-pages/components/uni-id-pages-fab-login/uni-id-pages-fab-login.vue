@@ -337,7 +337,6 @@
             // #ifdef VUE3
             const baseUrl = import.meta.env.BASE_URL
             // #endif
-
             let redirectUrl = location.protocol +
                 '//' +
                 location.host +
@@ -371,7 +370,6 @@
 					// #endif
 					mask: true
 				})
-
 				if (type == 'univerify') {
 					let univerifyManager = uni.getUniverifyManager()
 					let clickAnotherButtons = false
@@ -445,13 +443,12 @@
 						}
 					})
 				}
-
 				if (type === 'weixinMobile' || type === 'huaweiMobile') {
 					return this.login({
 						phoneCode: options.phoneNumberCode
 					}, type)
 				}
-				console.log('99999999, type')
+				console.log('777')
 				uni.login({
 					"provider": type,
 					"onlyAuthorize": true,
@@ -496,6 +493,8 @@
 						icon: 'none',
 						duration: 2000
 					});
+					console.log('登录成功: ' + action);
+					console.log('result: ', result);
 					// #ifdef H5
 					result.loginType = type
 					// #endif

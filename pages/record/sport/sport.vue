@@ -12,12 +12,12 @@
 					<text class="time">{{ item.time }} 分钟</text>
 				</view>
 				<uni-icons v-if="item.finish" custom-prefix="iconfont" type="icon-fit-finished" color="#ff9900" size="22"></uni-icons>
-				<text v-else @click.stop="selectCheck(item)">
+				<template v-else>
 					<uni-icons :class="{'hidden': !item.checked }" custom-prefix="iconfont" type="icon-fit-check-finish"
-						color="#19be6b" size="22"></uni-icons>
+						color="#19be6b" size="22" @click.stop="selectCheck(item)"></uni-icons>
 					<uni-icons :class="{'hidden': item.checked }" custom-prefix="iconfont" type="icon-fit-check-finish"
-						color="#88888" size="22"></uni-icons>
-				</text>
+						color="#88888" size="22" @click.stop="selectCheck(item)"></uni-icons>
+				</template>
 			</view>
 		</view>
 		<view class="submit-box">

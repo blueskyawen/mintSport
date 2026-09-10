@@ -10,7 +10,7 @@
 			</view>
 			<view class="user-bar">
 				<image v-if="avatorSrc" :src="avatorSrc" class="avatar"></image>
-				<text class="name">{{ userInfo ? (userInfo.nickname || userInfo.username) : '匿名用户' }}</text>
+				<text class="name">{{ userInfo ? (userInfo.nickname || userInfo.username || '匿名用户') : '匿名用户' }}</text>
 			</view>
 			<view class="head">
 				<view class="sologn">今天也要动起来</view>
@@ -369,7 +369,8 @@ export default {
 		goRecordSport() {
 			if (!this.plan._id) {
 				uni.showToast({
-					title: '你还没有专属计划, 请先创建'
+					title: '你还没有专属计划, 请先创建',
+					icon: 'none'
 				});
 				return;
 			}
@@ -380,7 +381,8 @@ export default {
 		goRecordDiet() {
 			if (!this.plan._id) {
 				uni.showToast({
-					title: '你还没有专属计划, 请先创建'
+					title: '你还没有专属计划, 请先创建',
+					icon: 'none'
 				});
 				return;
 			}
@@ -391,7 +393,8 @@ export default {
 		goRecordSleep() {
 			if (!this.plan._id) {
 				uni.showToast({
-					title: '你还没有专属计划, 请先创建'
+					title: '你还没有专属计划, 请先创建',
+					icon: 'none'
 				});
 				return;
 			}
