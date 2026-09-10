@@ -451,7 +451,7 @@
 						phoneCode: options.phoneNumberCode
 					}, type)
 				}
-
+				console.log('99999999, type')
 				uni.login({
 					"provider": type,
 					"onlyAuthorize": true,
