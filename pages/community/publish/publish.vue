@@ -125,14 +125,16 @@ export default {
 			if (this.imageList.length == 0) {
 				uni.showToast({
 					title: '图片不可缺少',
-					duration: 1000
+					duration: 1000,
+					icon: "none"
 				})
 				return;
 			}
 			if (!this.formData.content) {
 				uni.showToast({
 					title: '文字内容不可为空',
-					duration: 1000
+					duration: 1000,
+					icon: "none"
 				})
 				return;
 			}
@@ -322,6 +324,7 @@ export default {
 						if (file.size > 3145728) {
 							uni.showToast({
 								title: '上传图片大小不能大于3MB',
+								icon: "none",
 								duration: 2000
 							});
 						} else {

@@ -160,7 +160,8 @@ export default {
 			if (this.isLoading) return;
 			if (!this.recordData.diet) {
 				uni.showToast({
-					title: '请填写描述内容'
+					title: '请填写描述内容',
+					icon: 'none'
 				})
 				return;
 			}
@@ -233,7 +234,8 @@ export default {
 				this.checkDelCloudFiles(addData).then(res => {});
 			}).catch(e => {
 				uni.showToast({
-					title: e.msg || e.message || JSON.stringify(e)
+					title: e.msg || e.message || JSON.stringify(e),
+					icon: 'none'
 				})
 			}).finally(e => {
 				this.isLoading = false;

@@ -187,7 +187,8 @@ export default {
 				}
 			}).catch(e => {
 				uni.showToast({
-					title: e.msg || e.message || JSON.stringify(e)
+					title: e.msg || e.message || JSON.stringify(e),
+					icon: 'none'
 				})
 				this.isLoading = false;
 			})

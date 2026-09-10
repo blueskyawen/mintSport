@@ -130,7 +130,7 @@
 									uni.hideLoading()
 									uni.showToast({
 										title: '清除成功',
-										icon: 'none'
+										icon: 'success'
 									});
 								}
 							});
@@ -138,7 +138,7 @@
 							uni.hideLoading()
 							uni.showToast({
 								title: '清除成功',
-								icon: 'none'
+								icon: 'success'
 							});
 						}
 					},

@@ -215,7 +215,8 @@ export default {
 				this.isLoading = true;
 				this.$cloudApi.addPlan(tempData).then(res => {
 					uni.showToast({
-						title:'计划创建成功'
+						title:'计划创建成功',
+						icon: 'success'
 					})
 					setTimeout(()=> {
 						this.isLoading = false;

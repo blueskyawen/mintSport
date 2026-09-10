@@ -190,7 +190,8 @@ export default {
 				this.checkShowPopUp();
 			}).catch(e => {
 				uni.showToast({
-					title: e.msg || e.message || JSON.stringify(e)
+					title: e.msg || e.message || JSON.stringify(e),
+					icon: 'none'
 				})
 			}).finally(e => {
 				this.isLoading = false;
@@ -215,7 +216,8 @@ export default {
 				this.checkShowPopUp();
 			}).catch(e => {
 				uni.showToast({
-					title: e.msg || e.message || JSON.stringify(e)
+					title: e.msg || e.message || JSON.stringify(e),
+					icon: 'none'
 				})
 			}).finally(e => {
 				this.isLoading = false;
