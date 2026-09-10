@@ -56,7 +56,8 @@
 						</view>
 						<view class="cont-right">
 							<view class="chart-box">
-							   <qiun-data-charts type="arcbar":opts="opts" :chartData="chartData"/>
+							   <qiun-data-charts type="arcbar":opts="opts"
+							   :chartData="chartData" :canvas2d="true" canvasId="ratecanvas"/>
 							</view>
 							<image class="img" src="https://env-00jy6sztxc4d.normal.cloudstatic.cn/CDN/run-man2.png"></image>
 						</view>
@@ -125,6 +126,7 @@ export default {
 		return {
 			avatorSrc: '/static/logo.png',
 			avatorUrl: '',
+			userId: '',
 			continueDay: 0,
 			plan: {},
 			heighth: 500,
@@ -221,6 +223,11 @@ export default {
 				let images = [this.userInfo.avatar_file.url];
 				let resImgs = await parseImageUrl(images);
 				this.avatorSrc = resImgs[0] ? resImgs[0].src : '';
+			} else {
+				if (!this.userInfo.avatar_file || !this.userInfo.avatar_file.url) {
+					this.avatorUrl = '';
+					this.avatorSrc = '/static/logo.png';
+				}
 			}
 		},
 		isOverPlanEndDate(plan) {
@@ -281,6 +288,7 @@ export default {
 					user_id: this.userInfo._id
 				});
 				if (planRes.data.length) {
+					this.userId = this.userInfo._id;
 					let tmpPlan = planRes.data[0];
 					if (this.isOverPlanEndDate(tmpPlan)) {
 						this.setOverDeadlinePlan(tmpPlan);
@@ -339,8 +347,28 @@ export default {
 							}
 						}
 					}
+				} else {
+					if (this.userId !== this.userInfo._id) {
+						this.resetInitData();
+					}
 				}
 			}
+		},
+		resetInitData() {
+			this.plan = {};
+			this.continueDay = 0;
+			this.todayRecord = {
+				id: '',
+				sportTime: 0,
+				dish: false,
+				sleepTime: {
+					getup: '',
+					sleep: ''
+				},
+				sleepTitle: '0%'
+			};
+			this.getServerData(0);
+			this.totalFinishCount = 0;
 		},
 		getServerData(value) {
 		  setTimeout(() => {

@@ -141,6 +141,8 @@ export default {
 				}).then(res => {
 					if (res.data.length) {
 						this.finishPlanCount = res.data.filter(x => x.status == 'finish').length;
+					} else {
+						this.finishPlanCount = 0;
 					}
 				});
 				this.$cloudApi.getDayRecordsByUser({
@@ -152,9 +154,12 @@ export default {
 					'user_id': this.userInfo._id
 				}).then(res2 => {
 					let tmp = res2.data[0] || {};
-					if (tmp._id) {
+					if (tmp && tmp._id) {
 						this.grade = tmp.medalGrade;
 						this.medalName = tmp.medalName;
+					} else {
+						this.grade = 0;
+						this.medalName = '生手萌新';
 					}
 				}).finally(e => {
 					this.isLoading = false;
@@ -172,6 +177,11 @@ export default {
 				let images = [this.userInfo.avatar_file.url];
 				let resImgs = await parseImageUrl(images);
 				this.avatorSrc = resImgs[0] ? resImgs[0].src : '';
+			} else {
+				if (!this.userInfo.avatar_file || !this.userInfo.avatar_file.url) {
+					this.avatorUrl =  '';
+					this.avatorSrc = '/static/logo.png';
+				}
 			}
 		},
 		toUserInfo() {

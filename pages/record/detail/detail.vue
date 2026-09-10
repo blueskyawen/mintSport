@@ -143,7 +143,16 @@
 					date: todayStr
 				});
 				this.recordData = res.data[0] || {};
-				this.sportList = this.recordData.sportFinishList;
+				if (this.recordData.sportFinishList) {
+					this.sportList = this.recordData.sportFinishList;
+				} else {
+					this.sportList = this.plan.sportList.map(x => {
+										return {
+											...x,
+											finish: false
+										}
+									});
+				}
 				this.total = this.sportList.length + 3;
 			}
 		}
