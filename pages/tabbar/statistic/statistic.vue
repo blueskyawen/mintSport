@@ -235,10 +235,10 @@ export default {
 	},
 	onReady() {
 		// #ifdef H5
-		this.navBarHeight = 10;
+		this.navBarHeight = 20;
 		// #endif
 		// #ifndef H5
-		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 44 : 48;
+		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 54 : 58;
 		// #endif
 	},
 	onShow() {

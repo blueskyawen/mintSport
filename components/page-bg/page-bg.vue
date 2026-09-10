@@ -4,7 +4,7 @@
 		<view class="content">
 			<view class="placeholder-bar">
 				<!-- #ifndef H5 -->
-				<statusBar></statusBar>
+				<!-- <statusBar></statusBar> -->
 				<!-- #endif -->
 			    <view v-if="navBarHeight" :style="{ height: `${navBarHeight}px` }"></view>
 			</view>
@@ -40,7 +40,7 @@
 		},
 		created() {
 			this.heighth = uni.getWindowInfo().windowHeight;
-		},
+		}
 	}
 </script>
 

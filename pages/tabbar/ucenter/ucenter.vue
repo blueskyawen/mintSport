@@ -231,7 +231,7 @@ export default {
 					border: solid 1px #e9e9eb;
 				}
 				.name {
-					font-size: 45rpx;
+					font-size: 38rpx;
 					margin-left: 14rpx;
 				}
 			}
