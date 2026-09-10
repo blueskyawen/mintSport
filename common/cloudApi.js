@@ -16,6 +16,9 @@ const noteLikeDB = uniCloud.importObject('note-like-co', {
 const miAchieveDB = uniCloud.importObject('mi-achievement-co', {
 	customUI: true
 });
+const miSecCheckDB = uniCloud.importObject('mi-sec-check-co', {
+	customUI: true
+});
 
 export default {
 	getPlanList(event) {
@@ -114,5 +117,10 @@ export default {
 	getAchievementByUserId(event) {
 		return miAchieveDB.getMyAchievements(event);
 	},
-
+	checkImageSec(image, errorMsg) {
+		return miSecCheckDB.checkImageSec(image, errorMsg);
+	},
+	checkContentSec(content, errorMsg) {
+		return miSecCheckDB.checkContentSec(content, errorMsg);
+	},
 }

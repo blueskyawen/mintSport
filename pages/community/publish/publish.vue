@@ -248,7 +248,23 @@ export default {
 			})
 		},
 		async checkDataSec() {
-			return Promise.resolve();
+			const cmsSecCheckCo = uniCloud.importObject('cms-sec-check-co', {
+			  customUI: true
+			});
+			console.log('checkDataSec==start')
+			const parallel = [];
+			if (!this.id || this.formData.content !== this.oldData.content) {
+				parallel.push(this.$cloudApi.checkContentSec(this.formData.content, '文字内容存在敏感词'));
+			}
+			if (!this.id || this.formData.cover !== this.oldData.cover) {
+				parallel.push(this.$cloudApi.checkImageSec(this.formData.cover, '图片存在违规'));
+			}
+
+			if (!parallel.length) {
+				return Promise.resolve();
+			}
+
+			return Promise.all(parallel);
 		},
 		async checkDelCloudFile(addData) {
 			let delFiles = [];
