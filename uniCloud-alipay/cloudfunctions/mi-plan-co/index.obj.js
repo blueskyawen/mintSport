@@ -27,7 +27,10 @@ module.exports = {
 		await cmiPlanCollection.where({
 					user_id: event.user_id,
 					status: 'running'
-				}).update({ status: 'finish' })
+				}).update({
+					"status": 'finish',
+					"end_date": Date.now()
+				})
 		// 新增新计划
 		const res = await cmiPlanCollection.add(addData)
 		return res;

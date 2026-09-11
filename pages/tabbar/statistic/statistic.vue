@@ -414,6 +414,9 @@ export default {
 		async loadData() {
 			if (this.userInfo._id) {
 				try {
+					uni.showLoading({
+						title: ''
+					})
 					let planRes = await this.$cloudApi.getActivePlan({
 						user_id: this.userInfo._id
 					});
@@ -430,11 +433,14 @@ export default {
 						this.getSleepData();
 						this.getSportChartData();
 						this.isLoading = false;
+						uni.hideLoading();
 					} else {
 						this.isLoading = false;
+						uni.hideLoading();
 					}
 				} catch(e) {
 					this.isLoading = false;
+					uni.hideLoading();
 				}
 			} else {
 				this.isLoading = false;

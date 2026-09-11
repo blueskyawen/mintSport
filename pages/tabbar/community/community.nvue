@@ -141,6 +141,9 @@ export default {
 			let pageNum = page.num; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
 			try {
+				uni.showLoading({
+					title: ''
+				})
 				await this.getMyLikeNotes();
 
 				let res = await this.$cloudApi.getNoteList({
@@ -161,8 +164,11 @@ export default {
 				this.list = this.list.concat(curPageData);
 				this.mescroll.endSuccess(curPageData.length);
 				this.isLoading = false;
+				uni.hideLoading();
 			} catch(err) {
 				this.mescroll.endErr()
+				this.isLoading = false;
+				uni.hideLoading();
 			}
 		},
 		reloadList(){

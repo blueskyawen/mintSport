@@ -230,6 +230,13 @@ export default {
 				}
 			}
 		},
+		getPlanDeadlineTime(plan) {
+			let startDate = new Date(plan.create_date);
+			let tmpDate = new Date(plan.create_date);
+			tmpDate.setDate(startDate.getDate() + plan.totalDay - 1);
+			let tmpDateStr = getFullDateStr(tmpDate) + ' 23:59:59';
+			return (new Date(tmpDateStr)).valueOf();
+		},
 		isOverPlanEndDate(plan) {
 			// 计划是否超期, 超期即至未结束
 			let startDate = new Date(plan.create_date);
@@ -257,8 +264,12 @@ export default {
 					}
 				}
 				this.$cloudApi.updatePlan({
-					"status": status
+					"status": status,
+					"end_date": this.getPlanDeadlineTime()
 				}, plan._id).then(res1 => {} )
+			}).finally(e => {
+				uni.hideLoading();
+				this.resetInitData();
 			})
 		},
 		closePop() {
@@ -284,6 +295,9 @@ export default {
 		},
 		async loadData() {
 			if (this.userInfo._id) {
+				uni.showLoading({
+					title: ''
+				})
 				let planRes = await this.$cloudApi.getActivePlan({
 					user_id: this.userInfo._id
 				});
@@ -291,7 +305,7 @@ export default {
 					this.userId = this.userInfo._id;
 					let tmpPlan = planRes.data[0];
 					if (this.isOverPlanEndDate(tmpPlan)) {
-						this.setOverDeadlinePlan(tmpPlan);
+						this.setOverDeadlinePlan(tmpPlan);;
 					} else {
 						this.plan = tmpPlan;
 						const todayStr = getTodayStr();
@@ -345,12 +359,14 @@ export default {
 									}, 500)
 								}
 							}
+							uni.hideLoading();
 						}
 					}
 				} else {
 					if (this.userId !== this.userInfo._id) {
 						this.resetInitData();
 					}
+					uni.hideLoading();
 				}
 			}
 		},

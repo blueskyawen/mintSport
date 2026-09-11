@@ -74,6 +74,7 @@ export default {
 			totalRecordNum: 0,
 			grade: 0,
 			medalName: '生手萌新',
+			isLoading: true,
 			ucenterList: [
 				{
 					"id": 1,
@@ -136,6 +137,9 @@ export default {
 	methods:{
 		loadData() {
 			if (this.userInfo._id) {
+				uni.showLoading({
+					title: ''
+				})
 				this.$cloudApi.getPlanList({
 					user_id: this.userInfo._id
 				}).then(res => {
@@ -163,6 +167,7 @@ export default {
 					}
 				}).finally(e => {
 					this.isLoading = false;
+					uni.hideLoading();
 				})
 			}
 		},
