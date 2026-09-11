@@ -35,6 +35,7 @@
 					<view class="sport-item" v-for="(item, index) in sportList" :key="index">
 						<uni-easyinput inputBorder :clearable="false" placeholder="运动名称" primaryColor="#72D1A8"
 							maxlength="10" v-model.number="item.name"></uni-easyinput>
+						<text class="time-ge"></text>
 						<uni-easyinput class="time-input" type="number" inputBorder :clearable="false"
 							placeholder="时长" primaryColor="#72D1A8" v-model.number="item.time">
 						</uni-easyinput>分钟
@@ -266,8 +267,11 @@ export default {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				.time-ge {
+					width: 3px;
+				}
 				.time-input {
-					margin: 0 3px;
+					margin: 0 3px 0 0;
 				}
 				.del-icon {
 					margin-left: 3px;
