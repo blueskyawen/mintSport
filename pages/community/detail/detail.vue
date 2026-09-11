@@ -132,7 +132,11 @@
 						this.$cloudApi.incNoteLikeCount({
 							id: this.item._id,
 							value: 1
-						}).then(res1 => {})
+						}).then(res1 => {});
+						uni.showToast({
+							title: "收藏成功",
+							icon: "none"
+						});
 					}).finally(res => {
 						this.isInOper = false
 					})
@@ -150,7 +154,11 @@
 							this.$cloudApi.incNoteLikeCount({
 								id: this.item._id,
 								value: -1
-							}).then(res1 => {})
+							}).then(res1 => {});
+							uni.showToast({
+								title: "取消收藏",
+								icon: "none"
+							});
 						}
 					}).finally(res => {
 						this.isInOper = false;

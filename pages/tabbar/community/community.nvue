@@ -27,10 +27,10 @@
 										 <text class="note-autor">
 											{{ item.user_id && item.user_id.length ?  (item.user_id[0].nickname || item.user_id[0].username) : '游客'}}
 										 </text>
-										 <text class="like" @click.stop="clickLike(item)">
+										 <view class="like" @click.stop="clickLike(item)">
 											 <uni-icons v-if="item.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
 											 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
-										 </text>
+										 </view>
 									 </view>
 								 </view>
 							 </view>
@@ -48,10 +48,10 @@
 										 <text class="note-autor">
 											{{ item2.user_id && item2.user_id.length ?  (item2.user_id[0].nickname || item2.user_id[0].username) : '游客'}}
 										 </text>
-										 <text class="like" @click.stop="clickLike(item2)">
+										 <view class="like" @click.stop="clickLike(item2)">
 											 <uni-icons v-if="item2.islike" type="heart-filled" size="17" color="#f3a73f"></uni-icons>
 											 <uni-icons v-else type="heart" size="17" color="#888888"></uni-icons>
-										 </text>
+										 </view>
 									 </view>
 								 </view>
 							 </view>
@@ -195,7 +195,11 @@ export default {
 					this.$cloudApi.incNoteLikeCount({
 						id: item._id,
 						value: 1
-					}).then(res1 => {})
+					}).then(res1 => {});
+					uni.showToast({
+						title: "收藏成功",
+						icon: "none"
+					});
 				}).finally(res => {
 					this.isInOper = false
 				})
@@ -213,7 +217,11 @@ export default {
 						this.$cloudApi.incNoteLikeCount({
 							id: item._id,
 							value: -1
-						}).then(res1 => {})
+						}).then(res1 => {});
+						uni.showToast({
+							title: "取消收藏",
+							icon: "none"
+						});
 					}
 				}).finally(res => {
 					this.isInOper = false;

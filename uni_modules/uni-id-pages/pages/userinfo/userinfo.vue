@@ -7,7 +7,7 @@
 		<uni-list>
 			<uni-list-item class="item" @click="setNickname('')" title="昵称" :rightText="userInfo.nickname||'未设置'" link>
 			</uni-list-item>
-			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link>
+			<uni-list-item v-if="isBindMobile" class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link>
 			</uni-list-item>
 			<uni-list-item v-if="isBindEmail" class="item" title="电子邮箱" :rightText="userInfo.email">
 			</uni-list-item>
@@ -72,7 +72,8 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				hasPwd: false,
 				showLoginManage: false ,//通过页面传参隐藏登录&退出登录按钮
 				setNicknameIng:false,
-				isBindEmail: false
+				isBindEmail: false,
+				isBindMobile: false
 			}
 		},
 		async onShow() {

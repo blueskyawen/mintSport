@@ -18,8 +18,8 @@
 			<uni-list-item v-show="pushIsOn != 'wait'" title="推送功能" @click.native="clickPushServer"  showSwitch :switchChecked="pushIsOn"></uni-list-item>
 			<!-- #endif -->
 			<!-- #endif -->
-			<uni-list-item v-if="supportMode.includes('fingerPrint')" title="指纹解锁" @click.native="startSoterAuthentication('fingerPrint')" link></uni-list-item>
-			<uni-list-item v-if="supportMode.includes('facial')" title="人脸解锁" @click="startSoterAuthentication('facial')" link></uni-list-item>
+			<!-- <uni-list-item v-if="supportMode.includes('fingerPrint')" title="指纹解锁" @click.native="startSoterAuthentication('fingerPrint')" link></uni-list-item> -->
+			<!-- <uni-list-item v-if="supportMode.includes('facial')" title="人脸解锁" @click="startSoterAuthentication('facial')" link></uni-list-item> -->
 		<!-- #endif -->
 			<uni-list-item v-if="i18nEnable" title="切换语言" @click="changeLanguage" :rightText="currentLanguage" link></uni-list-item>
 		</uni-list>

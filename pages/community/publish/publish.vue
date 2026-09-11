@@ -429,7 +429,7 @@ export default {
 	.uni-uploader__files {
 		width: 100%;
 		//border: solid 1px;
-		min-height: 562rpx;
+		// min-height: 562rpx;
 		box-sizing: border-box;
 		position: relative;
 		border-radius: 24rpx;
@@ -447,7 +447,7 @@ export default {
 		}
 		.add-uploader__input-box {
 			width: 100%;
-			height: 100%;
+			min-height: 562rpx;
 			border: solid 1px #f0f0f0;
 			box-sizing: border-box;
 			display: flex;

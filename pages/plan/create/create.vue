@@ -27,9 +27,9 @@
 			<view class="from-item">
 				<view class="item-title">
 					<text>运动项目</text>
-					<text class="icon">
+					<view class="icon">
 						<u-icon name="plus-circle" color="#72D1A8" size="20" @click="addSport"></u-icon>
-					</text>
+					</view>
 				</view>
 				<view class="item-data">
 					<view class="sport-item" v-for="(item, index) in sportList" :key="index">
@@ -251,6 +251,7 @@ export default {
 			line-height: 1;
 			.icon {
 				margin-left: 14rpx;
+				display: inline-block;
 			}
 		}
 		.item-data {
