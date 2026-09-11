@@ -235,6 +235,7 @@ export default {
 			let tmpDate = new Date(plan.create_date);
 			tmpDate.setDate(startDate.getDate() + plan.totalDay - 1);
 			let tmpDateStr = getFullDateStr(tmpDate) + ' 23:59:59';
+			console.log('tmpDateStr222', tmpDateStr)
 			return (new Date(tmpDateStr)).valueOf();
 		},
 		isOverPlanEndDate(plan) {
@@ -265,7 +266,7 @@ export default {
 				}
 				this.$cloudApi.updatePlan({
 					"status": status,
-					"end_date": this.getPlanDeadlineTime()
+					"end_date": this.getPlanDeadlineTime(plan)
 				}, plan._id).then(res1 => {} )
 			}).finally(e => {
 				uni.hideLoading();
