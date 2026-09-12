@@ -74,6 +74,9 @@
                 "enable" : true
             }
         },
-        "title" : "青苗打卡"
+        "title" : "青苗打卡",
+        "devServer" : {
+            "https" : true
+        }
     }
 }

@@ -1,37 +1,68 @@
 <!-- 网络链接内容展示页（uni-id-pages中用于展示隐私政策协议内容） -->
 <template>
 	<view>
-		<web-view v-if="url" :src="url"></web-view>
+		<!-- #ifndef MP -->
+		<web-view v-if="s_url" :src="s_url"></web-view>
+		<!-- #endif -->
+		<!-- #ifdef MP -->
+		<view class="rich-content">
+			<u-parse class="art-content" :content="richContent"></u-parse>
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
 <script>
+	import { privacyStr, serviceStr } from "@/common/aggress.js";
 	export default {
 		onLoad({url,title}) {
-			url = decodeURIComponent(url)
+			let decodeurl = decodeURIComponent(url)
 
-			if(url.substring(0, 4) != 'http'){
-				uni.showModal({
-					title:"错误",
-					content: '不是一个有效的网站链接,'+'"'+url+'"',
-					showCancel: false,
-					confirmText:"知道了",
-					complete: () => {
-						uni.navigateBack()
-					}
-				});
-				title = "页面路径错误"
-			}else{
-				this.url = url;
+			// #ifndef MP
+			if(decodeurl.substring(0, 4) != 'http') {
+				if (decodeurl.includes('static/')) {
+					this.s_url = decodeurl;
+				} else {
+					uni.showModal({
+						title:"错误",
+						content: '不是一个有效的网站链接,'+'"'+decodeurl+'"',
+						showCancel: false,
+						confirmText:"知道了",
+						complete: () => {
+							uni.navigateBack()
+						}
+					});
+					title = "页面路径错误"
+				}
+			} else {
+				this.s_url = url;
 			}
+			// #endif
+			// #ifdef MP
+			if(decodeurl.includes('service')) {
+				this.richContent = serviceStr
+			} else {
+				this.richContent = privacyStr
+			}
+			// #endif
 			if(title){
 				uni.setNavigationBarTitle({title});
 			}
 		},
 		data() {
 			return {
-				url:null
+				s_url: null,
+				richContent: ''
 			};
 		}
 	}
 </script>
+
+<style scoped>
+	.rich-content {
+		padding: 22rpx 32rpx 60rpx;
+	}
+	.rich-content .art-content {
+		line-height: 3;
+	}
+</style>

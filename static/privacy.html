@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
+      CSS.supports('top: constant(a)'))
+    document.write(
+      '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
+      (coverSupport ? ', viewport-fit=cover' : '') + '" />')
+  </script>
+  <style>
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0;
+    }
+    .bold {
+      font-size: 14px;font-weight: bold;
+    }
+    .boldh {
+      font-size: 14px;font-weight: bold;margin-top: 6px;
+    }
+    .attenion {
+      margin-top: 10px;margin-bottom: 10px;border-left: solid 4px #666;padding-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h4>更新日期：2026‑09‑13</h4>
+  <p style="font-size: 14px;line-height: 1.5;">本隐私政策向您说明：【青苗打卡】小程序如何收集、存储、使用、保护您的个人信息。我们严格遵守《个人信息保护法》，坚持<span style="font-size: 14px;font-weight: bold;">最小必要</span>原则，只收集打卡业务必须的信息。</p>
+  <h2>一、我们收集哪些信息、用来做什么</h2>
+  <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">1. 微信昵称、微信头像、openid</p>
+  <p style="font-size: 14px;line-height: 1.5;">用途：实现微信快捷登录，创建您的个人账号，展示个人主页、打卡动态。<span style="font-size: 14px;font-weight: bold;">不获取你的微信手机号、微信好友列表</span</p>
+  <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">2. 相册 / 相机权限（需要您手动授权）</p>
+  <p style="font-size: 14px;line-height: 1.5;">用途：打卡时上传运动照片、作息图文，发布打卡内容。<span style="font-size: 14px;font-weight: bold;">只有您主动点击上传图片时才会访问相册，后台不会自动扫描相册。</span></p>
+  <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">3. 你主动填写的打卡数据</p>
+  <p style="font-size: 14px;line-height: 1.5;">运动记录、睡觉起床时间、打卡笔记、成就等级数据：仅用于保存你的打卡档案，展示个人打卡日历、勋章成就；数据仅存储于本小程序云服务。</p>
+  <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">4. 设备基础信息（匿名）</p>
+  <p style="font-size: 14px;line-height: 1.5;">设备型号、系统版本，用于排查小程序 BUG、优化程序性能，做匿名统计，不会定位到具体个人。</p>
+  <p style="margin-top: 10px;margin-bottom: 10px;border-left: solid 4px #666;padding-left: 5px;">❗本小程序**不会强制索取位置、通讯录、麦克风等无关权限**；不会向第三方售卖、出租你的个人信息。</p>
+  <h2>二、信息存储与保护</h2>
+  <p style="font-size: 14px;line-height: 1.5;">1. 用户数据存储在云服务器，采用加密存储；仅业务必要人员可以访问后台数据。</p>
+  <p style="font-size: 14px;line-height: 1.5;">2. 所有用户公开发布的打卡内容，平台会进行内容安全审核，防止违法信息传播。</p>
+  <h2>三、您拥有的权利</h2>
+  <p style="font-size: 14px;line-height: 1.5;">1. <span style="font-size: 14px;font-weight: bold;"">查阅</span>：你可以在小程序个人中心直接查看你的全部打卡记录、个人资料。</p>
+  <p style="font-size: 14px;line-height: 1.5;">1. <span style="font-size: 14px;font-weight: bold;">更正</span>：直接在小程序内修改昵称、编辑打卡笔记。</p>
+  <p style="font-size: 14px;line-height: 1.5;">3.<span style="font-size: 14px;font-weight: bold;">删除 / 注销账号</span></p>
+  <p style="font-size: 14px;line-height: 1.5;">注销账号将会<span style="font-size: 14px;font-weight: bold;">永久清除：你的打卡记录、发布内容、勋章成就、全部个人数据，数据删除后无法找回</span>。</p>
+  <p style="font-size: 14px;line-height: 1.5;">注销申请渠道：发送邮件至：317531206@qq.com，邮件写明你的微信 openid，一般 3‑7 个工作日处理完成。</p>
+  <p style="font-size: 14px;line-height: 1.5;">4. <span style="font-size: 14px;font-weight: bold;">撤回授权</span>：微信‑小程序设置，可以关闭相册、授权信息；关闭之后对应上传图片等功能将无法使用。</p>
+  <h2>四、第三方服务说明</h2>
+  <p style="font-size: 14px;line-height: 1.5;">1.本小程序依赖微信小程序平台运行，微信会按照《微信隐私政策》处理基础信息；除此之外，我们不会把你的信息分享给其他第三方。</p>
+  <p style="font-size: 14px;line-height: 1.5;">2.我们的产品基于DCloud uni-app(5+ App/Wap2App)开发，应用运行期间需要收集您的设备唯一识别码（IMEI/android ID/DEVICE_ID/IDFA、SIM 卡 IMSI 信息、OAID）以提供统计分析服务，并通过应用启动数据及异常错误日志分析改进性能和用户体验，为用户提供更好的服务。</p>
+  <h2>五、未成年人提示</h2>
+  <p style="font-size: 14px;line-height: 1.5;">未满 18 周岁未成年人，请在监护人同意之后再使用本小程序。</p>
+  <h2>六、政策更新</h2>
+  <p style="font-size: 14px;line-height: 1.5;">隐私政策更新，会在小程序内公示，继续使用代表您认可新版本。</p>
+  <p style="font-size: 14px;line-height: 1.5;">如有隐私相关疑问，联系邮箱：317531206@qq.com。</p>
+</body>
+</html>
