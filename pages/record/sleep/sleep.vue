@@ -113,8 +113,8 @@ export default {
 					id: this.plan_id
 				});
 				if (planRes.data.length) {
-					this.planTime.getUpTime = res.planRes[0].getUpTime;
-					this.planTime.sleepTime = res.planRes[0].sleepTime;
+					this.planTime.getUpTime = planRes.data[0].getUpTime;
+					this.planTime.sleepTime = planRes.data[0].sleepTime;
 				}
 			}
 		},

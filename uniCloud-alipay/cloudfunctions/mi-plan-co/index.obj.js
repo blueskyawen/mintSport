@@ -16,7 +16,7 @@ module.exports = {
 	getList: async function({user_id}) {
 		const res = await cmiPlanCollection.where({
 			'user_id': user_id
-		}).orderBy('create_date desc').get();
+		}).orderBy('create_date','desc').get();
 		return res;
 	},
 	add: async function(event) {
@@ -68,7 +68,7 @@ module.exports = {
 		const res = await cmiPlanCollection.where({
 			user_id: event.user_id,
 			status: 'running'
-		}).orderBy('create_date desc').get();
+		}).orderBy('create_date','desc').get();
 		return res;
 	},
 	incFinishRecordCount: async function(event) {

@@ -118,7 +118,7 @@ export default {
 			return this.list.filter((x, index) => index % 2 !== 0)
 		},
 		loginUserId() {
-			return this.userInfo ? (this.userInfo._id || '') || '';
+			return this.userInfo ? (this.userInfo._id || '') : '';
 		},
 		userInfo() {
 			return store.userInfo;
