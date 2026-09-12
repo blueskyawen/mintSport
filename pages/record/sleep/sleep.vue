@@ -108,6 +108,14 @@ export default {
 				this.planTime.getUpTime = res.data[0].planGetUpTime;
 				this.planTime.sleepTime = res.data[0].planSleepTime;
 				this.record_id = res.data[0]._id;
+			} else {
+				let planRes = await this.$cloudApi.getPlanById({
+					id: this.plan_id
+				});
+				if (planRes.data.length) {
+					this.planTime.getUpTime = res.planRes[0].getUpTime;
+					this.planTime.sleepTime = res.planRes[0].sleepTime;
+				}
 			}
 		},
 		async addOneRecord() {

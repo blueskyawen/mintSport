@@ -361,6 +361,8 @@ export default {
 								}
 							}
 							uni.hideLoading();
+						} else {
+							uni.hideLoading();
 						}
 					}
 				} else {

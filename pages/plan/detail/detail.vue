@@ -31,7 +31,7 @@
 					<view class="record-rate">
 						<view class="item count">
 							<text>累计打卡</text>
-							<text class="sub">{{ plan.recordDay }} 天</text>
+							<text class="sub">{{ plan.recordDay || 0 }} 天</text>
 						</view>
 						<view class="item rate">
 							<view class="item">
@@ -43,7 +43,7 @@
 					<view class="record-rate finish">
 						<view class="item count">
 							<text>完成打卡</text>
-							<text class="sub">{{ plan.recordFinishDay }} 天</text>
+							<text class="sub">{{ plan.recordFinishDay || 0 }} 天</text>
 						</view>
 						<view class="item rate">
 							<view class="item">

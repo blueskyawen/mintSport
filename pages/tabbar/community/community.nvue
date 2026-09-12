@@ -67,6 +67,9 @@
 import statusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar";
 import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 import parseImageUrl from "@/common/parseImageUrl.js";
+import {
+	store
+} from '@/uni_modules/uni-id-pages/common/store.js';
 export default {
 	mixins: [MescrollMixin],
 	components: {
@@ -115,7 +118,10 @@ export default {
 			return this.list.filter((x, index) => index % 2 !== 0)
 		},
 		loginUserId() {
-			return uniCloud.getCurrentUserInfo() ? uniCloud.getCurrentUserInfo().uid : '';
+			return this.userInfo ? (this.userInfo._id || '') || '';
+		},
+		userInfo() {
+			return store.userInfo;
 		}
 	},
 	methods: {

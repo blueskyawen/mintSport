@@ -24,7 +24,7 @@
 									</view>
 									<view class="text-i t-day">
 										<text>计划周期: {{ plan.totalDay }} 天</text>
-										<text class="text-2">已打卡: {{ plan.recordDay }} 天</text>
+										<text class="text-2">已打卡: {{ plan.recordDay || 0 }} 天</text>
 									</view>
 								</view>
 							</view>

@@ -16,7 +16,7 @@ module.exports = {
 	getList: async function({user_id}) {
 		const res = await cmiPlanCollection.where({
 			'user_id': user_id
-		}).get();
+		}).orderBy('create_date desc').get();
 		return res;
 	},
 	add: async function(event) {

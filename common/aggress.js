@@ -2,7 +2,7 @@ var privacyStr = `<h4>更新日期：2026‑09‑13</h4>
   <p style="font-size: 14px;line-height: 1.5;">本隐私政策向您说明：【青苗打卡】小程序如何收集、存储、使用、保护您的个人信息。我们严格遵守《个人信息保护法》，坚持<span style="font-size: 14px;font-weight: bold;">最小必要</span>原则，只收集打卡业务必须的信息。</p>
   <h2>一、我们收集哪些信息、用来做什么</h2>
   <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">1. 微信昵称、微信头像、openid</p>
-  <p style="font-size: 14px;line-height: 1.5;">用途：实现微信快捷登录，创建您的个人账号，展示个人主页、打卡动态。<span style="font-size: 14px;font-weight: bold;">不获取你的微信手机号、微信好友列表</span</p>
+  <p style="font-size: 14px;line-height: 1.5;">用途：实现微信快捷登录，创建您的个人账号，展示个人主页、打卡动态。<span style="font-size: 14px;font-weight: bold;">不获取你的微信手机号、微信好友列表</span></p>
   <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">2. 相册 / 相机权限（需要您手动授权）</p>
   <p style="font-size: 14px;line-height: 1.5;">用途：打卡时上传运动照片、作息图文，发布打卡内容。<span style="font-size: 14px;font-weight: bold;">只有您主动点击上传图片时才会访问相册，后台不会自动扫描相册。</span></p>
   <p style="font-size: 14px;font-weight: bold;margin-top: 6px;">3. 你主动填写的打卡数据</p>
