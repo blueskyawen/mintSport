@@ -84,6 +84,11 @@ export default {
 			});
 			if (res.data.length) {
 				this.recordData = res.data[0].sportFinishList.map(x => {
+					if (x.time) {
+						x.time = +x.time;
+					} else {
+						x.time = 0;
+					}
 					return {...x, checked: x.finish}
 				});
 				this.record_id = res.data[0]._id;

@@ -194,6 +194,14 @@ export default {
 				return false;
 			}
 
+			tmpSports.forEach(x => {
+				if (x.time) {
+					x.time = +x.time;
+				} else {
+					x.time = 0;
+				}
+			})
+
 			return {
 				totalDay: dayNum,
 				sportList: tmpSports,
