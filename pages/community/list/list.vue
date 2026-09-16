@@ -170,7 +170,8 @@
 		.note-img {
 			image {
 				width: 100%;
-				height: 180px;
+				height: auto;
+				will-change: transform;
 				border-radius: 19rpx 19rpx 0 0;
 			}
 		}

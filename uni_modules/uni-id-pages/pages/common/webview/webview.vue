@@ -35,7 +35,7 @@
 					title = "页面路径错误"
 				}
 			} else {
-				this.s_url = url;
+				this.s_url = decodeurl;
 			}
 			// #endif
 			// #ifdef MP

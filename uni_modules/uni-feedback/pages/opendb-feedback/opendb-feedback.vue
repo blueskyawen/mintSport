@@ -102,7 +102,7 @@
 
 <style>
 	.uni-container {
-		padding: 15px;
+		padding: 35rpx;
 	}
 	page {
 		// background-color: #fff;
@@ -111,17 +111,17 @@
 	.uni-input-border,
 	.uni-textarea-border {
 		width: 100%;
-		font-size: 14px;
+		font-size: 33rpx;
 		color: #666;
 		border: 1px #e5e5e5 solid;
-		border-radius: 5px;
+		border-radius: 12rpx;
 		box-sizing: border-box;
 		background-color: #fff;
 	}
 
 	.uni-input-border {
-		padding: 0 10px;
-		height: 35px;
+		padding: 0 24rpx;
+		height: 82rpx;
 
 	}
 
