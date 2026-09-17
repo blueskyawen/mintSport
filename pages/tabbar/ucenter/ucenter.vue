@@ -33,9 +33,9 @@
 						</view>
 						<text class="name">{{ item.title }}</text>
 					</view>
-					<text class="item-right">
+					<view class="item-right">
 						<uni-icons type="right" color="#888888" size="20"></uni-icons>
-					</text>
+					</view>
 				</view>
 			</view>
 		</view>

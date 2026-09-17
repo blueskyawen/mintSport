@@ -20,8 +20,8 @@
 				<view v-if="plan._id" class="has-plan">
 					<view class="card-head">
 						<text class="title">今日计划</text>
-						<view class="you">
-							<u-icon name="arrow-right" color="#c7c7c7" size="12" @click="toDetail"></u-icon>
+						<view class="you" @click="toDetail">
+							<u-icon name="arrow-right" color="#c7c7c7" size="12"></u-icon>
 						</view>
 					</view>
 					<view class="card-content">
@@ -185,6 +185,10 @@ export default {
 	},
 	onLoad() {
 		this.heighth = uni.getWindowInfo().windowHeight;
+		uni.$on('uni-set-user-info-success', this.getAvatorImg);
+	},
+	onUnload() {
+		uni.$off('uni-set-user-info-success')
 	},
 	onShow() {
 		this.init();
@@ -409,6 +413,13 @@ export default {
 			})
 		},
 		toDetail() {
+			if (!this.plan._id) {
+				uni.showToast({
+					title: '你还没有专属计划, 请先创建',
+					icon: 'none'
+				});
+				return;
+			}
 			uni.navigateTo({
 				url: '/pages/record/detail/detail?plan_id=' + this.plan._id
 			})

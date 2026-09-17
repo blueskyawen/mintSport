@@ -261,6 +261,29 @@
 			}]
 		}
 	],
+	"preloadRule": {
+		"pages/tabbar/ucenter/ucenter": {
+			"network": "all",
+			"packages": [
+				"uni_modules/uni-id-pages/pages",
+				"uni_modules/uni-feedback/pages",
+				"pages/mine"
+			]
+		},
+		"pages/tabbar/home/home": {
+			"network": "all",
+			"packages": [
+				"pages/plan",
+				"pages/record"
+			]
+		},
+		"pages/tabbar/community/community": {
+			"network": "all",
+			"packages": [
+				"pages/community"
+			]
+		}
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "青苗打卡",
@@ -308,7 +331,8 @@
 			"pages/mine/achievements/achievements",
 			"pages/community/likeList/likeList",
 			"pages/plan/list/list",
-			"pages/community/publish/publish"
+			"pages/community/publish/publish",
+			"pages/community/list/list"
 		],
 		"resToLogin": true
 	}

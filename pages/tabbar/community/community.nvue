@@ -348,6 +348,7 @@ export default {
 }
 .fab-btn {
 	position: fixed;
+	z-index: 99;
 	bottom: var(--window-bottom);
 	margin-bottom: 11rpx;
     background: #fa7803;

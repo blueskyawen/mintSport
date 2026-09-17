@@ -43,7 +43,7 @@
 						<text class="time">{{ recordData.sleepTime }}</text>
 						<text class="title" v-if="recordData.sleepTime" :class="{'un-ok': !isSleepTimeOk }">
 						{{ isSleepTimeOk ? '已完成' : '未完成' }}
-					</text>
+						</text>
 					</view>
 				</view>
 			</view>

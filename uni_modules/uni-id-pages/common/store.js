@@ -55,6 +55,10 @@ export const mutations = {
 					...res.result.data[0],
 					realNameAuth: realNameRes
 				})
+
+				setTimeout(() => {
+					uni.$emit('uni-set-user-info-success');
+				}, 50)
 			} catch (e) {
 				this.setUserInfo({},{cover:true})
 				console.error(e.message, e.errCode);

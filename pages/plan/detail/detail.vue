@@ -7,11 +7,11 @@
 			<view class="content">
 				<view class="status">
 					<text class="title">计划状态: </text>
-					<text>
+					<template>
 						<uni-icons custom-prefix="iconfont" v-if="plan.status == 'running'" type="icon-fit-runing" color="#ff9900" size="28"></uni-icons>
 						<uni-icons custom-prefix="iconfont" v-else-if="plan.status == 'finish'" type="icon-fit-finished" color="#72D1A8" size="28"></uni-icons>
 						<uni-icons custom-prefix="iconfont" v-else type="icon-fit-uncomplate" color="#888888" size="28"></uni-icons>
-					</text>
+					</template>
 				</view>
 				<view class="overview">
 					<view class="item total-day">
