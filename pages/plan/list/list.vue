@@ -69,12 +69,16 @@
 		methods: {
 			getListData() {
 				if (this.loginUserId) {
+					uni.showLoading({
+						title: ''
+					});
 					this.$cloudApi.getPlanList({
 						user_id: this.loginUserId
 					}).then(res => {
 						this.list = res.data || [];
 					}).finally(e => {
 						this.isLoading = false;
+						uni.hideLoading();
 					})
 				} else {
 					this.isLoading = false;

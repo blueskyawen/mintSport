@@ -86,6 +86,9 @@
 			async getListData() {
 				try {
 					if (this.loginUserId) {
+						uni.showLoading({
+							title: ''
+						});
 						let res = await this.$cloudApi.getMyNoteList({
 							user_id: this.loginUserId
 						});
@@ -100,8 +103,10 @@
 						});
 						this.list = notes;
 					}
+					uni.hideLoading();
 					this.isLoading = false;
 				} catch(e) {
+					uni.hideLoading();
 					this.isLoading = false;
 				}
 			},

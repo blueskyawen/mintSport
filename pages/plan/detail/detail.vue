@@ -16,7 +16,7 @@
 				<view class="overview">
 					<view class="item total-day">
 						<text>计划周期</text>
-						<text class="num">{{ plan.totalDay }} 天</text>
+						<text class="num">{{ plan.totalDay || '' }} 天</text>
 					</view>
 					<view class="item start-date">
 						<text>开始时间</text>

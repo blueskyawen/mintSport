@@ -29,12 +29,16 @@
 		},
 		methods: {
 			getListData() {
+				uni.showLoading({
+					title: ''
+				});
 				this.$cloudApi.getAchievementByUserId({
 					'user_id': this.loginUserId
 				}).then(res2 => {
 					this.list = res2.data || [];
 				}).finally(e => {
 					this.isLoading = false;
+					uni.hideLoading();
 				})
 			}
 		}

@@ -6,8 +6,8 @@ export default {
 				errorMessage: '请输入用户名',
 			},
 			{
-				minLength: 3,
-				maxLength: 32,
+				minLength: 5,
+				maxLength: 12,
 				errorMessage: '用户名长度在 {minLength} 到 {maxLength} 个字符',
 			},
 			{
@@ -30,8 +30,8 @@ export default {
 	},
 	"nickname": {
 		"rules": [{
-				minLength: 3,
-				maxLength: 32,
+				minLength: 2,
+				maxLength: 10,
 				errorMessage: '昵称长度在 {minLength} 到 {maxLength} 个字符',
 			},
 			{

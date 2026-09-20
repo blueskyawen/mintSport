@@ -66,6 +66,9 @@
 		methods: {
 			async getListData() {
 				try {
+					uni.showLoading({
+						title: ''
+					});
 					let likeRes = await this.$cloudApi.getNoteLikesByUser({
 						"id": this.loginUserId
 					})
@@ -84,8 +87,10 @@
 					});
 					this.list = notes;
 					console.log(notes)
+					uni.hideLoading();
 					this.isLoading = false;
 				} catch(e) {
+					uni.hideLoading();
 					this.isLoading = false;
 				}
 			},

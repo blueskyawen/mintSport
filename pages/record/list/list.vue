@@ -39,6 +39,9 @@
 		methods: {
 			getListData() {
 				if (this.plan_id) {
+					uni.showLoading({
+						title: ''
+					});
 					this.$cloudApi.getPlanRecords({
 						plan_id: this.plan_id
 					}).then(res => {
@@ -49,6 +52,7 @@
 						}
 						this.list = rescords;
 					}).finally(e => {
+						uni.hideLoading();
 						this.isLoading = false;
 					})
 				} else {

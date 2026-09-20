@@ -607,7 +607,7 @@ export default {
 					display: flex;
 					flex-direction: row;
 					align-items: center;
-					justify-content: space-between;
+					// justify-content: space-between;
 					margin-bottom: 28rpx;
 					.title {
 						font-size: 37rpx;
@@ -616,7 +616,7 @@ export default {
 						border: solid 1px #c7c7c7;
 						padding: 2px;
 						border-radius: 50%;
-					}
+						margin-left: 28rpx					}
 				}
 				.card-content {
 					display: flex;
@@ -679,7 +679,7 @@ export default {
 							width: 100%;
 							height: 422rpx;
 							position: relative;
-							top: -75rpx;
+							top: -80rpx;
 						}
 					}
 				}
