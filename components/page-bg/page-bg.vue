@@ -64,7 +64,7 @@
 		// height: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		height: 100%;
+		//height: 100%;
 		overflow-y: auto;
 		.main-content {
 			padding: 38rpx 38rpx 14rpx;
