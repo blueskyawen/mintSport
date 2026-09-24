@@ -17,13 +17,13 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/tabbar/community/community",
-			"style": {
-				"navigationBarTitleText": "社区",
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/tabbar/community/community",
+		// 	"style": {
+		// 		"navigationBarTitleText": "社区",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/tabbar/ucenter/ucenter",
 			"style": {
@@ -201,38 +201,44 @@
 					"style": {
 						"navigationBarTitleText": "打卡记录"
 					}
-				}
-			]
-		},
-		{
-			"root": "pages/community",
-			"pages": [
-				{
-					"path": "publish/publish",
-					"style": {
-						"navigationBarTitleText": "发布动态"
-					}
 				},
 				{
-					"path": "detail/detail",
+					"path": "allList/allList",
 					"style": {
-						"navigationBarTitleText": "动态详情"
-					}
-				},
-				{
-					"path": "list/list",
-					"style": {
-						"navigationBarTitleText": "我的分享"
-					}
-				},
-				{
-					"path": "likeList/likeList",
-					"style": {
-						"navigationBarTitleText": "我的收藏"
+						"navigationBarTitleText": "我的打卡"
 					}
 				}
 			]
 		},
+		// {
+		// 	"root": "pages/community",
+		// 	"pages": [
+		// 		{
+		// 			"path": "publish/publish",
+		// 			"style": {
+		// 				"navigationBarTitleText": "发布动态"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "detail/detail",
+		// 			"style": {
+		// 				"navigationBarTitleText": "动态详情"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "list/list",
+		// 			"style": {
+		// 				"navigationBarTitleText": "我的分享"
+		// 			}
+		// 		},
+		// 		{
+		// 			"path": "likeList/likeList",
+		// 			"style": {
+		// 				"navigationBarTitleText": "我的收藏"
+		// 			}
+		// 		}
+		// 	]
+		// },
 		{
 			"root": "pages/mine",
 			"pages": [
@@ -276,13 +282,13 @@
 				"pages/plan",
 				"pages/record"
 			]
-		},
-		"pages/tabbar/community/community": {
-			"network": "all",
-			"packages": [
-				"pages/community"
-			]
 		}
+		// "pages/tabbar/community/community": {
+		// 	"network": "all",
+		// 	"packages": [
+		// 		"pages/community"
+		// 	]
+		// }
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -308,12 +314,12 @@
 				"iconPath": "/static/tabbar/chart.png",
 				"selectedIconPath": "/static/tabbar/chart-active.png"
 			},
-			{
-				"pagePath": "pages/tabbar/community/community",
-				"text": "社区",
-				"iconPath": "/static/tabbar/comment.png",
-				"selectedIconPath": "/static/tabbar/comment-active.png"
-			},
+			// {
+			// 	"pagePath": "pages/tabbar/community/community",
+			// 	"text": "社区",
+			// 	"iconPath": "/static/tabbar/comment.png",
+			// 	"selectedIconPath": "/static/tabbar/comment-active.png"
+			// },
 			{
 				"pagePath": "pages/tabbar/ucenter/ucenter",
 				"text": "我的",
@@ -329,10 +335,11 @@
 			"/pages/mine/settings/settings",
 			"pages/tabbar/home/home",
 			"pages/mine/achievements/achievements",
-			"pages/community/likeList/likeList",
+			// "pages/community/likeList/likeList",
 			"pages/plan/list/list",
-			"pages/community/publish/publish",
-			"pages/community/list/list"
+			"pages/record/allList/allList"
+			// "pages/community/publish/publish",
+			// "pages/community/list/list"
 		],
 		"resToLogin": true
 	}

@@ -1,5 +1,9 @@
 <template>
 	<page-bg :headTitle="headTitle">
+		<view class="date">
+			<text>日期: </text>
+			<text class="text">{{ recordData.date }}</text>
+		</view>
 		<view class="form-content">
 			<view class="form-item">
 				<view class="left">
@@ -167,7 +171,7 @@
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
-	margin-top: 60rpx;
+	margin-top: 50rpx;
 	min-height: 200px;
 	.form-item {
 		display: flex;
@@ -228,6 +232,12 @@
 				}
 			}
 		}
+	}
+}
+.date {
+	font-size: 33rpx;
+	.text {
+		margin-left: 14rpx;
 	}
 }
 .rate {

@@ -545,7 +545,7 @@ export default {
 		// height: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		padding: 0 38rpx 24rpx 38rpx;
+		padding: 38rpx;
 		height: 100%;
 		overflow-y: auto;
 		.user-bar {
@@ -556,7 +556,7 @@ export default {
 			margin-bottom:28rpx;
 			/*  #endif  */
 			/*  #ifndef H5  */
-			margin-bottom:26rpx;
+			margin-bottom:32rpx;
 			/*  #endif  */
 			.avatar{
 				width:80rpx;
@@ -574,7 +574,7 @@ export default {
 			margin-bottom:56rpx;
 			/*  #endif  */
 			/*  #ifndef H5  */
-			margin-bottom: 47rpx;
+			margin-bottom: 60rpx;
 			/*  #endif  */
 			.sologn {
 				font-size: 56rpx;
@@ -582,7 +582,7 @@ export default {
 			}
 			.day-text {
 				font-size: 33rpx;
-				margin-top: 7rpx;
+				margin-top: 15rpx;
 			}
 		}
 		.card-box {
@@ -596,7 +596,7 @@ export default {
 			height: 651rpx;
 			/*  #endif  */
 			/*  #ifndef H5  */
-			height: 621rpx;
+			height: 680rpx;
 			/*  #endif  */
 			box-shadow: 0 0 5px rgba($color: #d8d8d8, $alpha: 0.5);
 			.has-plan {
@@ -717,6 +717,9 @@ export default {
 					width: 50%;
 					.ready-man {
 						width: 100%;
+						/*  #ifdef MP  */
+						height: 610rpx;
+						/*  #endif  */
 					}
 				}
 			}

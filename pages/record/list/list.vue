@@ -28,7 +28,8 @@
 				isLoading: true,
 				list: [],
 				plan_id: '',
-				from: ''
+				from: '',
+				todayStr: ''
 			}
 		},
 		onLoad(options) {

@@ -1,7 +1,8 @@
 // 云对象教程: https://uniapp.dcloud.net.cn/uniCloud/cloud-obj
 // jsdoc语法提示教程：https://ask.dcloud.net.cn/docs/#//ask.dcloud.net.cn/article/129
 const db = uniCloud.database()
-const miRecordCollection = db.collection('check-record')
+const miRecordCollection = db.collection('check-record');
+const planDBName = 'plan';
 module.exports = {
 	_before: function () { // 通用预处理器
 
@@ -53,6 +54,35 @@ module.exports = {
 	saveCheckRecord: async function(event) {
 		let addData = event.data;
 		const res = await miRecordCollection.doc(event.id).update(addData);
+		return res;
+	},
+	getMyAllList: async function(event) {
+		let pageNum = event.pageNum;
+		let pageSize = event.pageSize;
+		let curPageNum = pageNum > 0 ? pageNum - 1 : 0;
+		let skipNum = curPageNum * pageSize;
+		const dbCmd = db.command;
+		const $ = dbCmd.aggregate;
+		const res = miRecordCollection.aggregate()
+						.lookup({
+						  from: planDBName,
+						  let: {
+							plan_id: '$plan_id'
+						  },
+						  pipeline: $.pipeline()
+							.match(dbCmd.expr(
+							  $.eq(['$_id', '$$plan_id'])
+							))
+							.project({
+							  name: true
+							})
+							.done(),
+						  as: 'plan_name'
+						}).match({
+							 'user_id': event.user_id
+						}).sort({
+							date: -1
+						}).skip(skipNum).limit(pageSize).end()
 		return res;
 	},
 

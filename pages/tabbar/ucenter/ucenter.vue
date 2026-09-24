@@ -94,20 +94,28 @@ export default {
 				},
 				{
 					"id": 3,
-					"title": '我的分享',
-					"to": '/pages/community/list/list',
+					"title": '我的打卡',
+					"to": '/pages/record/allList/allList',
 					"icon": "icon-fit-edit-note",
 					"color": "#19be6b",
 					"bgColor": "#dbf1e1"
 				},
-				{
-					"id": 4,
-					"title": '我的收藏',
-					"to": '/pages/community/likeList/likeList',
-					"icon": "icon-fit-like",
-					"color": "#ff9900",
-					"bgColor": "#fdf6ec"
-				},
+				// {
+				// 	"id": 3,
+				// 	"title": '我的分享',
+				// 	"to": '/pages/community/list/list',
+				// 	"icon": "icon-fit-edit-note",
+				// 	"color": "#19be6b",
+				// 	"bgColor": "#dbf1e1"
+				// },
+				// {
+				// 	"id": 4,
+				// 	"title": '我的收藏',
+				// 	"to": '/pages/community/likeList/likeList',
+				// 	"icon": "icon-fit-like",
+				// 	"color": "#ff9900",
+				// 	"bgColor": "#fdf6ec"
+				// },
 				{
 					"id": 5,
 					"title": '问题与反馈',
@@ -226,7 +234,7 @@ export default {
 		// height: 100%;
 		width: 100%;
 		box-sizing: border-box;
-		padding: 0 38rpx 24rpx 38rpx;
+		padding: 38rpx;
 		height: 100%;
 		overflow-y: auto;
 		padding-bottom: 14rpx;
@@ -255,7 +263,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			line-height: 2;
-			margin-bottom: 90rpx;
+			margin-bottom: 100rpx;
 			.chenhao {
 				font-size: 66rpx;
 				font-weight: bolder;
@@ -283,7 +291,7 @@ export default {
 				flex-direction: row;
 				justify-content: space-between;
 				align-items: center;
-				padding: 18rpx;
+				padding: 24rpx;
 				&:not(:last-of-type) {
 					border-bottom: solid 1px #e9e9eb;
 				}
