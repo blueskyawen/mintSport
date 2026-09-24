@@ -291,7 +291,7 @@ export default {
 	display: flex;
 	flex-direction: column;
 	margin-top: 60rpx;
-	min-height: 200px;
+	min-height: 100px;
 	.title {
 		display: flex;
 		flex-direction: row;

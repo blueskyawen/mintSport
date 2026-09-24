@@ -121,7 +121,7 @@ export default {
 			form:{
 				name: '',
 				daysType: 7,
-				totalDay: 0,
+				totalDay: 7,
 				customDay:'',
 				dietTip:'',
 				getUpTime:'',
