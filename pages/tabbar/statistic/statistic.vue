@@ -238,7 +238,7 @@ export default {
 		this.navBarHeight = 20;
 		// #endif
 		// #ifndef H5
-		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 54 : 58;
+		this.navBarHeight = uni.getSystemInfoSync().system.toLowerCase().includes('ios') ? 84 : 88;
 		// #endif
 	},
 	onShow() {

@@ -129,6 +129,10 @@ export default {
 	},
 	onLoad() {
 		this.heighth = uni.getWindowInfo().windowHeight;
+		uni.$on('uni-set-user-info-success', this.getAvatorImg);
+	},
+	onUnload() {
+		uni.$off('uni-set-user-info-success')
 	},
 	onShow() {
 		this.loadData();
