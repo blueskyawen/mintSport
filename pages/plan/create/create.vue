@@ -170,7 +170,7 @@ export default {
 				})
 				return false;
 			}
-			let tmpSports = this.sportList.filter(x => x.name.trim() && x.time);
+			let tmpSports = this.sportList.filter(x => x.name.trim() && (+x.time > 0));
 			if(!tmpSports.length){
 				uni.showToast({
 					title:'至少填写一项运动项目',
