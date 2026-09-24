@@ -2,7 +2,7 @@
 	<page-bg :headTitle="headTitle">
 		<view class="date">
 			<text>日期: </text>
-			<text class="text">{{ recordData.date }}</text>
+			<text class="text">{{ recordData.date || todayStrs }}</text>
 		</view>
 		<view class="form-content">
 			<view class="form-item">
@@ -83,7 +83,8 @@
 				recordData: {},
 				sportList: [],
 				rate: '0%',
-				total: 0
+				total: 0,
+				todayStrs:'',
 			}
 		},
 		computed: {
@@ -118,6 +119,7 @@
 			} else {
 				this.getRecordData();
 			}
+			this.todayStrs = getTodayStr();
 		},
 		methods: {
 			getDataByRecordId() {
