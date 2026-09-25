@@ -140,8 +140,8 @@
 				let now = new Date();
 				let planCreateTime = new Date(this.plan.create_date);
 				let planStart = getFullDateStr(planCreateTime) + ' 00:00:00'
-				let planStartTime = new Date(planStart).valueOf();
-				let num = Math.ceil((now.valueOf() - planCreateTime) / 86400000)
+				let planStartTime = new Date(planStart).getTime();
+				let num = Math.ceil((now.getTime() - planStartTime) / 86400000)
 				this.headTitle.subText = '今天周' + weekMap[now.getDay()] + ' · ' + '第 ' + num + ' 天';
 				let todayStr = getTodayStr();
 				let res = await this.$cloudApi.getDayRecord({

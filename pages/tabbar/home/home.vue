@@ -284,7 +284,9 @@ export default {
 				data: {
 					"status": "finish"
 				}
-			}).then(res => {});
+			}).then(res => {
+				this.continueDay++;
+			});
 			this.$cloudApi.incFinishRecordCount({
 				id: this.plan._id,
 				value: 1

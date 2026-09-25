@@ -408,8 +408,8 @@ export default {
 			let now = new Date();
 			let planCreateTime = new Date(this.plan.create_date);
 			let planStart = getFullDateStr(planCreateTime) + ' 00:00:00'
-			let planStartTime = new Date(planStart).valueOf();
-			return Math.ceil((now.valueOf() - planCreateTime) / 86400000)
+			let planStartTime = (new Date(planStart)).getTime();
+			return Math.ceil((now.getTime() - planStartTime) / 86400000)
 		},
 		async loadData() {
 			if (this.userInfo._id) {
