@@ -121,9 +121,9 @@ export const mutations = {
 			return window.history.go(-3)
 		}
 		// #endif
-
-		if (delta) {
-			const page = pagesJson.pages[0]
+		const page = pagesJson.pages[0]
+		if (page) {
+			// const page = pagesJson.pages[0]
 			return uni.reLaunch({
 				url: `/${page.path}`
 			})
